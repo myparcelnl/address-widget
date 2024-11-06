@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import {isCI} from 'ci-info';
+import dts from 'vite-plugin-dts';
 
 // https://vite.dev/config/
 
@@ -14,6 +15,10 @@ export default defineConfig({
   plugins: [
     vue(),
     vueDevTools(),
+    dts({
+      entryRoot: 'src',
+      rollupTypes: true,
+    })
   ],
   resolve: {
     alias: {
@@ -26,8 +31,16 @@ export default defineConfig({
     lib: {
       entry: 'src/main.ts',
       fileName: 'main',
-      formats: ['es', 'umd'],
+      formats: ['es', 'cjs'],
       name: 'MyParcelAddressWidget',
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue',
+        },
+      },
     },
   },
 

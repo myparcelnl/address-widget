@@ -1,4 +1,0 @@
-**/*.timestamp-*
-**/coverage/
-**/dist
-node_modules
