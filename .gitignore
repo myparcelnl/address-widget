@@ -20,7 +20,7 @@ coverage
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
-#.idea we version our .idea directory at MyParcel
+.idea
 *.suo
 *.ntvs*
 *.njsproj

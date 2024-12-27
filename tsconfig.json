@@ -1,4 +1,24 @@
 {
-  "extends": "./tsconfig.base.json",
-  "exclude": ["**/*.snap"]
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "noEmitOnError": false,
+    "isolatedModules": true,
+    "types": ["node", "vite/client"],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "**/*.snap",
+    "**/*.spec.*",
+    "**/*.test.*",
+    "**/__mocks__",
+    "**/__tests__",
+    "**/__snapshots__",
+    "**/dist",
+    "**/node_modules"
+  ]
 }

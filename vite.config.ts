@@ -29,7 +29,7 @@ export default defineConfig({
     sourcemap: !isCI && isProd,
     emptyOutDir: false,
     lib: {
-      entry: 'src/main.ts',
+      entry: 'src/app.ts',
       fileName: 'main',
       formats: ['es', 'cjs'],
       name: 'MyParcelAddressWidget',
