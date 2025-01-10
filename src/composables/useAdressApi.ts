@@ -2,6 +2,7 @@ import {
   type Address,
   type Alpha2CountryCode,
   type GetAddressesData,
+  type ProblemDetailsBadRequest,
   getAddresses,
 } from '@/api-client';
 import {ref, toValue, type MaybeRefOrGetter, type Ref} from 'vue';
@@ -10,6 +11,21 @@ import {useApiClient} from './useApiClient';
 export function useAddressApi() {
   const addressResults: Ref<Address[] | undefined> = ref();
   const loading = ref(false);
+
+  const isProblemDetailsBadRequest = (
+    error: unknown,
+  ): error is ProblemDetailsBadRequest => {
+    if (typeof error !== 'object' || error === null) {
+      return false;
+    }
+
+    const problemDetails = error as ProblemDetailsBadRequest;
+    return (
+      problemDetails.type === 'urn:problem:validation-error' &&
+      problemDetails.status === 400 &&
+      Array.isArray(problemDetails.errors)
+    );
+  };
 
   /**
    * Request address by postal code and house number.
@@ -37,7 +53,9 @@ export function useAddressApi() {
       query: {
         postalCode: toValue(postalCode) || '',
         houseNumber: toValue(houseNumber) || '',
-        houseNumberSuffix: toValue(houseNumberSuffix),
+        houseNumberSuffix: toValue(houseNumberSuffix)?.length
+          ? toValue(houseNumberSuffix)
+          : undefined,
         countryCode: toValue(countryCode),
       },
       url: '/addresses',
@@ -45,27 +63,32 @@ export function useAddressApi() {
 
     loading.value = true;
 
-    // Replace with your API call
-    const {error, response, data} = await getAddresses({client, ...params});
-    loading.value = false;
+    try {
+      const {error, response, data} = await getAddresses({client, ...params});
+      loading.value = false;
 
-    // Throw a specific error if present
-    if (error) {
+      // Throw a specific error if present
+      if (error) {
+        throw error;
+      }
+
+      // Otherwise, throw a generic one
+      if (!response.ok) {
+        throw new Error('Failed to fetch address'); // @TODO translate
+      }
+
+      addressResults.value = data.results;
+    } catch (error) {
+      // Catch to reset loading state and rethrow
+      loading.value = false;
       throw error;
     }
-
-    // Otherwise, throw a generic one
-    if (!response.ok) {
-      throw new Error('Failed to fetch address'); // @TODO translate
-    }
-
-    // Parse the response on non-error status
-    addressResults.value = data.results;
   };
 
   return {
     addressResults,
     loading,
+    isProblemDetailsBadRequest,
     fetchAddressByPostalCode,
   };
 }

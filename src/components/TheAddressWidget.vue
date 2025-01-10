@@ -14,11 +14,17 @@
     <template v-if="countryCode?.length">
       <template v-if="countryCode === 'NL'">
         <span
-          v-if="notFound"
+          v-if="notFound && !validationErrors?.length"
           class="text-red-500">
           No address found, are you sure the postal code and house number are
           correct?
         </span>
+        <span
+          v-if="validationErrors?.length"
+          class="text-red-500">
+          {{ validationErrors }}
+        </span>
+
         <FieldPostalCode
           v-model="postalCode"
           @input.stop="handlePostalCodeInput"></FieldPostalCode>
@@ -84,10 +90,7 @@
 <script setup lang="ts">
 import {computed, ref, toValue, watch, type Ref} from 'vue';
 
-import type {Alpha2CountryCode} from '@/api-client';
 import {useDebounceFn} from '@vueuse/core';
-
-import {useAddressApi} from '@/composables/useAdressApi';
 
 import FieldAddressSelect from '@/components/FieldAddressSelect.vue';
 import FieldCountry from '@/components/FieldCountry.vue';
@@ -97,6 +100,8 @@ import FieldHouseNumberSuffix from '@/components/FieldHouseNumberSuffix.vue';
 import FieldStreet from '@/components/FieldStreet.vue';
 import FieldCity from '@/components/FieldCity.vue';
 import ButtonOverride from '@/components/ButtonOverride.vue';
+
+import {useAddressApi} from '@/composables/useAdressApi';
 import {
   useAddressData,
   type AddressSelectEvent,
@@ -120,11 +125,21 @@ const {
 } = useAddressData(emit);
 
 /** UI states **/
-const notFound = ref(false); // when the API doesn't return any results
+type ValidationError = {
+  detail: string;
+  pointer: string;
+};
+const validationErrors: Ref<ValidationError[] | undefined> = ref();
+const notFound = ref(false);
 const isOverrideActive = ref(false); // when the user wants to override the API response
 
 /** API states **/
-const {addressResults, loading, fetchAddressByPostalCode} = useAddressApi();
+const {
+  addressResults,
+  loading,
+  isProblemDetailsBadRequest,
+  fetchAddressByPostalCode,
+} = useAddressApi();
 
 /**
  * When the address is not in the Netherlands, we can't do a lookup based on postal code and house number.
@@ -146,14 +161,21 @@ const handlePostalCodeInput = async () => {
     houseNumberSuffix,
   };
   if (hasRequiredPostalcodeLookupAttributes(data)) {
-    await useDebounceFn((data) => {
-      // Pass values and not refs to make sure we use the current values
-      fetchAddressByPostalCode(
-        toValue(data.postalCode),
-        toValue(data.houseNumber),
-        toValue(data.countryCode),
-        toValue(data.houseNumberSuffix),
-      );
+    await useDebounceFn(async (data) => {
+      try {
+        // Pass values and not refs to make sure we use the current values
+        await fetchAddressByPostalCode(
+          toValue(data.postalCode),
+          toValue(data.houseNumber),
+          toValue(data.countryCode),
+          toValue(data.houseNumberSuffix),
+        );
+      } catch (error) {
+        if (isProblemDetailsBadRequest(error)) {
+          // @TODO handle validation error
+          validationErrors.value = error.errors;
+        }
+      }
     }, 100)(data);
   } else {
     // Clear the results
