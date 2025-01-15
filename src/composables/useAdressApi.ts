@@ -85,10 +85,55 @@ export function useAddressApi() {
     }
   };
 
+  /**
+   * Look up an address by search query.
+   * @param searchQuery
+   * @param countryCode
+   */
+  const fetchAddressBySearchQuery = async (
+    searchQuery: MaybeRefOrGetter<string>,
+    countryCode?: MaybeRefOrGetter<Alpha2CountryCode>,
+  ) => {
+    loading.value = true;
+    const {client} = useApiClient();
+
+    const params: GetAddressesData = {
+      query: {
+        query: toValue(searchQuery),
+        countryCode: toValue(countryCode),
+      },
+      url: '/addresses',
+    };
+
+    loading.value = true;
+
+    try {
+      const {error, response, data} = await getAddresses({client, ...params});
+      loading.value = false;
+
+      // Throw a specific error if present
+      if (error) {
+        throw error;
+      }
+
+      // Otherwise, throw a generic one
+      if (!response.ok) {
+        throw new Error('Failed to fetch address'); // @TODO translate
+      }
+
+      addressResults.value = data.results;
+    } catch (error) {
+      // Catch to reset loading state and rethrow
+      loading.value = false;
+      throw error;
+    }
+  };
+
   return {
     addressResults,
     loading,
     isProblemDetailsBadRequest,
     fetchAddressByPostalCode,
+    fetchAddressBySearchQuery,
   };
 }

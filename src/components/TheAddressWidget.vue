@@ -9,7 +9,7 @@
     :data-loading="loading">
     <FieldCountry
       v-model="countryCode"
-      @country-change="doReset"></FieldCountry>
+      @change.stop="handleCountryChange"></FieldCountry>
 
     <template v-if="countryCode?.length">
       <template v-if="countryCode === 'NL'">
@@ -63,17 +63,24 @@
         </template>
       </template>
 
-      <pre
-        v-else
-        class="whitespace-pre">
-        Adresveld met autocomplete
+      <template v-else>
+        <FieldAddressAutocomplete
+          v-model="searchQuery"
+          @input.stop="handleAutocompleteInput" />
 
-        Bij elke invoer (debounced) een lijst met 3 suggesties tonen vanuit de API
+        <p v-if="searchQuery?.length && !isReadyForAutocompleteSearch">
+          Enter at least a street and house number to start searching.<br />
+          Example:
+          <em> Herestraat 77 </em>
+        </p>
 
-        Onzichtbare, opgesplitste, velden met alle uitgesplitste adresgegevens bijhouden (stad/postcode/straat/huisnummer)
-
-        Geen adres vanuit API? → Toon de onzichtbare adresvelden voor handmatige invoer
-      </pre>
+        <template
+          v-if="addressResults && addressResults?.length > 1 && !loading">
+          <FieldAddressSelect
+            :addresses="addressResults"
+            @address-select="selectAddress"></FieldAddressSelect>
+        </template>
+      </template>
     </template>
   </div>
 
@@ -88,10 +95,11 @@
 </template>
 
 <script setup lang="ts">
-import {computed, ref, toValue, watch, type Ref} from 'vue';
+import {ref, toValue, watch, type Ref} from 'vue';
 
 import {useDebounceFn} from '@vueuse/core';
 
+import FieldAddressAutocomplete from '@/components/FieldAddressAutocomplete.vue';
 import FieldAddressSelect from '@/components/FieldAddressSelect.vue';
 import FieldCountry from '@/components/FieldCountry.vue';
 import FieldPostalCode from '@/components/FieldPostalCode.vue';
@@ -112,6 +120,7 @@ const emit = defineEmits<AddressSelectEvent>();
 /** Address data **/
 const {
   countryCode,
+  searchQuery,
   postalCode,
   houseNumber,
   houseNumberSuffix,
@@ -121,6 +130,7 @@ const {
   doReset,
   selectAddress,
   hasRequiredPostalcodeLookupAttributes,
+  isReadyForAutocompleteSearch,
   isReadyForPostalCodeLookup,
 } = useAddressData(emit);
 
@@ -139,15 +149,14 @@ const {
   loading,
   isProblemDetailsBadRequest,
   fetchAddressByPostalCode,
+  fetchAddressBySearchQuery,
 } = useAddressApi();
 
-/**
- * When the address is not in the Netherlands, we can't do a lookup based on postal code and house number.
- * This is a basic validator on whether we can do a lookup based on a search query instead.
- */
-const isSearchQueryValid = computed<boolean>(() => {
-  return !!searchQuery.value && searchQuery.value.length >= SEARCH_MIN_LENGTH;
-});
+const handleCountryChange = () => {
+  doReset();
+  // Reset API results too
+  addressResults.value = undefined;
+};
 
 /**
  * Respond to input on postal code and house number fields with an API response when appropiate.
@@ -183,6 +192,25 @@ const handlePostalCodeInput = async () => {
   }
 };
 
+const handleAutocompleteInput = async () => {
+  if (isReadyForAutocompleteSearch.value) {
+    await useDebounceFn(async (searchQuery, countryCode) => {
+      try {
+        // Pass values and not refs to make sure we use the current values
+        await fetchAddressBySearchQuery(searchQuery, countryCode);
+      } catch (error) {
+        if (isProblemDetailsBadRequest(error)) {
+          // @TODO handle validation error
+          validationErrors.value = error.errors;
+        }
+      }
+    }, 100)(toValue(searchQuery), toValue(countryCode));
+  } else {
+    // Clear the results
+    addressResults.value = undefined;
+  }
+};
+
 /**
  * When a user manually enters an address, override the selectedAddress with user-provided data and clear the API data.
  */
@@ -210,6 +238,13 @@ const handleOverrideInput = () => {
  * Handle UI updates when API results change.
  */
 watch(addressResults, (results) => {
+  // Bail if there is not enough input to do an API call anyway
+  if (
+    !isReadyForAutocompleteSearch.value &&
+    !isReadyForPostalCodeLookup.value
+  ) {
+    return;
+  }
   // Clear any selected address without clearing user input
   selectedAddress.value = undefined;
   street.value = undefined;

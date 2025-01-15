@@ -6,7 +6,7 @@ import {computed, ref, toValue, watch, type Ref} from 'vue';
  * This composable contains all the logic for handling address data that is not specifically bound to UI implementation and/or user input events.
  */
 
-const SEARCH_MIN_LENGTH = 5; // arbitrary minimum length for search queries
+const SEARCH_STREET_MIN_LENGTH = 3; // arbitrary minimum length for search queries
 const POSTAL_CODE_MIN_LENGTH = 6; // eg. 1111AA - only relevant for NL postal codes at this point
 export type AddressSelectEvent = {
   (event: 'address-selected', address: Address | null): void;
@@ -32,6 +32,7 @@ export function useAddressData(emit?: AddressSelectEvent) {
     houseNumberSuffix.value = undefined;
     street.value = undefined;
     city.value = undefined;
+    searchQuery.value = undefined;
   };
 
   /**
@@ -67,6 +68,16 @@ export function useAddressData(emit?: AddressSelectEvent) {
   }
 
   /**
+   * Only start searching when the query (probably) contains a street and house number by doing a simple regex check.
+   */
+  const isReadyForAutocompleteSearch = computed<boolean>(() => {
+    const regex = new RegExp(
+      `(?=.*[a-zA-Z]{${SEARCH_STREET_MIN_LENGTH},})(?=.*\\d)`,
+    );
+    return !!searchQuery.value && regex.test(searchQuery.value);
+  });
+
+  /**
    * Computed property to check if we have all the required data to do a postal code lookup.
    * This is slightly duplicated with the typeguard above -- using this computed is only possible in situations where the data should not need to be typed afterwards.
    */
@@ -98,5 +109,6 @@ export function useAddressData(emit?: AddressSelectEvent) {
     selectAddress,
     hasRequiredPostalcodeLookupAttributes,
     isReadyForPostalCodeLookup,
+    isReadyForAutocompleteSearch,
   };
 }

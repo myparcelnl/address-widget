@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, watch} from 'vue';
+import {computed} from 'vue';
 import BaseSelect from '@/components/Base/BaseSelect.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
 import type {Alpha2CountryCode} from '@/api-client';
@@ -46,9 +46,4 @@ const countryOptions = computed(() =>
         label: country.label,
       })),
 );
-
-// Emit an event when the country changes, as many (external) components might want to know
-const emits = defineEmits(['countryChange']);
-
-watch(country, (value) => emits('countryChange', value));
 </script>
