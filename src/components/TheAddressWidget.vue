@@ -162,7 +162,7 @@ const handleCountryChange = () => {
  * Respond to input on postal code and house number fields with an API response when appropiate.
  * Currently, autocomplete on housenumber+postalCode is only available for NL.
  */
-const handlePostalCodeInput = async () => {
+const handlePostalCodeInput = useDebounceFn(async () => {
   const data = {
     countryCode,
     postalCode,
@@ -170,49 +170,48 @@ const handlePostalCodeInput = async () => {
     houseNumberSuffix,
   };
   if (hasRequiredPostalcodeLookupAttributes(data)) {
-    await useDebounceFn(async (data) => {
-      try {
-        // Pass values and not refs to make sure we use the current values
-        await fetchAddressByPostalCode(
-          toValue(data.postalCode),
-          toValue(data.houseNumber),
-          toValue(data.countryCode),
-          toValue(data.houseNumberSuffix),
-        );
-      } catch (error) {
-        if (isProblemDetailsBadRequest(error)) {
-          // @TODO handle validation error
-          validationErrors.value = error.errors;
-        } else {
-          // Re-throw any other error
-          throw error;
-        }
+    try {
+      // Pass values and not refs to make sure we use the current values
+      await fetchAddressByPostalCode(
+        toValue(data.postalCode),
+        toValue(data.houseNumber),
+        toValue(data.countryCode),
+        toValue(data.houseNumberSuffix),
+      );
+    } catch (error) {
+      if (isProblemDetailsBadRequest(error)) {
+        // @TODO handle validation error
+        validationErrors.value = error.errors;
+      } else {
+        // Re-throw any other error
+        throw error;
       }
-    }, 100)(data);
+    }
   } else {
     // Clear the results
     addressResults.value = undefined;
   }
-};
+}, 100);
 
-const handleAutocompleteInput = async () => {
+const handleAutocompleteInput = useDebounceFn(async () => {
   if (isReadyForAutocompleteSearch.value) {
-    await useDebounceFn(async (searchQuery, countryCode) => {
-      try {
-        // Pass values and not refs to make sure we use the current values
-        await fetchAddressBySearchQuery(searchQuery, countryCode);
-      } catch (error) {
-        if (isProblemDetailsBadRequest(error)) {
-          // @TODO handle validation error
-          validationErrors.value = error.errors;
-        }
+    try {
+      // Pass values and not refs to make sure we use the current values
+      await fetchAddressBySearchQuery(
+        toValue(searchQuery) as string,
+        toValue(countryCode),
+      );
+    } catch (error) {
+      if (isProblemDetailsBadRequest(error)) {
+        // @TODO handle validation error
+        validationErrors.value = error.errors;
       }
-    }, 100)(toValue(searchQuery), toValue(countryCode));
+    }
   } else {
     // Clear the results
     addressResults.value = undefined;
   }
-};
+}, 100);
 
 /**
  * When a user manually enters an address, override the selectedAddress with user-provided data and clear the API data.
