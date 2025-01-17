@@ -183,6 +183,9 @@ const handlePostalCodeInput = async () => {
         if (isProblemDetailsBadRequest(error)) {
           // @TODO handle validation error
           validationErrors.value = error.errors;
+        } else {
+          // Re-throw any other error
+          throw error;
         }
       }
     }, 100)(data);

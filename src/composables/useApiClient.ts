@@ -1,5 +1,5 @@
 import {client} from '@/api-client/sdk.gen';
-import {useConfig} from '@/composables/useConfig.ts';
+import {useConfig, API_URL_DIRECT} from '@/composables/useConfig.ts';
 import {toValue} from 'vue';
 
 export function useApiClient() {
@@ -7,8 +7,12 @@ export function useApiClient() {
 
   setConfigFromWindow();
 
-  if (!apiKey.value || !apiUrl.value) {
-    throw new Error('Cannot init API: API key or API URL is not set');
+  if (!apiUrl.value?.length) {
+    throw new Error('Cannot init API: API URL is not set');
+  }
+
+  if (!apiKey.value && apiUrl.value === API_URL_DIRECT) {
+    throw new Error('An API key must be set when using the default API URL');
   }
 
   client.setConfig({

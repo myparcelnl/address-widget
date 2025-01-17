@@ -1,10 +1,9 @@
 import {ref} from 'vue';
+export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 
 export function useConfig() {
   const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
-  const apiUrl = ref<string | null>(
-    import.meta.env.API_URL || 'https://address.api.myparcel.nl',
-  );
+  const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
 
   function setConfig(config: {apiKey?: string; apiUrl?: string}) {
     // @TODO validate incoming config in runtime
