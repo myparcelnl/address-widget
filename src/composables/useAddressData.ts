@@ -12,6 +12,11 @@ export type AddressSelectEvent = {
   (event: 'address-selected', address: Address | null): void;
 };
 
+/**
+ * Provise reactive properties and methods for storing address data.
+ * @param emit Provide an event emitter to emit events when the selected address changes. If empty, no events will be emitted.
+ * @returns
+ */
 export function useAddressData(emit?: AddressSelectEvent) {
   const countryCode: Ref<Alpha2CountryCode | undefined> = ref();
   const postalCode: Ref<string | undefined> = ref();

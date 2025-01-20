@@ -10,6 +10,9 @@ import {useApiClient} from './useApiClient';
 
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
+/**
+ * Provides wrapper functions for the address API SDK.
+ */
 export function useAddressApi() {
   const addressResults: Ref<Address[] | undefined> = ref();
   const loading = ref(false);
@@ -35,6 +38,8 @@ export function useAddressApi() {
    *
    * @param postalCode
    * @param houseNumber
+   * @param countryCode
+   * @param houseNumberSuffix
    */
   const fetchAddressByPostalCode = async (
     postalCode: MaybeRefOrGetter<string>,
@@ -87,7 +92,6 @@ export function useAddressApi() {
   /**
    * Call the SDK `getAdresses` with standardized error handling and request aborts.
    * @param params
-   * @returns
    */
   const getAddressesWithErrorHandling = async (params: GetAddressesData) => {
     const {client} = useApiClient();

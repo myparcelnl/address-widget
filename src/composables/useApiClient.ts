@@ -2,6 +2,9 @@ import {client} from '@/api-client/sdk.gen';
 import {useConfig, API_URL_DIRECT} from '@/composables/useConfig.ts';
 import {toValue} from 'vue';
 
+/**
+ * Provides the API client instance with the correct configuration.
+ */
 export function useApiClient() {
   const {setConfigFromWindow, apiKey, apiUrl} = useConfig();
 
