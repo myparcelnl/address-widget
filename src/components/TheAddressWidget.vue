@@ -135,6 +135,8 @@ const {
 } = useAddressData(emit);
 
 /** UI states **/
+const REQUEST_DEBOUNCE_TIME = 150;
+
 type ValidationError = {
   detail: string;
   pointer: string;
@@ -152,6 +154,9 @@ const {
   fetchAddressBySearchQuery,
 } = useAddressApi();
 
+/**
+ * Reset most of the state when the country changes.
+ */
 const handleCountryChange = () => {
   doReset();
   // Reset API results too
@@ -171,6 +176,8 @@ const handlePostalCodeInput = useDebounceFn(async () => {
   };
   if (hasRequiredPostalcodeLookupAttributes(data)) {
     try {
+      validationErrors.value = undefined;
+
       // Pass values and not refs to make sure we use the current values
       await fetchAddressByPostalCode(
         toValue(data.postalCode),
@@ -180,7 +187,7 @@ const handlePostalCodeInput = useDebounceFn(async () => {
       );
     } catch (error) {
       if (isProblemDetailsBadRequest(error)) {
-        // @TODO handle validation error
+        // @TODO handle validation error/integrate with form
         validationErrors.value = error.errors;
       } else {
         // Re-throw any other error
@@ -191,11 +198,17 @@ const handlePostalCodeInput = useDebounceFn(async () => {
     // Clear the results
     addressResults.value = undefined;
   }
-}, 100);
+}, REQUEST_DEBOUNCE_TIME);
 
+/**
+ * Respond to input of the autocomplete field with an API response when appropiate.
+ * Currently this is only applied outside of NL.
+ */
 const handleAutocompleteInput = useDebounceFn(async () => {
   if (isReadyForAutocompleteSearch.value) {
     try {
+      validationErrors.value = undefined;
+
       // Pass values and not refs to make sure we use the current values
       await fetchAddressBySearchQuery(
         toValue(searchQuery) as string,
@@ -203,7 +216,7 @@ const handleAutocompleteInput = useDebounceFn(async () => {
       );
     } catch (error) {
       if (isProblemDetailsBadRequest(error)) {
-        // @TODO handle validation error
+        // @TODO handle validation error/integrate with form
         validationErrors.value = error.errors;
       }
     }
@@ -211,7 +224,7 @@ const handleAutocompleteInput = useDebounceFn(async () => {
     // Clear the results
     addressResults.value = undefined;
   }
-}, 100);
+}, REQUEST_DEBOUNCE_TIME);
 
 /**
  * When a user manually enters an address, override the selectedAddress with user-provided data and clear the API data.
@@ -254,7 +267,7 @@ watch(addressResults, (results) => {
 
   /**
    * If there's only one address, we may assume it's correct and select it.
-   * A dropdown with different options is displayed when there are multiple addresses.
+   * A user *must* make a selection when there are multiple results.
    */
   if (results?.length) {
     notFound.value = false;

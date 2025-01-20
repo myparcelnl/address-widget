@@ -8,9 +8,12 @@ import {
 import {ref, toValue, type MaybeRefOrGetter, type Ref} from 'vue';
 import {useApiClient} from './useApiClient';
 
+const ABORT_REASON = new Error('Request cancelled because of new input');
+
 export function useAddressApi() {
   const addressResults: Ref<Address[] | undefined> = ref();
   const loading = ref(false);
+  const abortController: Ref<AbortController | undefined> = ref();
 
   const isProblemDetailsBadRequest = (
     error: unknown,
@@ -39,9 +42,6 @@ export function useAddressApi() {
     countryCode: MaybeRefOrGetter<Alpha2CountryCode>,
     houseNumberSuffix?: MaybeRefOrGetter<string>,
   ) => {
-    loading.value = true;
-    const {client} = useApiClient();
-
     // Postal code lookup is only supported for the Netherlands at this moment
     if (toValue(countryCode) !== 'NL') {
       throw new Error(
@@ -61,28 +61,7 @@ export function useAddressApi() {
       url: '/addresses',
     };
 
-    loading.value = true;
-
-    try {
-      const {error, response, data} = await getAddresses({client, ...params});
-      loading.value = false;
-
-      // Throw a specific error if present
-      if (error) {
-        throw error;
-      }
-
-      // Otherwise, throw a generic one
-      if (!response.ok) {
-        throw new Error('Failed to fetch address'); // @TODO translate
-      }
-
-      addressResults.value = data.results;
-    } catch (error) {
-      // Catch to reset loading state and rethrow
-      loading.value = false;
-      throw error;
-    }
+    await getAddressesWithErrorHandling(params);
   };
 
   /**
@@ -94,9 +73,6 @@ export function useAddressApi() {
     searchQuery: MaybeRefOrGetter<string>,
     countryCode?: MaybeRefOrGetter<Alpha2CountryCode>,
   ) => {
-    loading.value = true;
-    const {client} = useApiClient();
-
     const params: GetAddressesData = {
       query: {
         query: toValue(searchQuery),
@@ -105,18 +81,36 @@ export function useAddressApi() {
       url: '/addresses',
     };
 
-    loading.value = true;
+    await getAddressesWithErrorHandling(params);
+  };
+
+  /**
+   * Call the SDK `getAdresses` with standardized error handling and request aborts.
+   * @param params
+   * @returns
+   */
+  const getAddressesWithErrorHandling = async (params: GetAddressesData) => {
+    const {client} = useApiClient();
+
+    // Abort any existing requests and create a new controller
+    abortController.value?.abort(ABORT_REASON);
+    abortController.value = new AbortController();
 
     try {
-      const {error, response, data} = await getAddresses({client, ...params});
+      loading.value = true;
+      const {error, response, data} = await getAddresses({
+        client,
+        ...params,
+        signal: abortController.value?.signal,
+      });
       loading.value = false;
 
-      // Throw a specific error if present
+      // Throw an error if the request didn't error but returned an error object.
       if (error) {
         throw error;
       }
 
-      // Otherwise, throw a generic one
+      // If the request didn't error but the response was not ok, throw an error.
       if (!response.ok) {
         throw new Error('Failed to fetch address'); // @TODO translate
       }
@@ -125,6 +119,14 @@ export function useAddressApi() {
     } catch (error) {
       // Catch to reset loading state and rethrow
       loading.value = false;
+
+      // Ignore the error if the request was aborted by us.
+      if (error === ABORT_REASON) {
+        console.debug(
+          'Request was aborted because it did not finish in time for new input.',
+        );
+        return;
+      }
       throw error;
     }
   };
