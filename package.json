@@ -4,14 +4,16 @@
   "license": "MIT",
   "author": "Freek van Rijt <freek.vanrijt@myparcel.nl>",
   "type": "module",
+  "main": "./dist/main.umd.cjs",
+  "module": "./dist/main.js",
   "exports": {
     ".": {
       "import": {
-        "types": "./dist/index.d.ts",
+        "types": "./dist/main.d.ts",
         "default": "./dist/main.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/main.d.cts",
         "default": "./dist/main.umd.cjs"
       }
     }
@@ -19,19 +21,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "clean": "run ws:clean \"$(pwd)\"",
+    "preview": "GENERATE_PREVIEW_HTML=true vite build && vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint --cache --fix .",
-    "serve": "vite",
-    "story:build": "histoire build",
-    "story:dev": "histoire dev",
-    "story:preview": "histoire preview",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:run": "vitest run",
     "test:update": "vitest run -u",
     "typecheck": "vue-tsc --project tsconfig.base.json --noEmit",
-    "openapi-ts": "openapi-ts"
+    "api-sdk:generate": "openapi-ts"
   },
   "dependencies": {
     "@hey-api/client-fetch": "^0.5.7",

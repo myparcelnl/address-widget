@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Build
-        run: yarn run build
+        run: GENERATE_PREVIEW_HTML=true yarn run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact

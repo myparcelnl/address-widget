@@ -1,5 +1,6 @@
 import {fileURLToPath, URL} from 'node:url';
 
+import {type InputOptions} from 'rollup';
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
@@ -9,7 +10,12 @@ import dts from 'vite-plugin-dts';
 // https://vite.dev/config/
 
 const isProd = process.env.NODE_ENV === 'production';
+const isPreview = process.env.GENERATE_PREVIEW_HTML === 'true';
 // const dirname = new URL('.', import.meta.url).pathname;
+
+const input: InputOptions['input'] = isPreview
+  ? {'index.html': 'index.html'}
+  : undefined;
 
 export default defineConfig({
   plugins: [
@@ -27,21 +33,22 @@ export default defineConfig({
   },
   build: {
     sourcemap: !isCI && isProd,
-    emptyOutDir: false,
-    // lib: {
-    //   entry: 'src/app.ts',
-    //   fileName: 'main',
-    //   formats: ['es', 'cjs'],
-    //   name: 'MyParcelAddressWidget',
-    // },
-    // rollupOptions: {
-    //   external: ['vue'],
-    //   output: {
-    //     globals: {
-    //       vue: 'Vue',
-    //     },
-    //   },
-    // },
+    emptyOutDir: true,
+    lib: {
+      entry: 'src/main.ts',
+      fileName: 'main',
+      formats: ['es'],
+      name: 'MyParcelAddressWidget',
+    },
+    rollupOptions: {
+      external: ['vue'],
+      input,
+      output: {
+        globals: {
+          vue: 'Vue',
+        },
+      },
+    },
   },
 
   // test: {
