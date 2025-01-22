@@ -1,51 +1,73 @@
-# address-widget
+# MyParcel Address Widget
 
-This template should help get you started developing with Vue 3 in Vite.
+This package provides a UI implementation which connects with the [MyParcel Address API](https://developer.myparcel.nl/). This provides a way to easily integrate the address validation and autocomplete functionality into your webshop.
+The Address Widget is, or will be, included in our plugins and PDK. Please refer to this readme on how to include it in your own project if you don't use one of those.
 
-## Recommended IDE Setup
+> [!NOTE]  You need an active MyParcel account and API key to be able to use this package.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (
-and disable Vetur).
+## Usage
+The following instructions will help you to include the Address Widget in your project. Note there are various ways to include the widget, depending on your needs and not all of them are covered here.
 
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we
-replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we
-need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to
-make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+### CDN
+You can include the widget via a script tag. This is the easiest way to include the widget in your project.
+```html
+<body>
+  <div id="myparcel-address-widget"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@myparcel/address-widget"></script>
+</body>
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
+### Using a package manager
+You can also include the widget in your project by installing it via a package manager. This is the recommended way to include the widget in your project and gives you the most control.
+```bash
+yarn add @myparcel/address-widget
 ```
 
-### Type-Check, Compile and Minify for Production
+<!-- You can configure the widget by passing the configuration object to the `AddressWidget` constructor. The configuration object should contain the following properties: -->
 
-```sh
-npm run build
+### Configuration
+
+#### Window Object
+If you consume the widget via a script tag, you can pass the configuration via the `window` object.
+Doing this, however, will always expose your API key to the client. You should use an API proxy to keep your key secret.
+
+Example:
+```html
+<script>
+  window.MyParcelAddressConfig = {
+    apiKey
+  };
+</script>
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+> [!DANGER] This will expose your API key to anyone visiting your website. You should only use this method for local testing purposes. You should use a proxy server to keep your API key secret.
 
-```sh
-npm run test:unit
+Example using a proxy server:
+```html
+<script>
+  window.MyParcelAddressConfig = {
+      apiUrl: 'https://your-api-proxy.com',
+    };
+</script>
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+#### Javascript API
+If you include the widget in your project using a package manager, you can configure the widget by passing the configuration object to the `AddressWidget` constructor. The configuration object should contain the following properties:
 
-```sh
-npm run lint
+```javascript
+import { AddressWidget } from '@myparcel/address-widget';
+AddressWidget({
+  apiKey: process.env.MYPARCEL_API_KEY,
+});
+```
+> [!WARNING] While this method is more secure than using the `window` object, it is still not recommended to use this method in a production environment. You should use a proxy server to keep your API key secret.
+
+Example using a proxy:
+```javascript
+import { AddressWidget } from '@myparcel/address-widget';
+AddressWidget({
+    apiUrl: 'https://your-api-proxy.com',
+});
 ```
 
 ## Development
@@ -67,8 +89,48 @@ projects.
 
 ### Running the Project
 
-* Run `yarn serve` to start the development environment
+* Run `yarn dev` to start the development environment
 * Run `yarn test` to run the tests
+* Run `yarn preview` to run the project in a production-like environment (also used for the demo environment)
+
+### CLI reference
+
+#### Project Setup
+
+```sh
+yarn install
+```
+
+#### Compile and Hot-Reload for Development
+
+```sh
+yarn run dev
+```
+
+#### Build and start a preview/demo server for the production build
+
+```sh
+yarn run preview
+```
+
+#### Type-Check, Compile and Minify for Production
+
+```sh
+yarn run build
+```
+
+#### Run Unit Tests with [Vitest](https://vitest.dev/)
+
+```sh
+yarn run test:unit
+```
+
+#### Lint with [ESLint](https://eslint.org/)
+
+```sh
+yarn run lint
+```
+
 
 ## Contributing
 
@@ -78,37 +140,3 @@ Commits specification. You might want to install the `commitizen`-package to
 help you with this.
 
 Please read our [contribution guidelines](CONTRIBUTING.md).
-
-## Installation
-
-### Configuration
-
-#### Environment Variables
-
-You can use environment variables to compile the widget with your own config.
-If you call the address API directly, this is the safest way to keep your API
-key secret.
-
-Just copy-paste the `.env.example` file to `.env` and fill in the values. Then,
-build the widget with `yarn run build`.
-
-#### Window Object
-
-If you consume the widget via a script tag, you can pass the configuration via
-the `window` object.
-Doing this, however, will always expose your API key to the client. You should
-use an API proxy to keep your key secret.
-
-This widget does not contain such a proxy. However, it *is* included in our PDK
-and our plugins. If you use one of those, or built your own proxy, you can use
-it as follows:
-
-```html
-
-<script>
-  window.MyParcelAddressConfig = {
-    apiKey: 'your-api-key',
-    apiUrl: 'https://your-api-proxy.com',
-  };
-</script>
-```
