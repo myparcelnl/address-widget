@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 .DS_Store
-dist
+# dist - temporarily disabled so we can use the repository on github as a dependency
 dist-ssr
 coverage
 *.local
