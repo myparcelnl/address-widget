@@ -1,6 +1,6 @@
 import { App } from 'vue';
 
-declare const _default: App<Element>;
-export default _default;
+declare const app: App<Element>;
+export default app;
 
 export { }

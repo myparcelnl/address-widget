@@ -4,4 +4,5 @@
 import {createApp} from 'vue';
 import App from './App.vue';
 
-export default createApp(App);
+const app = createApp(App);
+export default app;
