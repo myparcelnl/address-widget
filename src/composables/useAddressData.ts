@@ -97,7 +97,11 @@ export function useAddressData(emit?: AddressSelectEvent) {
   // Emit an event whenever selectedAddress changes, as this will be relevant to watch for changes in consiming plugins/forms
   if (emit) {
     watch(selectedAddress, (address) => {
+      // TODO: Add exported consts with event names
       emit('address-selected', address || null);
+      window.dispatchEvent(
+        new CustomEvent('address-selected', {detail: address}),
+      );
     });
   }
 
