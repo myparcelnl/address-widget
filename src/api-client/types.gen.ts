@@ -69,7 +69,7 @@ export type ProblemDetails = {
     /**
      * The cause of this problem when debug mode is enabled.
      */
-    cause?: {};
+    cause?: object;
 };
 
 export type ProblemDetailsBadRequest = ProblemDetails & {

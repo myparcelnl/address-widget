@@ -139,7 +139,7 @@ importers:
         specifier: ^8.20.0
         version: 8.27.0(eslint@9.23.0(jiti@2.4.2))(typescript@5.8.2)
       vite:
-        specifier: ^6.0.7
+        specifier: ^6.0.12
         version: 6.2.3(@types/node@22.13.13)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.0)
       vite-plugin-dts:
         specifier: ^4.5.0
