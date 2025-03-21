@@ -3,13 +3,16 @@
 This package provides a UI implementation which connects with the [MyParcel Address API](https://developer.myparcel.nl/). This provides a way to easily integrate the address validation and autocomplete functionality into your webshop.
 The Address Widget is, or will be, included in our plugins and PDK. Please refer to this readme on how to include it in your own project if you don't use one of those.
 
-> [!NOTE]  You need an active MyParcel account and API key to be able to use this package.
+> [!NOTE] You need an active MyParcel account and API key to be able to use this package.
 
 ## Usage
+
 The following instructions will help you to include the Address Widget in your project. Note there are various ways to include the widget, depending on your needs and not all of them are covered here.
 
 ### CDN
+
 You can include the widget via a script tag. This is the easiest way to include the widget in your project.
+
 ```html
 <body>
   <div id="myparcel-address-widget"></div>
@@ -18,7 +21,9 @@ You can include the widget via a script tag. This is the easiest way to include 
 ```
 
 ### Using a package manager
+
 You can also include the widget in your project by installing it via a package manager. This is the recommended way to include the widget in your project and gives you the most control.
+
 ```bash
 yarn add @myparcel/address-widget
 ```
@@ -28,14 +33,16 @@ yarn add @myparcel/address-widget
 ### Configuration
 
 #### Window Object
+
 If you consume the widget via a script tag, you can pass the configuration via the `window` object.
 Doing this, however, will always expose your API key to the client. You should use an API proxy to keep your key secret.
 
 Example:
+
 ```html
 <script>
   window.MyParcelAddressConfig = {
-    apiKey
+    apiKey,
   };
 </script>
 ```
@@ -43,31 +50,39 @@ Example:
 > [!DANGER] This will expose your API key to anyone visiting your website. You should only use this method for local testing purposes. You should use a proxy server to keep your API key secret.
 
 Example using a proxy server:
+
 ```html
 <script>
   window.MyParcelAddressConfig = {
-      apiUrl: 'https://your-api-proxy.com',
-    };
+    apiUrl: 'https://your-api-proxy.com',
+  };
 </script>
 ```
 
 #### Javascript API
-If you include the widget in your project using a package manager, you can configure the widget by passing the configuration object to the `AddressWidget` constructor. The configuration object should contain the following properties:
 
-```javascript
-import { AddressWidget } from '@myparcel/address-widget';
-AddressWidget({
-  apiKey: process.env.MYPARCEL_API_KEY,
-});
+If you include the widget in your project using a package manager, you can configure the widget by passing the configuration object to the `TheAddressWidget` component. The configuration object should contain the following properties:
+
+```vue
+<script>
+import {TheAddressWidget} from '@myparcel/address-widget';
+</script>
+<template>
+  <TheAddressWidget :config="{apiKey: 'MY_API_KEY'}" />
+</template>
 ```
+
 > [!WARNING] While this method is more secure than using the `window` object, it is still not recommended to use this method in a production environment. You should use a proxy server to keep your API key secret.
 
 Example using a proxy:
-```javascript
-import { AddressWidget } from '@myparcel/address-widget';
-AddressWidget({
-    apiUrl: 'https://your-api-proxy.com',
-});
+
+```vue
+<script>
+import {TheAddressWidget} from '@myparcel/address-widget';
+</script>
+<template>
+  <TheAddressWidget :config="{apiUrl: 'https://my-webshop.com/proxy-api'}" />
+</template>
 ```
 
 ## Development
@@ -89,9 +104,9 @@ projects.
 
 ### Running the Project
 
-* Run `yarn dev` to start the development environment
-* Run `yarn test` to run the tests
-* Run `yarn preview` to run the project in a production-like environment (also used for the demo environment)
+- Run `yarn dev` to start the development environment
+- Run `yarn test` to run the tests
+- Run `yarn preview` to run the project in a production-like environment (also used for the demo environment)
 
 ### CLI reference
 
@@ -130,7 +145,6 @@ yarn run test:unit
 ```sh
 yarn run lint
 ```
-
 
 ## Contributing
 

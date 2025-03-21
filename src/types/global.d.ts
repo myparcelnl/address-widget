@@ -1,9 +1,8 @@
+import type {ConfigObject} from '@/composables/useConfig';
+
 declare global {
   export interface Window {
-    MyParcelAddressConfig?: {
-      apiKey?: string;
-      apiUrl?: string;
-    };
+    MyParcelAddressConfig?: ConfigObject;
   }
 }
 

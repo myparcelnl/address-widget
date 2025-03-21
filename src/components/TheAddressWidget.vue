@@ -110,14 +110,12 @@ import FieldCity from '@/components/FieldCity.vue';
 import ButtonOverride from '@/components/ButtonOverride.vue';
 
 import {useAddressApi} from '@/composables/useAdressApi';
-import {
-  useAddressData,
-  type AddressSelectEvent,
-} from '@/composables/useAddressData';
+import {useConfig} from '@/composables/useConfig';
+import type {ConfigObject} from '@/composables/useConfig';
 
-const emit = defineEmits<AddressSelectEvent>();
-
-/** Address data **/
+const props = defineProps<{
+  config?: ConfigObject;
+}>();
 const {
   countryCode,
   searchQuery,
@@ -155,99 +153,17 @@ const {
 } = useAddressApi();
 
 /**
- * Reset most of the state when the country changes.
+ * Set config whenever it changes
  */
-const handleCountryChange = () => {
-  doReset();
-  // Reset API results too
-  addressResults.value = undefined;
-};
-
-/**
- * Respond to input on postal code and house number fields with an API response when appropiate.
- * Currently, autocomplete on housenumber+postalCode is only available for NL.
- */
-const handlePostalCodeInput = useDebounceFn(async () => {
-  const data = {
-    countryCode,
-    postalCode,
-    houseNumber,
-    houseNumberSuffix,
-  };
-  if (hasRequiredPostalcodeLookupAttributes(data)) {
-    try {
-      validationErrors.value = undefined;
-
-      // Pass values and not refs to make sure we use the current values
-      await fetchAddressByPostalCode(
-        toValue(data.postalCode),
-        toValue(data.houseNumber),
-        toValue(data.countryCode),
-        toValue(data.houseNumberSuffix),
-      );
-    } catch (error) {
-      if (isProblemDetailsBadRequest(error)) {
-        // @TODO handle validation error/integrate with form
-        validationErrors.value = error.errors;
-      } else {
-        // Re-throw any other error
-        throw error;
-      }
-    }
-  } else {
-    // Clear the results
-    addressResults.value = undefined;
-  }
-}, REQUEST_DEBOUNCE_TIME);
-
-/**
- * Respond to input of the autocomplete field with an API response when appropiate.
- * Currently this is only applied outside of NL.
- */
-const handleAutocompleteInput = useDebounceFn(async () => {
-  if (isReadyForAutocompleteSearch.value) {
-    try {
-      validationErrors.value = undefined;
-
-      // Pass values and not refs to make sure we use the current values
-      await fetchAddressBySearchQuery(
-        toValue(searchQuery) as string,
-        toValue(countryCode),
-      );
-    } catch (error) {
-      if (isProblemDetailsBadRequest(error)) {
-        // @TODO handle validation error/integrate with form
-        validationErrors.value = error.errors;
-      }
-    }
-  } else {
-    // Clear the results
-    addressResults.value = undefined;
-  }
-}, REQUEST_DEBOUNCE_TIME);
-
-/**
- * When a user manually enters an address, override the selectedAddress with user-provided data and clear the API data.
- */
-const handleOverrideInput = () => {
-  const postalData = {countryCode, postalCode, houseNumber};
-  if (
-    toValue(isOverrideActive) &&
-    hasRequiredPostalcodeLookupAttributes(postalData) &&
-    typeof street.value === 'string' &&
-    typeof city.value === 'string'
-  ) {
-    selectAddress({
-      street: street.value,
-      city: city.value,
-      postalCode: toValue(postalData.postalCode.value),
-      houseNumber: toValue(postalData.houseNumber.value),
-      houseNumberSuffix: toValue(houseNumberSuffix),
-      countryCode: toValue(postalData.countryCode),
-      postOfficeBox: false, // cannot be user-defined, so assume false,
-    });
-  }
-};
+const {setConfig} = useConfig();
+watch(
+  () => props.config,
+  (config) => {
+    if (!config) return;
+    setConfig(config);
+  },
+  {immediate: true},
+);
 
 /**
  * Handle UI updates when API results change.
