@@ -11,13 +11,15 @@ import {useApiClient} from './useApiClient';
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
 /**
- * Provides wrapper functions for the address API SDK.
+ * Provides reactive state and wrapper functions for the address API SDK.
  */
 export function useAddressApi() {
+  // State
   const addressResults: Ref<Address[] | undefined> = ref();
   const loading = ref(false);
   const abortController: Ref<AbortController | undefined> = ref();
 
+  // Methods
   const isProblemDetailsBadRequest = (
     error: unknown,
   ): error is ProblemDetailsBadRequest => {
@@ -31,6 +33,14 @@ export function useAddressApi() {
       problemDetails.status === 400 &&
       Array.isArray(problemDetails.errors)
     );
+  };
+
+  /**
+   * Clear any API results and loading state.
+   */
+  const resetState = () => {
+    addressResults.value = undefined;
+    loading.value = false;
   };
 
   /**
@@ -61,26 +71,6 @@ export function useAddressApi() {
         houseNumberSuffix: toValue(houseNumberSuffix)?.length
           ? toValue(houseNumberSuffix)
           : undefined,
-        countryCode: toValue(countryCode),
-      },
-      url: '/addresses',
-    };
-
-    await getAddressesWithErrorHandling(params);
-  };
-
-  /**
-   * Look up an address by search query.
-   * @param searchQuery
-   * @param countryCode
-   */
-  const fetchAddressBySearchQuery = async (
-    searchQuery: MaybeRefOrGetter<string>,
-    countryCode?: MaybeRefOrGetter<Alpha2CountryCode>,
-  ) => {
-    const params: GetAddressesData = {
-      query: {
-        query: toValue(searchQuery),
         countryCode: toValue(countryCode),
       },
       url: '/addresses',
@@ -139,7 +129,7 @@ export function useAddressApi() {
     addressResults,
     loading,
     isProblemDetailsBadRequest,
+    resetState,
     fetchAddressByPostalCode,
-    fetchAddressBySearchQuery,
   };
 }

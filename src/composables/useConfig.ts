@@ -17,7 +17,7 @@ export type ConfigObject = z.infer<typeof zConfigObject>;
 export default function useConfig() {
   const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
   const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
-  const country = ref<Alpha2CountryCode | null>();
+  const country = ref<Alpha2CountryCode | undefined>();
 
   /**
    * Ensure incoming configuration is valid using zod.
