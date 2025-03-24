@@ -25,6 +25,10 @@ You can include the widget via a script tag. This is the easiest way to include 
 You can also include the widget in your project by installing it via a package manager. This is the recommended way to include the widget in your project and gives you the most control.
 
 ```bash
+pnpm add @myparcel/address-widget
+```
+
+```bash
 yarn add @myparcel/address-widget
 ```
 
@@ -85,12 +89,22 @@ import {TheAddressWidget} from '@myparcel/address-widget';
 </template>
 ```
 
-## Development
+## Contributing
 
-To get started, we recommend using [Volta](https://volta.sh) for Node
+To get started, we recommend using [nvm](https://github.com/nvm-sh/nvm) for Node
 management.
-It'll automatically make sure the right version of Node is used within our
-projects.
+
+Before running node commands, you should run `nvm use` to switch to the correct
+node version.
+
+This repository uses [pnpm](https://pnpm.io/) as a package manager. The easiest way
+to use / install it, is by enabling corepack: `corepack enable`, after running `nvm use`.
+
+## First time setup
+
+1. `nvm use`
+2. `corepack enable`
+3. `pnpm i`
 
 ### Prepare
 
@@ -98,52 +112,52 @@ projects.
 
 ### Setup
 
-1. Run `yarn` to install dependencies.
-2. Run `yarn translations:import` to download the translations.
+1. Run `pnpm i` to install dependencies.
+2. Run `pnpm run translations:import` to download the translations.
 3. The project is now ready to use.
 
 ### Running the Project
 
-- Run `yarn dev` to start the development environment
-- Run `yarn test` to run the tests
-- Run `yarn preview` to run the project in a production-like environment (also used for the demo environment)
+- Run `pnpm dev` to start the development environment
+- Run `pnpm test` to run the tests
+- Run `pnpm preview` to run the project in a production-like environment (also used for the demo environment)
 
 ### CLI reference
 
 #### Project Setup
 
 ```sh
-yarn install
+pnpm i
 ```
 
 #### Compile and Hot-Reload for Development
 
 ```sh
-yarn run dev
+pnpm run dev
 ```
 
 #### Build and start a preview/demo server for the production build
 
 ```sh
-yarn run preview
+pnpm run preview
 ```
 
 #### Type-Check, Compile and Minify for Production
 
 ```sh
-yarn run build
+pnpm run build
 ```
 
 #### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
-yarn run test:unit
+pnpm run test:unit
 ```
 
 #### Lint with [ESLint](https://eslint.org/)
 
 ```sh
-yarn run lint
+pnpm run lint
 ```
 
 ## Contributing
