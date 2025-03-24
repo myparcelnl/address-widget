@@ -1,6 +1,6 @@
 # MyParcel Address Widget
 
-This package provides a UI implementation which connects with the [MyParcel Address API](https://developer.myparcel.nl/). This provides a way to easily integrate the address validation and autocomplete functionality into your webshop.
+This package provides a UI implementation which connects with the [MyParcel Address API](https://address.api.myparcel.nl/openapi.yaml). This provides a way to easily integrate the address validation and autocomplete functionality into your webshop.
 The Address Widget is, or will be, included in our plugins and PDK. Please refer to this readme on how to include it in your own project if you don't use one of those.
 
 > [!NOTE] You need an active MyParcel account and API key to be able to use this package.
@@ -38,7 +38,8 @@ yarn add @myparcel/address-widget
 
 #### Window Object
 
-If you consume the widget via a script tag, you can pass the configuration via the `window` object.
+If you consume the widget via a script tag, you can pass the configuration via the `window` object. You currently cannot choose a country within the widget itself, you need to pass it as a configuration option. When the country is not set, the widget will default to the Netherlands. Other countries are not supported at this time and setting them will hide the widget.
+
 Doing this, however, will always expose your API key to the client. You should use an API proxy to keep your key secret.
 
 Example:
@@ -46,7 +47,8 @@ Example:
 ```html
 <script>
   window.MyParcelAddressConfig = {
-    apiKey,
+    apiKey: 'MY_API_KEY',
+    country: 'NL',
   };
 </script>
 ```
@@ -59,6 +61,7 @@ Example using a proxy server:
 <script>
   window.MyParcelAddressConfig = {
     apiUrl: 'https://your-api-proxy.com',
+    country: 'NL',
   };
 </script>
 ```
@@ -72,7 +75,7 @@ If you include the widget in your project using a package manager, you can confi
 import {TheAddressWidget} from '@myparcel/address-widget';
 </script>
 <template>
-  <TheAddressWidget :config="{apiKey: 'MY_API_KEY'}" />
+  <TheAddressWidget :config="{apiKey: 'MY_API_KEY', country: 'NL'}" />
 </template>
 ```
 
@@ -85,7 +88,8 @@ Example using a proxy:
 import {TheAddressWidget} from '@myparcel/address-widget';
 </script>
 <template>
-  <TheAddressWidget :config="{apiUrl: 'https://my-webshop.com/proxy-api'}" />
+  <TheAddressWidget
+    :config="{apiUrl: 'https://my-webshop.com/proxy-api', country: 'NL'}" />
 </template>
 ```
 
