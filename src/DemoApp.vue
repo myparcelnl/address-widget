@@ -3,10 +3,10 @@
     <header>
       <h2>Configuration</h2>
     </header>
-    <textarea
+    <BaseTextArea
       v-model="configAsJson"
       rows="10"
-      class="w-full p-3"></textarea>
+      class="w-lg p-3"></BaseTextArea>
   </section>
 
   <section>
@@ -30,10 +30,12 @@
 </template>
 
 <script setup="context" lang="ts">
+import './styles/base.css';
 import {ref, toValue, watch} from 'vue';
 import TheAddressWidget from './components/TheAddressWidget.vue';
 import {useAddressData} from './composables/useAddressData';
 import {useConfig} from './composables/useConfig';
+import BaseTextArea from './components/Base/BaseTextArea.vue';
 
 const {configuration, setConfig} = useConfig();
 const configAsJson = ref(JSON.stringify(configuration, null, 2));

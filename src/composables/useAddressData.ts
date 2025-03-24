@@ -23,7 +23,7 @@ const city: Ref<string | undefined> = ref();
 const selectedAddress: Ref<Address | undefined> = ref();
 
 // Contains both API and user input validation errors
-const validationErrors: Ref<ValidationErrors | undefined> = ref();
+const validationErrors: Ref<ValidationErrors> = ref([]);
 
 /**
  * Provise reactive properties and methods for storing address data.

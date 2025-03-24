@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref, toValue, watch} from 'vue';
+import {toValue, watch} from 'vue';
 
 import FieldAddressSelect from '@/components/FieldAddressSelect.vue';
 import FieldPostalCode from '@/components/FieldPostalCode.vue';
@@ -72,6 +72,7 @@ const {handlePostalCodeInput, handleOverrideInput, isOverrideActive} =
   useHandleUserInput(emit);
 
 const {
+  validationErrors,
   countryCode,
   postalCode,
   houseNumber,
@@ -82,8 +83,6 @@ const {
   selectAddress,
   isReadyForPostalCodeLookup,
 } = useAddressData(emit);
-
-const notFound = ref(false);
 
 const {addressResults, loading} = useAddressApi();
 
@@ -122,12 +121,13 @@ watch(addressResults, (results) => {
    * A user *must* make a selection when there are multiple results.
    */
   if (results?.length && toValue(results)?.length === 1) {
-    notFound.value = false;
     selectAddress(toValue(results)[0]);
-  } else if (results?.length) {
-    notFound.value = false;
-  } else {
-    notFound.value = true;
+  } else if (!results?.length) {
+    // Append a validation error if no address was found
+    validationErrors.value?.push({
+      pointer: 'address',
+      detail: 'No address found, enter manually or try again',
+    });
     console.warn('No address found, enter manually or try again');
   }
 });

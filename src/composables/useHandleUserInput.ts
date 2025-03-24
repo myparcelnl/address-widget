@@ -51,7 +51,7 @@ export function useHandleUserInput(emit?: AddressSelectEvent) {
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
       try {
-        validationErrors.value = undefined;
+        validationErrors.value = [];
 
         // Pass values and not refs to make sure we use the current values
         await fetchAddressByPostalCode(
@@ -62,7 +62,7 @@ export function useHandleUserInput(emit?: AddressSelectEvent) {
         );
       } catch (error) {
         if (isProblemDetailsBadRequest(error)) {
-          validationErrors.value = error.errors;
+          validationErrors.value = error.errors ?? [];
         } else {
           // Re-throw any other error
           throw error;
