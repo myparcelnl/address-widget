@@ -1,34 +1,36 @@
 import type {Alpha2CountryCode} from '@/api-client';
 import type {Address} from '@/api-client/types.gen';
 import {computed, ref, toValue, watch, type Ref} from 'vue';
-import useConfig from '@/composables/useConfig';
 import type {ProblemDetailsBadRequest} from '@/api-client/types.gen';
+import {useConfig} from './useConfig';
 
 const POSTAL_CODE_MIN_LENGTH = 6; // eg. 1111AA - only relevant for NL postal codes at this point
 export const ADDRESS_SELECTED_EVENT = 'address-selected';
-export type AddressSelectEvent = {
+export type AddressSelectedEvent = {
   (event: typeof ADDRESS_SELECTED_EVENT, address: Address | null): void;
 };
 export type ValidationErrors = NonNullable<ProblemDetailsBadRequest['errors']>;
+
+/** Define-once, prevents unique instances of this data per component instance */
+const countryCode = useConfig().country;
+const postalCode: Ref<string | undefined> = ref();
+const houseNumber: Ref<string | undefined> = ref();
+const houseNumberSuffix: Ref<string | undefined> = ref();
+const street: Ref<string | undefined> = ref();
+const city: Ref<string | undefined> = ref();
+
+// Stores the full address for actual usage by consuming plugins/forms
+const selectedAddress: Ref<Address | undefined> = ref();
+
+// Contains both API and user input validation errors
+const validationErrors: Ref<ValidationErrors | undefined> = ref();
+
 /**
  * Provise reactive properties and methods for storing address data.
  * @param emit Provide an event emitter to emit events when the selected address changes. If empty, no events will be emitted.
  * @returns
  */
-export function useAddressData(emit?: AddressSelectEvent) {
-  const countryCode = useConfig().country;
-  const postalCode: Ref<string | undefined> = ref();
-  const houseNumber: Ref<string | undefined> = ref();
-  const houseNumberSuffix: Ref<string | undefined> = ref();
-  const street: Ref<string | undefined> = ref();
-  const city: Ref<string | undefined> = ref();
-
-  // Stores the full address for actual usage by consuming plugins/forms
-  const selectedAddress: Ref<Address | undefined> = ref();
-
-  // Contains both API and user input validation errors
-  const validationErrors: Ref<ValidationErrors | undefined> = ref();
-
+export function useAddressData(emit?: AddressSelectedEvent) {
   /**
    * Reset the form and stored address data.
    */

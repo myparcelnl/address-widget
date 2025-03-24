@@ -10,15 +10,15 @@ import {useApiClient} from './useApiClient';
 
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
+// State
+const addressResults: Ref<Address[] | undefined> = ref();
+const loading = ref(false);
+const abortController: Ref<AbortController | undefined> = ref();
+
 /**
  * Provides reactive state and wrapper functions for the address API SDK.
  */
 export function useAddressApi() {
-  // State
-  const addressResults: Ref<Address[] | undefined> = ref();
-  const loading = ref(false);
-  const abortController: Ref<AbortController | undefined> = ref();
-
   // Methods
   const isProblemDetailsBadRequest = (
     error: unknown,

@@ -4,12 +4,13 @@ import {useAddressData, type AddressSelectEvent} from './useAddressData';
 import {useAddressApi} from './useAdressApi';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
-export const emit = defineEmits<AddressSelectEvent>();
+
 /**
  * Contains nessecary logic for user input handling.
  */
-export function useHandleUserInput() {
+export function useHandleUserInput(emit?: AddressSelectEvent) {
   /* State */
+
   // Whether the user is manually entering an address.
   const isOverrideActive = ref(false);
 

@@ -50,11 +50,15 @@ import FieldHouseNumberSuffix from '@/components/FieldHouseNumberSuffix.vue';
 import FieldStreet from '@/components/FieldStreet.vue';
 import FieldCity from '@/components/FieldCity.vue';
 import ButtonOverride from '@/components/ButtonOverride.vue';
+import ValidationMessages from './ValidationMessages.vue';
 
 import {useAddressApi} from '@/composables/useAdressApi';
-import {useAddressData} from '@/composables/useAddressData';
+import {
+  type AddressSelectedEvent,
+  useAddressData,
+} from '@/composables/useAddressData';
 
-import {emit, useHandleUserInput} from '@/composables/useHandleUserInput';
+import {useHandleUserInput} from '@/composables/useHandleUserInput';
 import {useConfig} from '@/composables/useConfig';
 import type {ConfigObject} from '@/composables/useConfig';
 
@@ -62,8 +66,10 @@ const props = defineProps<{
   config?: ConfigObject;
 }>();
 
+const emit = defineEmits<AddressSelectedEvent>();
+
 const {handlePostalCodeInput, handleOverrideInput, isOverrideActive} =
-  useHandleUserInput();
+  useHandleUserInput(emit);
 
 const {
   countryCode,

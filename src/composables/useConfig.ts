@@ -1,6 +1,6 @@
 import type {Alpha2CountryCode} from '@/api-client';
 import {zAlpha2CountryCode} from '@/api-client/zod.gen';
-import {ref} from 'vue';
+import {reactive, ref} from 'vue';
 import {z} from 'zod';
 
 export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
@@ -14,11 +14,13 @@ export const zConfigObject = z.object({
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
-export default function useConfig() {
-  const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
-  const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
-  const country = ref<Alpha2CountryCode | undefined>();
+// Define these refs here so they become globals (like a store)
+const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
+const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
+const country = ref<Alpha2CountryCode | undefined>('NL');
+const configuration = reactive({apiKey, apiUrl, country});
 
+export function useConfig() {
   /**
    * Ensure incoming configuration is valid using zod.
    * @param config
@@ -39,7 +41,6 @@ export default function useConfig() {
    * @param config
    */
   function setConfig(config: ConfigObject) {
-    // TODO: validate config
     const validatedConfig = validateConfiguration(config);
 
     if (validatedConfig.apiKey) {
@@ -63,6 +64,7 @@ export default function useConfig() {
     apiKey,
     apiUrl,
     country,
+    configuration,
     setConfig,
     setConfigFromWindow,
   };
