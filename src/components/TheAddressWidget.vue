@@ -52,7 +52,7 @@ import FieldCity from '@/components/FieldCity.vue';
 import ButtonOverride from '@/components/ButtonOverride.vue';
 import ValidationMessages from './ValidationMessages.vue';
 
-import {useAddressApi} from '@/composables/useAdressApi';
+import {useAddressApi} from '@/composables/useAddressApi';
 import {
   type AddressSelectedEvent,
   useAddressData,

@@ -76,14 +76,16 @@ export function useAddressApi() {
       url: '/addresses',
     };
 
-    await getAddressesWithErrorHandling(params);
+    return await getAddressesWithErrorHandling(params);
   };
 
   /**
    * Call the SDK `getAdresses` with standardized error handling and request aborts.
-   * @param params
    */
-  const getAddressesWithErrorHandling = async (params: GetAddressesData) => {
+  const getAddressesWithErrorHandling = async (
+    params: GetAddressesData,
+    silentAbort: boolean = true,
+  ) => {
     const {client} = useApiClient();
 
     // Abort any existing requests and create a new controller
@@ -115,7 +117,7 @@ export function useAddressApi() {
       loading.value = false;
 
       // Ignore the error if the request was aborted by us.
-      if (error === ABORT_REASON) {
+      if (silentAbort && error === ABORT_REASON) {
         console.debug(
           'Request was aborted because it did not finish in time for new input.',
         );
@@ -131,5 +133,6 @@ export function useAddressApi() {
     isProblemDetailsBadRequest,
     resetState,
     fetchAddressByPostalCode,
+    getAddressesWithErrorHandling,
   };
 }

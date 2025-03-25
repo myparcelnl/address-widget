@@ -55,8 +55,4 @@ export default defineConfig({
       },
     },
   },
-
-  // test: {
-  //   setupFiles: [`${dirname}/../../libs/shared/src/__tests__/vitest-setup.ts`],
-  // },
 });
