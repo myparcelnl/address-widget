@@ -1,6 +1,6 @@
 import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
-import {useAddressData, type AddressSelectEvent} from './useAddressData';
+import {useAddressData, type AddressSelectedEvent} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
@@ -8,7 +8,7 @@ export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API req
 /**
  * Contains nessecary logic for user input handling.
  */
-export function useHandleUserInput(emit?: AddressSelectEvent) {
+export function useHandleUserInput(emit?: AddressSelectedEvent) {
   /* State */
 
   // Whether the user is manually entering an address.
