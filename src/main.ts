@@ -6,3 +6,7 @@ import App from './App.vue';
 
 const app = createApp(App);
 export default app;
+
+// Additional exports for typing etc.
+export * from './composables/useConfig';
+export * from './composables/useAddressData';
