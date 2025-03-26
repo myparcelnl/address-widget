@@ -1,10 +1,14 @@
-import {vi} from 'vitest';
-import {getAddressesMock} from './mockApi';
+import {beforeAll, afterEach, afterAll} from 'vitest';
+import {server} from './mocks/requests/node';
 
-// Whenever getAddresses from the generated sdk is called, use a mock instead
-vi.mock('@/api-client', async (importOriginal) => {
-  return {
-    ...(await importOriginal<typeof import('@/api-client')>()),
-    getAddresses: getAddressesMock,
-  };
+beforeAll(() => {
+  server.listen();
+});
+
+afterEach(() => {
+  server.resetHandlers();
+});
+
+afterAll(() => {
+  server.close();
 });

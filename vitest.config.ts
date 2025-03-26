@@ -18,11 +18,11 @@ export default mergeConfig(
       coverage: {
         exclude: [
           ...coverageConfigDefaults.exclude,
-          '*.config.ts',
-          '*.config.js',
+          '**/*.config.ts',
+          '**/*.config.js',
           'src/DemoApp.vue',
           'src/demo.ts',
-          '*.gen.ts',
+          '**/*.gen.ts',
         ],
       },
     },

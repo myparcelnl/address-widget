@@ -1,4 +1,4 @@
-import {MOCK_ADDRESSES} from '../../tests/mockApi';
+import {MOCK_ADDRESSES} from './../../tests/mocks/data/addresses';
 import {describe, it, expect, beforeEach} from 'vitest';
 import {ref} from 'vue';
 import {useAddressApi} from './useAddressApi';
@@ -95,8 +95,11 @@ describe('useAddressApi', () => {
     expect(loading.value).toBe(true);
 
     // Check if the first request was cancelled
-    // TODO: use MSW or similar as we can't test this with the current setup
-    // await expect(request1).rejects.toThrow('aborted');
-    // await expect(request2).resolves.toBeTruthy();
+    await expect(request1).rejects.toThrow(
+      'Request cancelled because of new input',
+    );
+    // Check the second one went through, not that we check that it does resolve,
+    // but it should resolve without returning any data
+    return await expect(request2).resolves.toBeUndefined();
   });
 });
