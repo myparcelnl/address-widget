@@ -36,19 +36,47 @@ export function useHandleUserInput() {
    * Currently, autocomplete on housenumber+postalCode is only available for NL.
    */
   const handlePostalCodeInput = useDebounceFn(async () => {
-    if (
-      hasRequiredPostalcodeLookupAttributes({
-        countryCode,
-        postalCode,
-        houseNumber,
-      })
-    ) {
-      return fetchAddressByPostalCode(
-        toValue(postalCode),
-        toValue(houseNumber),
-        toValue(countryCode),
-        toValue(houseNumberSuffix),
-      );
+    const data = {
+      countryCode,
+      postalCode,
+      houseNumber,
+      houseNumberSuffix,
+    };
+    if (hasRequiredPostalcodeLookupAttributes(data)) {
+      if (isNaN(parseInt(toValue(data.houseNumber)))) {
+        validationErrors.value.push({
+          pointer: 'houseNumber',
+          detail: 'Housenumber must be a number',
+        });
+        return;
+      }
+
+      if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
+        validationErrors.value.push({
+          pointer: 'postalCode',
+          detail: 'Postal code must be a valid NL postal code',
+        });
+        return;
+      }
+
+      try {
+        validationErrors.value = [];
+
+        // Pass values and not refs to make sure we use the current values
+        await fetchAddressByPostalCode(
+          toValue(data.postalCode),
+          toValue(data.houseNumber),
+          toValue(data.countryCode),
+          toValue(data.houseNumberSuffix),
+        );
+      } catch (error) {
+        if (isProblemDetailsBadRequest(error)) {
+          validationErrors.value = error.errors ?? [];
+        } else {
+          // Re-throw any other error
+          throw error;
+        }
+      }
     } else {
       // Clear the results
       resetState();
