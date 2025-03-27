@@ -26,7 +26,7 @@ const selectedAddress: Ref<Address | undefined> = ref();
 const validationErrors: Ref<ValidationErrors> = ref([]);
 
 /**
- * Provise reactive properties and methods for storing address data.
+ * Provides reactive properties and methods for storing address data.
  * @param emit Provide an event emitter to emit events when the selected address changes. If empty, no events will be emitted.
  * @returns
  */
