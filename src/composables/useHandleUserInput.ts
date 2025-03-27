@@ -42,9 +42,25 @@ export function useHandleUserInput() {
       houseNumberSuffix,
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
-      try {
-        validationErrors.value = [];
+      validationErrors.value = [];
 
+      if (isNaN(parseInt(toValue(data.houseNumber)))) {
+        validationErrors.value.push({
+          pointer: 'houseNumber',
+          detail: 'Housenumber must be a number',
+        });
+        return;
+      }
+
+      if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
+        validationErrors.value.push({
+          pointer: 'postalCode',
+          detail: 'Postal code must be a valid NL postal code',
+        });
+        return;
+      }
+
+      try {
         // Pass values and not refs to make sure we use the current values
         await fetchAddressByPostalCode(
           toValue(data.postalCode),
