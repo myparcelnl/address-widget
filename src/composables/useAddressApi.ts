@@ -10,14 +10,16 @@ import {useApiClient} from './useApiClient';
 
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
+// State
+const addressResults: Ref<Address[] | undefined> = ref();
+const loading = ref(false);
+const abortController: Ref<AbortController | undefined> = ref();
+
 /**
- * Provides wrapper functions for the address API SDK.
+ * Provides reactive state and wrapper functions for the address API SDK.
  */
 export function useAddressApi() {
-  const addressResults: Ref<Address[] | undefined> = ref();
-  const loading = ref(false);
-  const abortController: Ref<AbortController | undefined> = ref();
-
+  // Methods
   const isProblemDetailsBadRequest = (
     error: unknown,
   ): error is ProblemDetailsBadRequest => {
@@ -31,6 +33,14 @@ export function useAddressApi() {
       problemDetails.status === 400 &&
       Array.isArray(problemDetails.errors)
     );
+  };
+
+  /**
+   * Clear any API results and loading state.
+   */
+  const resetState = () => {
+    addressResults.value = undefined;
+    loading.value = false;
   };
 
   /**
@@ -66,34 +76,16 @@ export function useAddressApi() {
       url: '/addresses',
     };
 
-    await getAddressesWithErrorHandling(params);
-  };
-
-  /**
-   * Look up an address by search query.
-   * @param searchQuery
-   * @param countryCode
-   */
-  const fetchAddressBySearchQuery = async (
-    searchQuery: MaybeRefOrGetter<string>,
-    countryCode?: MaybeRefOrGetter<Alpha2CountryCode>,
-  ) => {
-    const params: GetAddressesData = {
-      query: {
-        query: toValue(searchQuery),
-        countryCode: toValue(countryCode),
-      },
-      url: '/addresses',
-    };
-
-    await getAddressesWithErrorHandling(params);
+    return await getAddressesWithErrorHandling(params);
   };
 
   /**
    * Call the SDK `getAdresses` with standardized error handling and request aborts.
-   * @param params
    */
-  const getAddressesWithErrorHandling = async (params: GetAddressesData) => {
+  const getAddressesWithErrorHandling = async (
+    params: GetAddressesData,
+    silentAbort: boolean = true,
+  ) => {
     const {client} = useApiClient();
 
     // Abort any existing requests and create a new controller
@@ -125,7 +117,7 @@ export function useAddressApi() {
       loading.value = false;
 
       // Ignore the error if the request was aborted by us.
-      if (error === ABORT_REASON) {
+      if (silentAbort && error === ABORT_REASON) {
         console.debug(
           'Request was aborted because it did not finish in time for new input.',
         );
@@ -139,7 +131,8 @@ export function useAddressApi() {
     addressResults,
     loading,
     isProblemDetailsBadRequest,
+    resetState,
     fetchAddressByPostalCode,
-    fetchAddressBySearchQuery,
+    getAddressesWithErrorHandling,
   };
 }

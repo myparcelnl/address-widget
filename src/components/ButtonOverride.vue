@@ -16,6 +16,8 @@ function emitOverrideRequested() {
 </script>
 
 <style scoped>
+@import 'tailwindcss';
+
 button {
   @apply text-blue-500 bg-slate-100 px-3 py-2;
 }

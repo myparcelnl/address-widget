@@ -6,6 +6,7 @@ import vue from '@vitejs/plugin-vue';
 import vueDevTools from 'vite-plugin-vue-devtools';
 import {isCI} from 'ci-info';
 import dts from 'vite-plugin-dts';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vite.dev/config/
 
@@ -28,6 +29,7 @@ export default defineConfig({
       entryRoot: 'src',
       rollupTypes: true,
     }),
+    tailwindcss(),
   ],
   resolve: {
     alias: {
@@ -53,8 +55,4 @@ export default defineConfig({
       },
     },
   },
-
-  // test: {
-  //   setupFiles: [`${dirname}/../../libs/shared/src/__tests__/vitest-setup.ts`],
-  // },
 });

@@ -1,7 +1,5 @@
 <template>
-  <input
-    v-model="model"
-    type="text" />
+  <textarea v-model="model" />
 </template>
 
 <script lang="ts" setup>
@@ -11,11 +9,11 @@ const model = defineModel<string>();
 <style scoped>
 @import 'tailwindcss';
 
-input[disabled] {
+textarea[disabled] {
   @apply text-gray-500;
   @apply bg-gray-200;
 }
-input[readonly] {
+textarea[readonly] {
   @apply bg-gray-100;
 }
 </style>
