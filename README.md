@@ -94,7 +94,7 @@ import {TheAddressWidget} from '@myparcel/address-widget';
 ### Implementation
 
 The widget is a Vue component and can be used in both Vue and non-Vue projects. It is intended to be injected in an existing form, where you would need to add a collection point for the data emitted by this widget.
-The most important event emitted is `adresss-selected`, which contains the validated address data.
+The most important event emitted is `adress-selected`, which contains the validated address data.
 
 Some examples on how to listen to these events and use the emitted data:
 
