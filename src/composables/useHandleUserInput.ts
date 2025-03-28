@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
 /**
- * Contains nessecary logic for user input handling.
+ * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput(emit?: AddressSelectedEvent) {
   /* State */

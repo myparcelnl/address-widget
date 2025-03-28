@@ -1,4 +1,5 @@
 import type {Alpha2CountryCode} from '@/api-client';
+import {setLocale, type Alpha2LocaleCode, zAlpha2LocaleCode} from '@/i18n';
 import {zAlpha2CountryCode} from '@/api-client/zod.gen';
 import {reactive, ref} from 'vue';
 import {z} from 'zod';
@@ -11,6 +12,7 @@ export const zConfigObject = z.object({
   apiKey: z.string().optional(),
   apiUrl: z.string().optional(),
   country: zAlpha2CountryCode,
+  locale: zAlpha2LocaleCode,
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
@@ -18,7 +20,8 @@ export type ConfigObject = z.infer<typeof zConfigObject>;
 const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
 const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
 const country = ref<Alpha2CountryCode | undefined>('NL');
-const configuration = reactive({apiKey, apiUrl, country});
+const locale = ref<Alpha2LocaleCode | undefined>('en');
+const configuration = reactive({apiKey, apiUrl, country, locale});
 
 export function useConfig() {
   /**
@@ -52,6 +55,9 @@ export function useConfig() {
     if (validatedConfig.country) {
       country.value = validatedConfig.country;
     }
+    if (validatedConfig.locale) {
+      setLocale(validatedConfig.locale);
+    }
   }
 
   function setConfigFromWindow() {
@@ -64,6 +70,7 @@ export function useConfig() {
     apiKey,
     apiUrl,
     country,
+    locale,
     configuration,
     setConfig,
     setConfigFromWindow,

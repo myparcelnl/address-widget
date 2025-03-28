@@ -1,4 +1,8 @@
 import { createI18n } from 'vue-i18n';
+import {z} from "zod";
+
+export type Alpha2LocaleCode = 'nl' | 'en' | 'fr' | 'de';
+export const zAlpha2LocaleCode = z.enum(['nl', 'en', 'fr', 'de']).optional();
 
 const loadLocaleMessages = async (locale: string) => {
     const messages = await import(`./locales/${locale}.json`);
