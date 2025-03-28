@@ -1,0 +1,7 @@
+{
+  "validation": {
+    "houseNumber": "House number must be a number",
+    "postalCode": "Postal code must be in the format 1234AB",
+    "noAddressFound": "No address found, enter manually or try again"
+  }
+}

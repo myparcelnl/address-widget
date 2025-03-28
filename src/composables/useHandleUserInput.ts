@@ -2,17 +2,19 @@ import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
 import {useAddressData, type AddressSelectedEvent} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
+import {useI18n} from 'vue-i18n'
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
 /**
- * Contains nessecary logic for user input handling.
+ * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput(emit?: AddressSelectedEvent) {
   /* State */
 
   // Whether the user is manually entering an address.
   const isOverrideActive = ref(false);
+  const { t } = useI18n();
 
   const {
     countryCode,
@@ -50,9 +52,25 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
       houseNumberSuffix,
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
-      try {
-        validationErrors.value = [];
+      validationErrors.value = [];
 
+      if (isNaN(parseInt(toValue(data.houseNumber)))) {
+        validationErrors.value.push({
+          pointer: 'houseNumber',
+          detail: t('validation.houseNumber'),
+        });
+        return;
+      }
+
+      if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
+        validationErrors.value.push({
+          pointer: 'postalCode',
+          detail: t('validation.postalCode'),
+        });
+        return;
+      }
+
+      try {
         // Pass values and not refs to make sure we use the current values
         await fetchAddressByPostalCode(
           toValue(data.postalCode),
