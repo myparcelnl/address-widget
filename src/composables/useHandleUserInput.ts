@@ -2,7 +2,7 @@ import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
 import {useAddressData, type AddressSelectedEvent} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
-import { useI18n } from 'vue-i18n';
+import {useI18n} from 'vue-i18n'
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
