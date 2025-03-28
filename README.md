@@ -1,4 +1,4 @@
-# MyParcel Address Widget
+# MyParcel Address Widgets
 
 This package provides a UI implementation which connects with the [MyParcel Address API](https://address.api.myparcel.nl/openapi.yaml). This provides a way to easily integrate the address validation and autocomplete functionality into your webshop.
 The Address Widget is, or will be, included in our plugins and PDK. Please refer to this readme on how to include it in your own project if you don't use one of those.
