@@ -22,7 +22,10 @@ const rollupInput: InputOptions['input'] = isPreview
 const formats: LibraryFormats[] = isPreview ? ['es'] : ['es', 'umd', 'iife'];
 
 export default defineConfig({
-  base: isProd && isCI && !process.env.NETLIFY ? '/address-widget/' : '/',
+  base:
+    isProd && isCI && !process.env.NETLIFY && !process.env.CF_PAGES
+      ? '/address-widget/'
+      : '/',
   plugins: [
     vue(),
     vueDevTools(),
