@@ -11,10 +11,10 @@ export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API req
  */
 export function useHandleUserInput(emit?: AddressSelectedEvent) {
   /* State */
-  const { t } = useI18n();
 
   // Whether the user is manually entering an address.
   const isOverrideActive = ref(false);
+  const { t } = useI18n();
 
   const {
     countryCode,
