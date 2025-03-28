@@ -1,0 +1,16 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: myparcelnl/actions/pnpm-install@v4
+        with:
+          node-version: '22.x'
+
+      - run: pnpm run build

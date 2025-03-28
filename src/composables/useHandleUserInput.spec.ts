@@ -1,7 +1,7 @@
 import {useAddressData} from '@/composables/useAddressData';
 import {useAddressApi} from '@/composables/useAddressApi';
 import {useHandleUserInput} from '@/composables/useHandleUserInput';
-import {afterEach, expect, it, vi} from 'vitest';
+import {expect, it, vi} from 'vitest';
 import {toValue} from 'vue';
 
 it('handles postal code input', async () => {

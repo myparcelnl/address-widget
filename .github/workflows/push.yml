@@ -1,0 +1,41 @@
+name: On push
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+      - alpha
+
+    paths-ignore:
+      - ./**/*.md
+      - ./.idea/**
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  test:
+    needs: build
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
+
+  rebase-prs:
+    needs:
+      - test
+      - build
+    uses: ./.github/workflows/rebase-prs.yml
+    secrets: inherit
+
+  notify-on-failure:
+    needs:
+      - test
+      - build
+    if: always() && contains(needs.*.result, 'failure')
+    uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v4
+    secrets: inherit
