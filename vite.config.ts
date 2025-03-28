@@ -12,9 +12,9 @@ import tailwindcss from '@tailwindcss/vite';
 
 const isProd = process.env.NODE_ENV === 'production';
 const isPreview = process.env.GENERATE_PREVIEW_HTML === 'true';
-// const dirname = new URL('.', import.meta.url).pathname;
 
-const input: InputOptions['input'] = isPreview
+// When running the build command with GENERATE_PREVIEW_HTML=true, also generate an index.html, which is not nessecary for production library builds.
+const rollupInput: InputOptions['input'] = isPreview
   ? {'index.html': 'index.html'}
   : undefined;
 
@@ -22,6 +22,7 @@ const input: InputOptions['input'] = isPreview
 const formats: LibraryFormats[] = isPreview ? ['es'] : ['es', 'umd', 'iife'];
 
 export default defineConfig({
+  base: isProd && isCI && !process.env.NETLIFY ? '/address-widget/' : '/',
   plugins: [
     vue(),
     vueDevTools(),
@@ -47,7 +48,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['vue'],
-      input,
+      input: rollupInput,
       output: {
         globals: {
           vue: 'Vue',
