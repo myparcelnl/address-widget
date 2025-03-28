@@ -46,7 +46,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Build
-        run: GENERATE_PREVIEW_HTML=true yarn run build
+        run: GENERATE_PREVIEW_HTML=true pnpm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
