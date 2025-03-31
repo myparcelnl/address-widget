@@ -1,5 +1,5 @@
 import {MOCK_ADDRESSES} from './../../tests/mocks/data/addresses';
-import {describe, it, expect, beforeEach} from 'vitest';
+import {describe, it, expect, beforeEach, vi} from 'vitest';
 import {ref} from 'vue';
 import {useAddressApi} from './useAddressApi';
 
@@ -8,6 +8,29 @@ describe('useAddressApi', () => {
 
   beforeEach(() => {
     addressApi = useAddressApi();
+  });
+
+  it('correctly recognizes a ProblemDetailsBadRequest error', () => {
+    const error = {
+      type: 'urn:problem:validation-error',
+      status: 400,
+      errors: ['foo'],
+    };
+    const isProblemDetailsBadRequest =
+      addressApi.isProblemDetailsBadRequest(error);
+    expect(isProblemDetailsBadRequest).toBe(true);
+  });
+
+  it('correctly recognizes a non-ProblemDetailsBadRequest error', () => {
+    const error = {
+      type: 'urn:problem:not-a-validation-error',
+      status: 400,
+      errors: ['foo'],
+    };
+    expect(addressApi.isProblemDetailsBadRequest(error)).toBe(false);
+
+    const error2 = 'Something went wrong!!';
+    expect(addressApi.isProblemDetailsBadRequest(error2)).toBe(false);
   });
 
   it('should initialize with default values', () => {
@@ -102,4 +125,35 @@ describe('useAddressApi', () => {
     // but it should resolve without returning any data
     return await expect(request2).resolves.toBeUndefined();
   });
+});
+
+it('only logs the abort error as debug when silentAbort is true', async () => {
+  const {getAddressesWithErrorHandling} = useAddressApi();
+
+  const consoleSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
+
+  // Do NOT await the promise, so we can check that it gets cancelled when the second request fires
+  const request1 = getAddressesWithErrorHandling(
+    {
+      postalCode: '1234AB',
+      houseNumber: '1',
+      countryCode: 'NL',
+    },
+    true,
+  );
+  const request2 = getAddressesWithErrorHandling(
+    {
+      postalCode: '1234AB',
+      houseNumber: '13',
+      countryCode: 'NL',
+    },
+    true,
+  );
+  await request1;
+  await request2;
+
+  expect(consoleSpy).toHaveBeenCalledWith(
+    'Request was aborted because it did not finish in time for new input.',
+  );
+  consoleSpy.mockRestore();
 });

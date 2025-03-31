@@ -48,9 +48,10 @@ it('sets API errors as validation errors', async () => {
   const {handlePostalCodeInput, validationErrors} = useHandleUserInput();
 
   // Set the data
-  const {postalCode, houseNumber} = useAddressData();
+  const {postalCode, houseNumber, countryCode} = useAddressData();
   postalCode.value = '1234AB';
   houseNumber.value = '1';
+  countryCode.value = 'NL';
 
   await handlePostalCodeInput();
   expect(validationErrors.value).toEqual(['foo']);
