@@ -16,6 +16,14 @@ export default mergeConfig(
       exclude: [...configDefaults.exclude, 'e2e/**'],
       root: fileURLToPath(new URL('./', import.meta.url)),
       coverage: {
+        reporter: ['text', 'json-summary', 'json'],
+        reportOnFailure: true,
+        thresholds: {
+          lines: 80,
+          branches: 80,
+          functions: 80,
+          statements: 80,
+        },
         exclude: [
           ...coverageConfigDefaults.exclude,
           '**/*.config.ts',
