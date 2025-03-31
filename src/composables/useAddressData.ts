@@ -90,6 +90,13 @@ export function useAddressData(emit?: AddressSelectedEvent) {
     });
   });
 
+  /**
+   * Reset most of the state when the country changes.
+   */
+  watch(countryCode, () => {
+    doReset();
+  });
+
   // Emit an event whenever selectedAddress changes, as this will be relevant to watch for changes in consiming plugins/forms
   if (emit) {
     watch(selectedAddress, (address) => {

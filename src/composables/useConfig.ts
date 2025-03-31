@@ -9,8 +9,8 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
  */
 export const zConfigObject = z.object({
   apiKey: z.string().optional(),
-  apiUrl: z.string().optional(),
-  country: zAlpha2CountryCode,
+  apiUrl: z.string(),
+  country: zAlpha2CountryCode.optional(),
   appIdentifier: z.string().optional(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
@@ -31,10 +31,6 @@ export function useConfig() {
   function validateConfiguration(config: ConfigObject): ConfigObject {
     // Validate using generated zod types
     const validated = zConfigObject.parse(config);
-    // Validated config must have an apiUrl or nothing will work
-    if (!validated.apiUrl) {
-      throw new Error('API URL is required');
-    }
     return validated;
   }
 
@@ -43,18 +39,16 @@ export function useConfig() {
    * @param config
    */
   function setConfig(config: ConfigObject) {
-    const validatedConfig = validateConfiguration(config);
-
-    if (validatedConfig.apiKey) {
-      apiKey.value = validatedConfig.apiKey;
+    let validatedConfig: ConfigObject | undefined = undefined;
+    try {
+      validatedConfig = validateConfiguration(config);
+    } catch (error) {
+      console.error('Invalid configuration:', error);
     }
-    if (validatedConfig.apiUrl) {
-      apiUrl.value = validatedConfig.apiUrl;
-    }
-    if (validatedConfig.country) {
-      country.value = validatedConfig.country;
-    }
-    appIdentifier.value = validatedConfig.appIdentifier;
+    apiKey.value = validatedConfig?.apiKey || null;
+    apiUrl.value = validatedConfig?.apiUrl || null;
+    country.value = validatedConfig?.country;
+    appIdentifier.value = validatedConfig?.appIdentifier;
   }
 
   function setConfigFromWindow() {

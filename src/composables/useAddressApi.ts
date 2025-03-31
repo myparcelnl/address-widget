@@ -5,8 +5,9 @@ import {
   type ProblemDetailsBadRequest,
   getAddresses,
 } from '@/api-client';
-import {ref, toValue, type MaybeRefOrGetter, type Ref} from 'vue';
+import {ref, toValue, watch, type MaybeRefOrGetter, type Ref} from 'vue';
 import {useApiClient} from './useApiClient';
+import {useAddressData} from './useAddressData';
 
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
@@ -19,6 +20,8 @@ const abortController: Ref<AbortController | undefined> = ref();
  * Provides reactive state and wrapper functions for the address API SDK.
  */
 export function useAddressApi() {
+  const {countryCode} = useAddressData();
+
   // Methods
   const isProblemDetailsBadRequest = (
     error: unknown,
@@ -126,6 +129,13 @@ export function useAddressApi() {
       throw error;
     }
   };
+
+  /**
+   * Reset most of the API state when the country changes.
+   */
+  watch(countryCode, () => {
+    resetState();
+  });
 
   return {
     addressResults,
