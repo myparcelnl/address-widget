@@ -66,35 +66,10 @@ jobs:
 
       - uses: ./.github/actions/build
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: apps/sandbox/dist
-
       - name: 'Release'
         uses: myparcelnl/actions/semantic-release@v4
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        with:
-          token: ${{ steps.credentials.outputs.token }}
-
-  deploy:
-    needs: release
-    runs-on: ubuntu-22.04
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: myparcelnl/actions/setup-git-credentials@v4
-        id: credentials
-        with:
-          app-id: ${{ secrets.MYPARCEL_APP_ID }}
-          private-key: ${{ secrets.MYPARCEL_APP_PRIVATE_KEY }}
-
-      - uses: actions/deploy-pages@v4
-        id: deployment
         with:
           token: ${{ steps.credentials.outputs.token }}
 
