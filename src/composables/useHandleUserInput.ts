@@ -29,15 +29,6 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
   const {isProblemDetailsBadRequest, fetchAddressByPostalCode, resetState} =
     useAddressApi();
 
-  /* Methods */
-
-  /**
-   * Reset most of the state when the country changes.
-   */
-  const handleCountryChange = () => {
-    resetState();
-  };
-
   /**
    * Respond to input on postal code and house number fields with an API response when appropiate.
    * Currently, autocomplete on housenumber+postalCode is only available for NL.
@@ -98,7 +89,6 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
   };
 
   return {
-    handleCountryChange,
     handlePostalCodeInput,
     handleOverrideInput,
     validationErrors,
