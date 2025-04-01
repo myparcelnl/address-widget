@@ -231,10 +231,13 @@ import {
 const SHIPPING_ID = 'shipping-address-widget';
 const BILLING_ID = 'billing-address-widget';
 
+// Define a reusable factory function so we can have multiple apps
+const app = () => Vue.createApp(AdressWidgetApp);
+
 // Mount on shipping
-TheAddressWidget.mount(SHIPPING_ID);
+app().mount(SHIPPING_ID);
 // Mount on billing
-TheAddressWidget.mount(BILLING_ID);
+app().mount(BILLING_ID);
 
 // Listen for changes to the address
 window.addEventListener(ADDRESS_SELECTED_EVENT, (event) => {

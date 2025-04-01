@@ -4,8 +4,7 @@
 import {createApp} from 'vue';
 import App from './App.vue';
 
-const app = createApp(App);
-export default app;
+export default App;
 
 // Additional exports for typing etc.
 export * from './composables/useConfig';
