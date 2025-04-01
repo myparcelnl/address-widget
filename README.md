@@ -240,7 +240,7 @@ app().mount(SHIPPING_ID);
 app().mount(BILLING_ID);
 
 // Listen for changes to the address
-window.addEventListener(ADDRESS_SELECTED_EVENT, (event) => {
+document.addEventListener(ADDRESS_SELECTED_EVENT, (event) => {
   const address = event.detail;
   // Check which widget was changed
   if (event.target.id === SHIPPING_ID) {

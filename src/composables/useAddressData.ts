@@ -92,7 +92,7 @@ export function useAddressData(emit?: AddressSelectedEvent) {
     watch(selectedAddress, (address) => {
       emit(ADDRESS_SELECTED_EVENT, address || null);
 
-      window.dispatchEvent(
+      document.dispatchEvent(
         new CustomEvent(ADDRESS_SELECTED_EVENT, {detail: address}),
       );
     });
