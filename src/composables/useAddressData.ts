@@ -93,7 +93,9 @@ export function useAddressData(emit?: AddressSelectedEvent) {
       emit(ADDRESS_SELECTED_EVENT, address || null);
 
       document.dispatchEvent(
-        new CustomEvent(ADDRESS_SELECTED_EVENT, {detail: address}),
+        new CustomEvent(ADDRESS_SELECTED_EVENT, {
+          detail: {...address, appIdentifier: useConfig().appIdentifier},
+        }),
       );
     });
   }

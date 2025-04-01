@@ -1,51 +1,47 @@
 <template>
-  <div
-    ref="root"
-    class="myparcel-address-widget">
-    <template v-if="countryCode === 'NL'">
-      <ValidationMessages />
+  <template v-if="countryCode === 'NL'">
+    <ValidationMessages />
 
-      <FieldPostalCode
-        v-model="postalCode"
-        @input.stop="handlePostalCodeInput"></FieldPostalCode>
-      <FieldHouseNumber
-        v-model="houseNumber"
-        @input.stop="handlePostalCodeInput"></FieldHouseNumber>
-      <FieldHouseNumberSuffix
-        v-model="houseNumberSuffix"
-        @input.stop="handlePostalCodeInput"></FieldHouseNumberSuffix>
+    <FieldPostalCode
+      v-model="postalCode"
+      @input.stop="handlePostalCodeInput"></FieldPostalCode>
+    <FieldHouseNumber
+      v-model="houseNumber"
+      @input.stop="handlePostalCodeInput"></FieldHouseNumber>
+    <FieldHouseNumberSuffix
+      v-model="houseNumberSuffix"
+      @input.stop="handlePostalCodeInput"></FieldHouseNumberSuffix>
 
-      <template v-if="addressResults && addressResults?.length > 1 && !loading">
-        <FieldAddressSelect
-          :addresses="addressResults"
-          @address-select="selectAddress"></FieldAddressSelect>
-      </template>
-
-      <template v-if="isReadyForPostalCodeLookup">
-        <FieldStreet
-          v-model="street"
-          :readonly="!isOverrideActive"
-          :disabled="loading"
-          :placeholder="loading ? '...' : ''"
-          @input.stop="handleOverrideInput"></FieldStreet>
-
-        <FieldCity
-          v-model="city"
-          :readonly="!isOverrideActive"
-          :disabled="loading"
-          :placeholder="loading ? '...' : ''"
-          @input.stop="handleOverrideInput"></FieldCity>
-
-        <ButtonOverride
-          v-if="!loading && !isOverrideActive"
-          @override-requested="isOverrideActive = true"></ButtonOverride>
-      </template>
+    <template v-if="addressResults && addressResults?.length > 1 && !loading">
+      <FieldAddressSelect
+        :addresses="addressResults"
+        @address-select="selectAddress"></FieldAddressSelect>
     </template>
-  </div>
+
+    <template v-if="isReadyForPostalCodeLookup">
+      <FieldStreet
+        v-model="street"
+        :readonly="!isOverrideActive"
+        :disabled="loading"
+        :placeholder="loading ? '...' : ''"
+        @input.stop="handleOverrideInput"></FieldStreet>
+
+      <FieldCity
+        v-model="city"
+        :readonly="!isOverrideActive"
+        :disabled="loading"
+        :placeholder="loading ? '...' : ''"
+        @input.stop="handleOverrideInput"></FieldCity>
+
+      <ButtonOverride
+        v-if="!loading && !isOverrideActive"
+        @override-requested="isOverrideActive = true"></ButtonOverride>
+    </template>
+  </template>
 </template>
 
 <script setup lang="ts">
-import {ref, toValue, watch} from 'vue';
+import {toValue, watch} from 'vue';
 
 import FieldAddressSelect from '@/components/FieldAddressSelect.vue';
 import FieldPostalCode from '@/components/FieldPostalCode.vue';
@@ -58,7 +54,6 @@ import ValidationMessages from './ValidationMessages.vue';
 
 import {useAddressApi} from '@/composables/useAddressApi';
 import {
-  ADDRESS_SELECTED_EVENT,
   type AddressSelectedEvent,
   useAddressData,
 } from '@/composables/useAddressData';
@@ -72,8 +67,6 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<AddressSelectedEvent>();
-
-const root = ref<HTMLElement | null>(null);
 
 const {handlePostalCodeInput, handleOverrideInput, isOverrideActive} =
   useHandleUserInput(emit);
@@ -105,16 +98,6 @@ watch(
   },
   {immediate: true},
 );
-
-/**
- * Dispatch a vanilla JS event on the root element if the selected address changes.
- * @TODO: Deduplicate with useAddressData
- */
-watch(selectedAddress, (address) => {
-  toValue(root)?.dispatchEvent(
-    new CustomEvent(ADDRESS_SELECTED_EVENT, {detail: address}),
-  );
-});
 
 /**
  * Handle UI updates when API results change.

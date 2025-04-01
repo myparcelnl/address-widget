@@ -11,6 +11,7 @@ export const zConfigObject = z.object({
   apiKey: z.string().optional(),
   apiUrl: z.string().optional(),
   country: zAlpha2CountryCode,
+  appIdentifier: z.string().optional(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
@@ -18,6 +19,7 @@ export type ConfigObject = z.infer<typeof zConfigObject>;
 const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
 const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
 const country = ref<Alpha2CountryCode | undefined>('NL');
+const appIdentifier = ref<string | undefined>();
 const configuration = reactive({apiKey, apiUrl, country});
 
 export function useConfig() {
@@ -52,6 +54,7 @@ export function useConfig() {
     if (validatedConfig.country) {
       country.value = validatedConfig.country;
     }
+    appIdentifier.value = validatedConfig.appIdentifier;
   }
 
   function setConfigFromWindow() {
@@ -63,6 +66,7 @@ export function useConfig() {
   return {
     apiKey,
     apiUrl,
+    appIdentifier,
     country,
     configuration,
     setConfig,
