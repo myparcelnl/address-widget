@@ -6,14 +6,16 @@ it('throws an error when the api url is not set', () => {
   // Set empty config
   const {configuration} = useConfig();
   configuration.apiUrl = '';
-  expect(useApiClient).toThrowError('Cannot init API: API URL is not set');
+  expect(() => useApiClient()).toThrowError(
+    'Cannot init API: API URL is not set',
+  );
 });
 
 it('throws an error when the api key is not set and the api url is the default', () => {
   const {configuration} = useConfig();
   configuration.apiKey = '';
   configuration.apiUrl = 'https://address.api.myparcel.nl';
-  expect(useApiClient).toThrowError(
+  expect(() => useApiClient()).toThrowError(
     'An API key must be set when using the default API URL',
   );
 });

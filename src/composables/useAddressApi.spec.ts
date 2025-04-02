@@ -2,11 +2,18 @@ import {MOCK_ADDRESSES} from './../../tests/mocks/data/addresses';
 import {describe, it, expect, beforeEach, vi} from 'vitest';
 import {ref} from 'vue';
 import {useAddressApi} from './useAddressApi';
+import {useConfig} from './useConfig';
 
 describe('useAddressApi', () => {
   let addressApi: ReturnType<typeof useAddressApi>;
 
   beforeEach(() => {
+    const {setConfig} = useConfig();
+    setConfig({
+      apiUrl: 'https://address.api.myparcel.nl',
+      apiKey: 'fakeApiKey',
+      country: 'NL',
+    });
     addressApi = useAddressApi();
   });
 

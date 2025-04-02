@@ -7,7 +7,7 @@ describe('useAddressData', () => {
   const mockEmit = vi.fn();
 
   beforeEach(() => {
-    vi.spyOn(window, 'dispatchEvent');
+    vi.spyOn(document, 'dispatchEvent');
 
     addressData = useAddressData(mockEmit);
     addressData.doReset();
@@ -67,7 +67,7 @@ describe('useAddressData', () => {
     expect(mockEmit).toHaveBeenCalledWith('address-selected', address);
     // Check for the window event
     const event = new CustomEvent('address-selected', {detail: address});
-    expect(window.dispatchEvent).toHaveBeenCalledWith(event);
+    expect(document.dispatchEvent).toHaveBeenCalledWith(event);
   });
 
   it('should check if we have all the required data for a postal code lookup', () => {
