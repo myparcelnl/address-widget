@@ -1,19 +1,30 @@
 import {useConfig} from '@/composables/useConfig';
-import {it, expect} from 'vitest';
+import {it, expect, vi} from 'vitest';
 import {toValue} from 'vue';
 
-it('rejects empty config objects', () => {
+it('logs an errror but does not stop when given empty config objects', () => {
   const {setConfig} = useConfig();
-  expect(() => setConfig({})).toThrowError();
+  // Spy on the console...
+  console.error = vi.fn();
+
+  expect(() => setConfig({})).not.toThrowError();
+  // Check there is an error in console
+  expect(console.error).toHaveBeenCalledWith(
+    'Invalid configuration:',
+    expect.objectContaining({
+      message: expect.stringContaining('Required'),
+    }),
+  );
 });
 
-it('required a valid country code', () => {
+it('only sets a valid country code', () => {
   const {setConfig, country} = useConfig();
   const input = {
     apiUrl: 'https://foo-bar',
     country: 'NOTACOUNTRY',
   };
-  expect(() => setConfig(input)).toThrowError();
+  expect(() => setConfig(input)).not.toThrowError();
+  expect(toValue(country)).toBe(undefined);
 
   input.country = 'NL';
   setConfig(input);
