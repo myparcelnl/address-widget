@@ -42,6 +42,12 @@
 
 <script setup lang="ts">
 import {toValue, watch} from 'vue';
+import {useOrThrow} from '@/utils/useOrThrow';
+import {useAddressData} from '@/composables/useAddressData';
+import {useHandleUserInput} from '@/composables/useHandleUserInput';
+import {useConfig} from '@/composables/useConfig';
+import type {ConfigObject} from '@/composables/useConfig';
+import {useAddressApi} from '@/composables/useAddressApi';
 
 import FieldAddressSelect from '@/components/FieldAddressSelect.vue';
 import FieldPostalCode from '@/components/FieldPostalCode.vue';
@@ -50,26 +56,18 @@ import FieldHouseNumberSuffix from '@/components/FieldHouseNumberSuffix.vue';
 import FieldStreet from '@/components/FieldStreet.vue';
 import FieldCity from '@/components/FieldCity.vue';
 import ButtonOverride from '@/components/ButtonOverride.vue';
-import ValidationMessages from './ValidationMessages.vue';
-
-import {useAddressApi} from '@/composables/useAddressApi';
+import ValidationMessages from '@/components/ValidationMessages.vue';
 import {
+  useOutgoingEvents,
   type AddressSelectedEvent,
-  useAddressData,
-} from '@/composables/useAddressData';
-
-import {useHandleUserInput} from '@/composables/useHandleUserInput';
-import {useConfig} from '@/composables/useConfig';
-import type {ConfigObject} from '@/composables/useConfig';
+} from '@/composables/useOutgoingEvents';
 
 const props = defineProps<{
   config?: ConfigObject;
 }>();
 
-const emit = defineEmits<AddressSelectedEvent>();
-
 const {handlePostalCodeInput, handleOverrideInput, isOverrideActive} =
-  useHandleUserInput(emit);
+  useHandleUserInput();
 
 const {
   validationErrors,
@@ -82,14 +80,14 @@ const {
   selectedAddress,
   selectAddress,
   isReadyForPostalCodeLookup,
-} = useAddressData(emit);
+} = useOrThrow(useAddressData, 'useAddressData');
 
-const {addressResults, loading} = useAddressApi();
+const {addressResults, loading} = useOrThrow(useAddressApi, 'useAddressApi');
 
 /**
  * Set config whenever it changes
  */
-const {setConfig} = useConfig();
+const {setConfig} = useOrThrow(useConfig, 'useConfig');
 watch(
   () => props.config,
   (config) => {
@@ -98,6 +96,14 @@ watch(
   },
   {immediate: true},
 );
+
+/** Emit event(s) when selected address is updated */
+const {emitAddressChange} = useOutgoingEvents();
+const emit = defineEmits<AddressSelectedEvent>();
+
+watch(selectedAddress, (address) => {
+  emitAddressChange(address, emit);
+});
 
 /**
  * Handle UI updates when API results change.

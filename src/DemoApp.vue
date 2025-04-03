@@ -18,7 +18,7 @@
   </section>
 
   <section class="p-4 flex flex-col space-y-4 max-w-80">
-    <TheAddressWidget />
+    <TheAddressWidget :config="configFromJson" />
   </section>
 
   <section>
@@ -31,22 +31,21 @@
 
 <script setup="context" lang="ts">
 import './styles/base.css';
-import {ref, toValue, watch} from 'vue';
+import {computed, ref, type ComputedRef} from 'vue';
 import TheAddressWidget from './components/TheAddressWidget.vue';
-import {useAddressData} from './composables/useAddressData';
-import {useConfig} from './composables/useConfig';
+import {useProvideAddressData} from './composables/useAddressData';
+import {useProvideConfig, type ConfigObject} from './composables/useConfig';
 import BaseTextArea from './components/Base/BaseTextArea.vue';
+import {useProvideAddressApi} from '@/composables/useAddressApi';
 
-const {configuration, setConfig} = useConfig();
+// Provide global injection states, sharing data between components
+const {configuration} = useProvideConfig();
+const {selectedAddress} = useProvideAddressData();
+useProvideAddressApi();
+
 const configAsJson = ref(JSON.stringify(configuration, null, 2));
-watch(configAsJson, (newVal) => {
-  try {
-    const parsed = JSON.parse(toValue(newVal));
-    setConfig(parsed);
-  } catch (e) {
-    console.error(e);
-  }
-});
 
-const selectedAddress = useAddressData().selectedAddress;
+const configFromJson: ComputedRef<ConfigObject> = computed(() => {
+  return JSON.parse(configAsJson.value);
+});
 </script>
