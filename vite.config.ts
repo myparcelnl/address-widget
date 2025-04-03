@@ -22,6 +22,7 @@ const rollupInput: InputOptions['input'] = isPreview
 const formats: LibraryFormats[] = isPreview ? ['es'] : ['es', 'umd', 'iife'];
 
 export default defineConfig({
+  define: { 'process.env.NODE_ENV': '"development"' }, //todo remove
   base:
     isProd && isCI && !process.env.NETLIFY && !process.env.CF_PAGES
       ? '/address-widget/'
