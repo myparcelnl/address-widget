@@ -2,13 +2,15 @@ import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
 import {useAddressData, type AddressSelectedEvent} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
+import i18n from "@/i18n.ts";
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
 /**
- * Contains nessecary logic for user input handling.
+ * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput(emit?: AddressSelectedEvent) {
+  const {t} = i18n.global;
   /* State */
 
   // Whether the user is manually entering an address.
@@ -55,7 +57,7 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
       if (isNaN(parseInt(toValue(data.houseNumber)))) {
         validationErrors.value.push({
           pointer: 'houseNumber',
-          detail: 'Housenumber must be a number',
+          detail: t('validation.houseNumber'),
         });
         return;
       }
@@ -63,7 +65,7 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
       if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
         validationErrors.value.push({
           pointer: 'postalCode',
-          detail: 'Postal code must be a valid NL postal code',
+          detail: t('validation.postalCode'),
         });
         return;
       }
