@@ -23,7 +23,7 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
     const loading = ref(false);
     const abortController: Ref<AbortController | undefined> = ref();
     const {countryCode} = useOrThrow(useAddressData, 'useAddressData');
-    const {configureClient, client} = useApiClient();
+    const {client} = useApiClient();
 
     // Methods
     const isProblemDetailsBadRequest = (
@@ -81,7 +81,6 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
         },
         url: '/addresses',
       };
-      configureClient();
 
       return await getAddressesWithErrorHandling(params);
     };

@@ -1,15 +1,14 @@
 import {describe, it, expect, beforeEach, vi} from 'vitest';
-import {useAddressData} from '@/composables/useAddressData';
+import {useProvideAddressData} from './useAddressData';
 import type {Address} from '@/api-client/types.gen';
+import {withSetup} from '../../tests/withSetup';
+import {useProvideConfig} from './useConfig';
 
 describe('useAddressData', () => {
-  let addressData: ReturnType<typeof useAddressData>;
-  const mockEmit = vi.fn();
+  let addressData: ReturnType<typeof useProvideAddressData>;
 
   beforeEach(() => {
-    vi.spyOn(document, 'dispatchEvent');
-
-    addressData = useAddressData(mockEmit);
+    [[, addressData]] = withSetup(useProvideConfig, useProvideAddressData);
     addressData.doReset();
   });
 
@@ -53,21 +52,6 @@ describe('useAddressData', () => {
     expect(addressData.street.value).toBe(address.street);
     expect(addressData.city.value).toBe(address.city);
     expect(selectedAddress.value).toStrictEqual(address);
-  });
-
-  it('should emit an event when selecting an address', () => {
-    const address: Address = {
-      postalCode: '1234AB',
-      houseNumber: '1',
-      houseNumberSuffix: 'A',
-      street: 'Main St',
-      city: 'Amsterdam',
-    };
-    addressData.selectAddress(address);
-    expect(mockEmit).toHaveBeenCalledWith('address-selected', address);
-    // Check for the window event
-    const event = new CustomEvent('address-selected', {detail: address});
-    expect(document.dispatchEvent).toHaveBeenCalledWith(event);
   });
 
   it('should check if we have all the required data for a postal code lookup', () => {

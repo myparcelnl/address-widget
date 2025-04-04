@@ -11,7 +11,7 @@ import {
   type GetValidateResponse,
 } from './../../../src/api-client/types.gen';
 
-const [config, _] = withSetup(() => useProvideConfig());
+const [[config]] = withSetup(useProvideConfig);
 const baseUrl = toValue(config.apiUrl);
 
 export const handlers = [
