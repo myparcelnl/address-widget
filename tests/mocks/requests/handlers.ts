@@ -1,4 +1,8 @@
 import {toValue} from 'vue';
+import {useProvideConfig} from '@/composables/useConfig';
+import {delay, http, HttpResponse} from 'msw';
+
+import {withSetup} from '../../withSetup';
 import {MOCK_ADDRESSES} from '../data/addresses';
 import {
   type GetAddressesData,
@@ -6,10 +10,9 @@ import {
   type GetValidateData,
   type GetValidateResponse,
 } from './../../../src/api-client/types.gen';
-import {useConfig} from '@/composables/useConfig';
-import {delay, http, HttpResponse} from 'msw';
 
-const baseUrl = toValue(useConfig().apiUrl);
+const [[config]] = withSetup(useProvideConfig);
+const baseUrl = toValue(config.apiUrl);
 
 export const handlers = [
   http.all('*', async () => {

@@ -1,5 +1,6 @@
 import type {Alpha2CountryCode} from '@/api-client';
 import {zAlpha2CountryCode} from '@/api-client/zod.gen';
+import {createInjectionState} from '@vueuse/core';
 import {reactive, ref} from 'vue';
 import {z} from 'zod';
 
@@ -15,14 +16,13 @@ export const zConfigObject = z.object({
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
-// Define these refs here so they become globals (like a store)
-const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
-const apiUrl = ref<string | null>(import.meta.env.API_URL || API_URL_DIRECT);
-const country = ref<Alpha2CountryCode | undefined>('NL');
-const appIdentifier = ref<string | undefined>();
-const configuration = reactive({apiKey, apiUrl, country});
+export const [useProvideConfig, useConfig] = createInjectionState(() => {
+  const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
+  const apiUrl = ref<string>(import.meta.env.API_URL || API_URL_DIRECT);
+  const country = ref<Alpha2CountryCode | undefined>('NL');
+  const appIdentifier = ref<string | undefined>();
+  const configuration = reactive({apiKey, apiUrl, country});
 
-export function useConfig() {
   /**
    * Ensure incoming configuration is valid using zod.
    * @param config
@@ -46,7 +46,7 @@ export function useConfig() {
       console.error('Invalid configuration:', error);
     }
     apiKey.value = validatedConfig?.apiKey || null;
-    apiUrl.value = validatedConfig?.apiUrl || null;
+    apiUrl.value = validatedConfig?.apiUrl || API_URL_DIRECT;
     country.value = validatedConfig?.country;
     appIdentifier.value = validatedConfig?.appIdentifier;
   }
@@ -66,4 +66,4 @@ export function useConfig() {
     setConfig,
     setConfigFromWindow,
   };
-}
+});

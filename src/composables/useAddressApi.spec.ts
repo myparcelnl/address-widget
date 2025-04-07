@@ -1,20 +1,27 @@
 import {MOCK_ADDRESSES} from './../../tests/mocks/data/addresses';
 import {describe, it, expect, beforeEach, vi} from 'vitest';
 import {ref} from 'vue';
-import {useAddressApi} from './useAddressApi';
-import {useConfig} from './useConfig';
+import {useProvideAddressApi} from './useAddressApi';
+import {useProvideConfig} from './useConfig';
+import {withSetup} from '../../tests/withSetup';
+import {useProvideAddressData} from './useAddressData';
 
 describe('useAddressApi', () => {
-  let addressApi: ReturnType<typeof useAddressApi>;
+  let addressApi: ReturnType<typeof useProvideAddressApi>;
+  let config: ReturnType<typeof useProvideConfig>;
 
   beforeEach(() => {
-    const {setConfig} = useConfig();
-    setConfig({
+    [[config, , addressApi]] = withSetup(
+      useProvideConfig,
+      useProvideAddressData,
+      useProvideAddressApi,
+    );
+
+    config.setConfig({
       apiUrl: 'https://address.api.myparcel.nl',
       apiKey: 'fakeApiKey',
       country: 'NL',
     });
-    addressApi = useAddressApi();
   });
 
   it('correctly recognizes a ProblemDetailsBadRequest error', () => {
@@ -132,35 +139,34 @@ describe('useAddressApi', () => {
     // but it should resolve without returning any data
     return await expect(request2).resolves.toBeUndefined();
   });
-});
 
-it('only logs the abort error as debug when silentAbort is true', async () => {
-  const {getAddressesWithErrorHandling} = useAddressApi();
+  it('only logs the abort error as debug when silentAbort is true', async () => {
+    const {getAddressesWithErrorHandling} = addressApi;
+    const consoleSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
 
-  const consoleSpy = vi.spyOn(console, 'debug').mockImplementation(() => {});
+    // Do NOT await the promise, so we can check that it gets cancelled when the second request fires
+    const request1 = getAddressesWithErrorHandling(
+      {
+        postalCode: '1234AB',
+        houseNumber: '1',
+        countryCode: 'NL',
+      },
+      true,
+    );
+    const request2 = getAddressesWithErrorHandling(
+      {
+        postalCode: '1234AB',
+        houseNumber: '13',
+        countryCode: 'NL',
+      },
+      true,
+    );
+    await request1;
+    await request2;
 
-  // Do NOT await the promise, so we can check that it gets cancelled when the second request fires
-  const request1 = getAddressesWithErrorHandling(
-    {
-      postalCode: '1234AB',
-      houseNumber: '1',
-      countryCode: 'NL',
-    },
-    true,
-  );
-  const request2 = getAddressesWithErrorHandling(
-    {
-      postalCode: '1234AB',
-      houseNumber: '13',
-      countryCode: 'NL',
-    },
-    true,
-  );
-  await request1;
-  await request2;
-
-  expect(consoleSpy).toHaveBeenCalledWith(
-    'Request was aborted because it did not finish in time for new input.',
-  );
-  consoleSpy.mockRestore();
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Request was aborted because it did not finish in time for new input.',
+    );
+    consoleSpy.mockRestore();
+  });
 });

@@ -1,14 +1,15 @@
 import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
-import {useAddressData, type AddressSelectedEvent} from './useAddressData';
+import {useAddressData} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
+import {useOrThrow} from '@/utils/useOrThrow';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
 /**
  * Contains nessecary logic for user input handling.
  */
-export function useHandleUserInput(emit?: AddressSelectedEvent) {
+export function useHandleUserInput() {
   /* State */
 
   // Whether the user is manually entering an address.
@@ -24,10 +25,10 @@ export function useHandleUserInput(emit?: AddressSelectedEvent) {
     selectAddress,
     hasRequiredPostalcodeLookupAttributes,
     validationErrors,
-  } = useAddressData(emit);
+  } = useOrThrow(useAddressData, 'useAddressData');
 
   const {isProblemDetailsBadRequest, fetchAddressByPostalCode, resetState} =
-    useAddressApi();
+    useOrThrow(useAddressApi, 'useAddressApi');
 
   /**
    * Respond to input on postal code and house number fields with an API response when appropiate.
