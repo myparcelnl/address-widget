@@ -1,82 +1,147 @@
-import {useAddressData} from '@/composables/useAddressData';
-import {useAddressApi} from '@/composables/useAddressApi';
-import {useHandleUserInput} from '@/composables/useHandleUserInput';
-import {expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {toValue} from 'vue';
+import {withSetup} from '../../tests/withSetup';
+import {useProvideAddressApi} from './useAddressApi';
+import {useProvideConfig} from './useConfig';
+import {useHandleUserInput} from './useHandleUserInput';
+import {useProvideAddressData} from './useAddressData';
 
-it('handles postal code input', async () => {
-  vi.mock('@/composables/useAddressApi', async () => {
-    return {
-      useAddressApi: vi.fn().mockReturnValue({
-        fetchAddressByPostalCode: vi.fn(),
-      }),
-    };
-  });
+// Mock the `useProvideAddressApi` composable, ensure the returned functions for both provide and inject point to the same mock
+const mockFetchAddressByPostalCode = vi.hoisted(() => vi.fn());
 
-  const {handlePostalCodeInput} = useHandleUserInput();
-
-  // Set the data
-  const {postalCode, houseNumber} = useAddressData();
-  postalCode.value = '1234AB';
-  houseNumber.value = '1';
-
-  await handlePostalCodeInput();
-  const {fetchAddressByPostalCode} = useAddressApi();
-
-  expect(fetchAddressByPostalCode).toHaveBeenCalledWith(
-    toValue(postalCode),
-    toValue(houseNumber),
-    'NL',
-    undefined,
+vi.mock('@/composables/useAddressApi', async (importOriginal) => {
+  const original = await importOriginal();
+  const {useProvideConfig} = await import('./useConfig');
+  const {useProvideAddressData} = await import('./useAddressData');
+  const [[, , originalProvideAddressApi]] = withSetup(
+    useProvideConfig,
+    useProvideAddressData,
+    original.useProvideAddressApi,
   );
+
+  return {
+    useProvideAddressApi: vi.fn().mockReturnValue({
+      ...originalProvideAddressApi,
+      resetState: vi.spyOn(originalProvideAddressApi, 'resetState'),
+      fetchAddressByPostalCode: mockFetchAddressByPostalCode,
+    }),
+    useAddressApi: vi.fn().mockReturnValue({
+      ...originalProvideAddressApi,
+      resetState: vi.spyOn(originalProvideAddressApi, 'resetState'),
+      fetchAddressByPostalCode: mockFetchAddressByPostalCode,
+    }),
+  };
 });
 
-it('sets API errors as validation errors', async () => {
-  vi.mock('@/composables/useAddressApi', async () => {
-    return {
-      useAddressApi: vi.fn().mockReturnValue({
-        isProblemDetailsBadRequest: vi.fn().mockReturnValue(true),
-        fetchAddressByPostalCode: vi.fn().mockRejectedValue({
-          type: 'urn:problem:validation-error',
-          status: 400,
-          errors: ['foo'],
-        }),
-      }),
-    };
+describe('useHandleUserInput', () => {
+  let addressData: ReturnType<typeof useProvideAddressData>;
+  let addressApi: ReturnType<typeof useProvideAddressApi>;
+  let userInput: ReturnType<typeof useHandleUserInput>;
+
+  beforeEach(() => {
+    [[, addressData, addressApi, userInput]] = withSetup(
+      useProvideConfig,
+      useProvideAddressData,
+      useProvideAddressApi,
+      useHandleUserInput,
+    );
   });
 
-  const {handlePostalCodeInput, validationErrors} = useHandleUserInput();
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
-  // Set the data
-  const {postalCode, houseNumber, countryCode} = useAddressData();
-  postalCode.value = '1234AB';
-  houseNumber.value = '1';
-  countryCode.value = 'NL';
+  it('handles postal code input', async () => {
+    const {fetchAddressByPostalCode} = addressApi;
+    const {postalCode, houseNumber} = addressData;
+    const {handlePostalCodeInput} = userInput;
 
-  await handlePostalCodeInput();
-  expect(validationErrors.value).toEqual(['foo']);
-});
+    // Set the data
+    postalCode.value = '1234AB';
+    houseNumber.value = '1';
 
-it('handles override input', () => {
-  const {isOverrideActive, handleOverrideInput} = useHandleUserInput();
-  isOverrideActive.value = true;
+    await handlePostalCodeInput();
 
-  // Check the selected address changes whenever address data changes when override is active
-  const {selectAddress, selectedAddress} = useAddressData();
-  const address = {
-    postalCode: '1234AB',
-    houseNumber: '1',
-    houseNumberSuffix: 'A',
-    street: 'Main St',
-    city: 'Amsterdam',
-  };
-  selectAddress(address);
+    // expect(fetchAddressByPostalCode).toHaveBeenCalledOnce();
+    expect(fetchAddressByPostalCode).toHaveBeenCalledWith(
+      toValue(postalCode),
+      toValue(houseNumber),
+      'NL',
+      undefined,
+    );
+  });
 
-  // Change some data
-  const {street} = useAddressData();
-  street.value = 'Some Street';
-  handleOverrideInput();
+  it('sets API errors as validation errors', async () => {
+    vi.mocked(addressApi.fetchAddressByPostalCode).mockRejectedValue({
+      type: 'urn:problem:validation-error',
+      status: 400,
+      errors: ['foo'],
+    });
 
-  // Verify the selected address changed
-  expect(selectedAddress.value.street).toEqual(street.value);
+    const {handlePostalCodeInput, validationErrors} = userInput;
+
+    // Set the data
+    const {postalCode, houseNumber, countryCode} = addressData;
+    postalCode.value = '1234AB';
+    houseNumber.value = '1';
+    countryCode.value = 'NL';
+
+    await handlePostalCodeInput();
+    expect(validationErrors.value).toEqual(['foo']);
+  });
+
+  it('re-throws non-validation errors', async () => {
+    vi.mocked(addressApi.fetchAddressByPostalCode).mockRejectedValue({
+      status: 500,
+      errors: ['foo'],
+    });
+
+    const {handlePostalCodeInput, validationErrors} = userInput;
+
+    // Set the data
+    const {postalCode, houseNumber, countryCode} = addressData;
+    postalCode.value = '1234AB';
+    houseNumber.value = '1';
+    countryCode.value = 'NL';
+
+    await expect(handlePostalCodeInput).rejects.toThrow();
+    expect(validationErrors.value).toEqual([]);
+  });
+
+  it('resets validation state when no postal code or house number is provided', async () => {
+    const {resetState} = addressApi;
+    const {handlePostalCodeInput} = userInput;
+    const {postalCode, houseNumber} = addressData;
+    const {validationErrors} = userInput;
+
+    postalCode.value = '';
+    houseNumber.value = '';
+    await handlePostalCodeInput();
+    expect(validationErrors.value).toEqual([]);
+    expect(resetState).toHaveBeenCalled();
+  });
+
+  it('handles override input', () => {
+    const {isOverrideActive, handleOverrideInput} = userInput;
+    isOverrideActive.value = true;
+
+    // Check the selected address changes whenever address data changes when override is active
+    const {selectAddress, selectedAddress} = addressData;
+    const address = {
+      postalCode: '1234AB',
+      houseNumber: '1',
+      houseNumberSuffix: 'A',
+      street: 'Main St',
+      city: 'Amsterdam',
+    };
+    selectAddress(address);
+
+    // Change some data
+    const {street} = addressData;
+    street.value = 'Some Street';
+    handleOverrideInput();
+
+    // Verify the selected address changed
+    expect(selectedAddress.value.street).toEqual(street.value);
+  });
 });
