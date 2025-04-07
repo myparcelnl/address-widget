@@ -34,6 +34,32 @@ yarn add @myparcel/address-widget
 
 ### Configuration
 
+#### Using events
+
+Even though you can initialize the config using the methods below, you will probably need to update some information in the widget after it has been initialized.
+
+You can dispatch the `CONFIGURATION_UPDATE_EVENT` from your code whenever something in your application changes. This will update the widget with the new configuration.
+
+Note that you should always dispatch a full config object, not just the changed properties.
+
+```js
+import {CONFIGURATION_UPDATE_EVENT} from '@myparcel/address-widget';
+
+const myConfig = {
+  apiUrl: 'https://my-webshop.nl/proxy-api',
+}
+
+changeCountry = (country) => {
+  const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
+    detail: {
+      ...myConfig
+      country,
+    },
+  });
+  document.dispatchEvent(event);
+};
+```
+
 #### Window Object
 
 If you consume the widget via a script tag, you can pass the configuration via the `window` object. You currently cannot choose a country within the widget itself, you need to pass it as a configuration option. When the country is not set, the widget will default to the Netherlands. Other countries are not supported at this time and setting them will hide the widget.

@@ -61,6 +61,7 @@ import {
   useOutgoingEvents,
   type AddressSelectedEvent,
 } from '@/composables/useOutgoingEvents';
+import {useIncomingEvents} from '@/composables/useIncomingEvents';
 
 const props = defineProps<{
   config?: ConfigObject;
@@ -96,6 +97,9 @@ watch(
   },
   {immediate: true},
 );
+
+// Listen for explicit changes through events
+useIncomingEvents();
 
 /** Emit event(s) when selected address is updated */
 const {emitAddressChange} = useOutgoingEvents();
