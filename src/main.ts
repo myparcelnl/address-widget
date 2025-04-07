@@ -3,8 +3,9 @@
  */
 import App from './App.vue';
 import {ADDRESS_SELECTED_EVENT} from './composables/useOutgoingEvents';
+import {CONFIGURATION_UPDATE_EVENT} from './composables/useIncomingEvents';
 
 export default App;
 
 // Additional exports for typing etc.
-export {ADDRESS_SELECTED_EVENT};
+export {ADDRESS_SELECTED_EVENT, CONFIGURATION_UPDATE_EVENT};
