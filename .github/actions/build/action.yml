@@ -1,0 +1,14 @@
+name: 'Build'
+description: 'Build the project'
+
+runs:
+  using: 'composite'
+  steps:
+    # - name: 'Import translations'
+    #   shell: bash
+    #   run: |
+    #     pnpm run translations:import
+
+    - name: 'Build'
+      run: pnpm run build
+      shell: bash

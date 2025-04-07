@@ -32,22 +32,16 @@ jobs:
       - uses: myparcelnl/actions/has-refs-between@v4
         id: has-refs
 
-  build:
-    needs: prepare
-    if: inputs.force == 'true' || needs.prepare.outputs.has-refs == 'true'
-    uses: ./.github/workflows/build.yml
-    secrets: inherit
-
   test:
-    needs: build
+    needs: prepare
     uses: ./.github/workflows/test.yml
     secrets: inherit
 
   release:
     runs-on: ubuntu-22.04
     needs:
+      - prepare
       - test
-      - build
     steps:
       - uses: myparcelnl/actions/setup-git-credentials@v4
         id: credentials
@@ -81,7 +75,6 @@ jobs:
   notify-on-failure:
     needs:
       - test
-      - build
       - release
       - rebase-prs
     if: always() && contains(needs.*.result, 'failure')

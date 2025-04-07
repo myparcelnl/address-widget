@@ -13,4 +13,4 @@ jobs:
         with:
           node-version: '22.x'
 
-      - run: pnpm run build
+      - uses: ./.github/actions/build
