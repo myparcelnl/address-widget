@@ -1,4 +1,4 @@
-import {describe, it, expect, beforeEach, vi} from 'vitest';
+import {describe, it, expect, beforeEach} from 'vitest';
 import {useProvideAddressData} from './useAddressData';
 import type {Address} from '@/api-client/types.gen';
 import {withSetup} from '../../tests/withSetup';
