@@ -5,7 +5,8 @@
 <script setup lang="ts">
 import TheAddressWidget from '@/components/TheAddressWidget.vue';
 import {useProvideAddressApi} from '@/composables/useAddressApi';
-import {useProvideConfig, useProvideAddressData} from '@/main';
+import {useProvideAddressData} from '@/composables/useAddressData';
+import {useProvideConfig} from '@/composables/useConfig';
 // Provide global injection states, sharing data between components
 useProvideConfig();
 useProvideAddressData();
