@@ -1,4 +1,3 @@
-import {useConfig} from '@/composables/useConfig';
 import {describe} from 'node:test';
 import {it, expect, vi, beforeEach} from 'vitest';
 import {toValue} from 'vue';
