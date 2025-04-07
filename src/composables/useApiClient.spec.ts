@@ -42,7 +42,7 @@ describe('useApiClient', () => {
     );
   });
 
-  it('does not an error when the api key is not set and the api url is the default', async () => {
+  it('does not throw an error when the api key is not set and the api url is the default', async () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const {configuration} = config;
