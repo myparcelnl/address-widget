@@ -31,7 +31,8 @@ export default defineConfig({
     vueDevTools(),
     dts({
       entryRoot: 'src',
-      rollupTypes: true,
+      rollupTypes: false,
+      insertTypesEntry: true,
     }),
     tailwindcss(),
   ],
