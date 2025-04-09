@@ -17,8 +17,8 @@ export const zConfigObject = z.object({
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
 export const [useProvideConfig, useConfig] = createInjectionState(() => {
-  const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
-  const apiUrl = ref<string>(import.meta.env.API_URL || API_URL_DIRECT);
+  const apiKey = ref<string | null>();
+  const apiUrl = ref<string>(API_URL_DIRECT);
   const country = ref<Alpha2CountryCode | undefined>();
   const appIdentifier = ref<string | undefined>();
   const configuration = reactive({apiKey, apiUrl, country, appIdentifier});

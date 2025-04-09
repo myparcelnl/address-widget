@@ -325,10 +325,6 @@ to use / install it, is by enabling corepack: `corepack enable`, after running `
 2. `corepack enable`
 3. `pnpm i`
 
-### Prepare
-
-1. Copy the `.env.example` file to `.env` and fill in the values.
-
 ### Setup
 
 1. Run `pnpm i` to install dependencies.
