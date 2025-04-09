@@ -10,19 +10,42 @@ describe('useConfig', () => {
     [[config]] = withSetup(useProvideConfig);
   });
 
-  it('logs an errror but does not stop when given empty config objects', () => {
+  it('retains values when given empty config objects', () => {
     const {setConfig} = config;
     // Spy on the console...
     console.error = vi.fn();
 
+    setConfig({country: 'DK'});
+    expect(toValue(config.country)).toBe('DK');
+
     expect(() => setConfig({})).not.toThrowError();
-    // Check there is an error in console
-    expect(console.error).toHaveBeenCalledWith(
-      'Invalid configuration:',
-      expect.objectContaining({
-        message: expect.stringContaining('Required'),
-      }),
-    );
+    expect(toValue(config.country)).toBe('DK');
+  });
+
+  it('retains values when given empty partial config objects', () => {
+    const {setConfig} = config;
+    // Spy on the console...
+    console.error = vi.fn();
+
+    setConfig({country: 'DK'});
+    expect(toValue(config.country)).toBe('DK');
+    expect(toValue(config.apiKey)).toBeUndefined();
+
+    expect(() => setConfig({apiKey: 'FUBAR'})).not.toThrowError();
+    expect(toValue(config.country)).toBe('DK');
+    expect(toValue(config.apiKey)).toBe('FUBAR');
+  });
+
+  it('allows emptying optional config', () => {
+    const {setConfig} = config;
+    // Spy on the console...
+    console.error = vi.fn();
+
+    setConfig({apiKey: 'ABCD'});
+    expect(toValue(config.apiKey)).toBe('ABCD');
+
+    expect(() => setConfig({apiKey: null})).not.toThrowError();
+    expect(toValue(config.apiKey)).toBeNull();
   });
 
   it('only sets a valid country code', () => {

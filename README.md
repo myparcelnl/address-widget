@@ -40,7 +40,7 @@ Even though you can initialize the config using the methods below, you will prob
 
 You can dispatch the `CONFIGURATION_UPDATE_EVENT` from your code whenever something in your application changes. This will update the widget with the new configuration.
 
-Note that you should always dispatch a full config object, not just the changed properties.
+If you provide a partial config object, only the properties that are present in the object will be updated. To specifically unset a property, you can set it to `null`.
 
 ```js
 import {CONFIGURATION_UPDATE_EVENT} from '@myparcel/address-widget';
@@ -52,8 +52,35 @@ const myConfig = {
 changeCountry = (country) => {
   const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
     detail: {
+      config: {
       ...myConfig
       country,
+      }
+    },
+  });
+  document.dispatchEvent(event);
+};
+```
+
+##### App identifier
+
+In order to be able to add multiple instances of the widget on one page, you may optionally provide an appIdentifier to your config to only update that instance of it.
+
+```js
+import {CONFIGURATION_UPDATE_EVENT} from '@myparcel/address-widget';
+
+const myConfig = {
+  apiUrl: 'https://my-webshop.nl/proxy-api',
+  appIdentifier: 'my-app-identifier',
+};
+
+changeCountry = (country) => {
+  const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
+    detail: {
+      appIdentifier: myConfig.appIdentifier,
+      config: {
+        country,
+      },
     },
   });
   document.dispatchEvent(event);

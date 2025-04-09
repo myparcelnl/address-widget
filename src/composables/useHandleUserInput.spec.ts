@@ -34,17 +34,20 @@ vi.mock('@/composables/useAddressApi', async (importOriginal) => {
 });
 
 describe('useHandleUserInput', () => {
+  let config: ReturnType<typeof useProvideConfig>;
   let addressData: ReturnType<typeof useProvideAddressData>;
   let addressApi: ReturnType<typeof useProvideAddressApi>;
   let userInput: ReturnType<typeof useHandleUserInput>;
 
   beforeEach(() => {
-    [[, addressData, addressApi, userInput]] = withSetup(
+    [[config, addressData, addressApi, userInput]] = withSetup(
       useProvideConfig,
       useProvideAddressData,
       useProvideAddressApi,
       useHandleUserInput,
     );
+
+    config.country.value = 'NL';
   });
 
   afterEach(() => {

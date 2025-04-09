@@ -9,19 +9,19 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
  * Provides configuration for the API client, both through the environment and window object.
  */
 export const zConfigObject = z.object({
-  apiKey: z.string().optional(),
-  apiUrl: z.string(),
+  apiKey: z.string().optional().nullable(),
+  apiUrl: z.string().optional(),
   country: zAlpha2CountryCode.optional(),
-  appIdentifier: z.string().optional(),
+  appIdentifier: z.string().optional().nullable(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
 export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const apiKey = ref<string | null>(import.meta.env.VITE_API_KEY);
   const apiUrl = ref<string>(import.meta.env.API_URL || API_URL_DIRECT);
-  const country = ref<Alpha2CountryCode | undefined>('NL');
+  const country = ref<Alpha2CountryCode | undefined>();
   const appIdentifier = ref<string | undefined>();
-  const configuration = reactive({apiKey, apiUrl, country});
+  const configuration = reactive({apiKey, apiUrl, country, appIdentifier});
 
   /**
    * Ensure incoming configuration is valid using zod.
@@ -45,10 +45,22 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     } catch (error) {
       console.error('Invalid configuration:', error);
     }
-    apiKey.value = validatedConfig?.apiKey || null;
-    apiUrl.value = validatedConfig?.apiUrl || API_URL_DIRECT;
-    country.value = validatedConfig?.country;
-    appIdentifier.value = validatedConfig?.appIdentifier;
+
+    /**
+     * If the config was never specified or invalid, don't set it.
+     */
+    if (validatedConfig?.apiKey !== undefined) {
+      apiKey.value = validatedConfig.apiKey;
+    }
+    if (validatedConfig?.apiUrl !== undefined) {
+      apiUrl.value = validatedConfig.apiUrl;
+    }
+    if (validatedConfig?.country !== undefined) {
+      country.value = validatedConfig.country;
+    }
+    if (validatedConfig?.appIdentifier !== undefined) {
+      appIdentifier.value = validatedConfig.appIdentifier;
+    }
   }
 
   function setConfigFromWindow() {
