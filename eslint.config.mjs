@@ -13,7 +13,7 @@ export default ts.config(
       "**/tsconfig.json",
       "**/tsconfig.base.json",
       "**/.eslintrc.cjs",
-      "release.config.js"
+      "release.config.cjs"
     ],
   },
   js.configs.recommended,

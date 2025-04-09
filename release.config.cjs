@@ -12,21 +12,12 @@ const mainConfig = require('@myparcel/semantic-release-config');
  */
 module.exports = {
   ...mainConfig,
-  extends: 'semantic-release-monorepo',
   tagFormat: 'v${version}',
   plugins: [
     addCommitAnalyzerPlugin(),
     addGitHubActionsOutputPlugin(),
     addReleaseNotesGeneratorPlugin(),
     addChangelogPlugin(),
-
-    /*
-     * Includes npm and git functionality
-     */
-    [
-      '@myparcel-do/semantic-release-plugin'
-    ],
-
     addGitHubPlugin(),
   ],
 };
