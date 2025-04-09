@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.2.1 (2025-04-09)</small>
+
+- build: export most types for vite-plugin-dts ([5e48854](https://github.com/myparcelnl/address-widget/commit/5e48854))
+
 ## 1.2.0 (2025-04-09)
 
 - ci: commit changelog when releasing ([a88e5af](https://github.com/myparcelnl/address-widget/commit/a88e5af))
