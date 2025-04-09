@@ -7,7 +7,7 @@ import {useOrThrow} from '@/utils/useOrThrow';
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
 /**
- * Contains nessecary logic for user input handling.
+ * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput() {
   /* State */
