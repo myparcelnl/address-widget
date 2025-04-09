@@ -20,7 +20,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const apiKey = ref<string | null>();
   const apiUrl = ref<string>(API_URL_DIRECT);
   const country = ref<Alpha2CountryCode | undefined>();
-  const appIdentifier = ref<string | undefined>();
+  const appIdentifier = ref<string | undefined | null>();
   const configuration = reactive({apiKey, apiUrl, country, appIdentifier});
 
   /**
