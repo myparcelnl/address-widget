@@ -21,7 +21,7 @@ module.exports = {
     addReleaseNotesGeneratorPlugin(),
     addChangelogPlugin(),
     addNpmPlugin(),
-    addGitHubPlugin(),
-    addGitPlugin()
+    addGitPlugin(),
+    addGitHubPlugin()
   ],
 };
