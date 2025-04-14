@@ -3,6 +3,11 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 1.3.0 (2025-04-14)
+
+- feat: allow providing css class names through config ([092bdae](https://github.com/myparcelnl/address-widget/commit/092bdae))
+- feat: provide unique names and ids for form fields ([9f137e0](https://github.com/myparcelnl/address-widget/commit/9f137e0))
+
 ## <small>1.2.1 (2025-04-09)</small>
 
 - build: export most types for vite-plugin-dts ([5e48854](https://github.com/myparcelnl/address-widget/commit/5e48854))
