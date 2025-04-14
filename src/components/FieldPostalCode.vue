@@ -1,10 +1,10 @@
 <template>
   <BaseFieldWrapper>
-    <label for="postalCode">Postal code</label>
+    <label :for="getFieldName()">Postal code</label>
     <BaseTextField
-      id="postalCode"
+      :id="getFieldName()"
       v-model="postalCode"
-      name="postalCode"
+      :name="getFieldName()"
       length="4"
       required
       inputmode="numeric"
@@ -15,8 +15,12 @@
 <script setup lang="ts">
 import BaseTextField from '@/components/Base/BaseTextField.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
+import {useFieldName} from '@/composables/useFieldName';
+
 defineOptions({
   inheritAttrs: false,
 });
+
+const {getFieldName} = useFieldName('postalCode');
 const postalCode = defineModel<string>();
 </script>

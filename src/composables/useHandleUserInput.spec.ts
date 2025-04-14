@@ -14,9 +14,9 @@ vi.mock('@/composables/useAddressApi', async (importOriginal) => {
   const {useProvideConfig} = await import('./useConfig');
   const {useProvideAddressData} = await import('./useAddressData');
   const [[, , originalProvideAddressApi]] = withSetup(
-    useProvideConfig,
-    useProvideAddressData,
-    original.useProvideAddressApi,
+    {composable: useProvideConfig},
+    {composable: useProvideAddressData},
+    {composable: original.useProvideAddressApi},
   );
 
   return {
@@ -41,10 +41,10 @@ describe('useHandleUserInput', () => {
 
   beforeEach(() => {
     [[config, addressData, addressApi, userInput]] = withSetup(
-      useProvideConfig,
-      useProvideAddressData,
-      useProvideAddressApi,
-      useHandleUserInput,
+      {composable: useProvideConfig},
+      {composable: useProvideAddressData},
+      {composable: useProvideAddressApi},
+      {composable: useHandleUserInput},
     );
 
     config.country.value = 'NL';

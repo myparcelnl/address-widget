@@ -10,7 +10,10 @@ import {nextTick} from 'vue';
 
 describe('useIncomingEvents', () => {
   it('should handle configuration update events', async () => {
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
 
     const event = new CustomEvent('configuration-update', {
       detail: {
@@ -36,7 +39,10 @@ describe('useIncomingEvents', () => {
       .spyOn(console, 'info')
       .mockImplementation(() => {});
 
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
     config.appIdentifier.value = 'test-app';
 
     const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
@@ -73,7 +79,10 @@ describe('useIncomingEvents', () => {
   });
 
   it('should always set config when no appIdentifier is configured', async () => {
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
 
     expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
 
@@ -91,7 +100,10 @@ describe('useIncomingEvents', () => {
   });
 
   it('should update the appIdentifier when set', async () => {
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
     config.appIdentifier.value = 'old-app';
     expect(toValue(config.appIdentifier)).toBe('old-app');
 
@@ -110,7 +122,10 @@ describe('useIncomingEvents', () => {
   });
 
   it('should reject updates without an appIdentifier, if one was configured', () => {
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
     config.appIdentifier.value = 'test-app';
 
     const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
@@ -129,7 +144,10 @@ describe('useIncomingEvents', () => {
   it('does not update when an appIdentifier is provided in the event but not in the config', () => {
     const consoleSpy = vi.spyOn(console, 'info').mockImplementation(() => {});
 
-    const [[config]] = withSetup(useProvideConfig, useIncomingEvents);
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
     expect(toValue(config.appIdentifier)).toBeUndefined();
     expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
 

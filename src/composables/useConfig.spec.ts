@@ -7,7 +7,7 @@ import {withSetup} from '../../tests/withSetup';
 describe('useConfig', () => {
   let config: ReturnType<typeof useProvideConfig>;
   beforeEach(() => {
-    [[config]] = withSetup(useProvideConfig);
+    [[config]] = withSetup({composable: useProvideConfig});
   });
 
   it('retains values when given empty config objects', () => {

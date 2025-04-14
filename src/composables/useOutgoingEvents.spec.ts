@@ -8,8 +8,8 @@ describe('useOutgoingEvents', () => {
   it('should emit and dispatch the ADDRESS_SELECTED_EVENT', () => {
     const emit = vi.fn();
     const [[config, outgoingEvents]] = withSetup(
-      useProvideConfig,
-      useOutgoingEvents,
+      {composable: useProvideConfig},
+      {composable: useOutgoingEvents},
     );
     const {emitAddressChange} = outgoingEvents;
 

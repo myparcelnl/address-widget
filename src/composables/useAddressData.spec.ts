@@ -8,7 +8,10 @@ describe('useAddressData', () => {
   let addressData: ReturnType<typeof useProvideAddressData>;
 
   beforeEach(() => {
-    [[, addressData]] = withSetup(useProvideConfig, useProvideAddressData);
+    [[, addressData]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useProvideAddressData},
+    );
     addressData.doReset();
   });
 

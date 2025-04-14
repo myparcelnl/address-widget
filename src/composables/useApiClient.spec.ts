@@ -9,7 +9,10 @@ describe('useApiClient', () => {
   let apiClient: ReturnType<typeof useApiClient>;
 
   beforeEach(() => {
-    [[config, apiClient]] = withSetup(useProvideConfig, useApiClient);
+    [[config, apiClient]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useApiClient},
+    );
   });
 
   it('logs an error when the api url is not set', async () => {

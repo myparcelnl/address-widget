@@ -12,9 +12,9 @@ describe('useAddressApi', () => {
 
   beforeEach(() => {
     [[config, , addressApi]] = withSetup(
-      useProvideConfig,
-      useProvideAddressData,
-      useProvideAddressApi,
+      {composable: useProvideConfig},
+      {composable: useProvideAddressData},
+      {composable: useProvideAddressApi},
     );
 
     config.setConfig({
