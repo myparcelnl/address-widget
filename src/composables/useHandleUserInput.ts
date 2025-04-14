@@ -2,7 +2,6 @@ import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
 import {useAddressData} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
-import i18n from "@/i18n.ts";
 import {useOrThrow} from '@/utils/useOrThrow';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
@@ -11,7 +10,7 @@ export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API req
  * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput() {
-  const {t} = i18n.global;
+  const t = (key: string) => key; // Placeholder for translation function
   /* State */
 
   // Whether the user is manually entering an address.
