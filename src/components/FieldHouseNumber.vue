@@ -1,10 +1,10 @@
 <template>
   <BaseFieldWrapper>
-    <label for="houseNumber">House number</label>
+    <label :for="getFieldName()">House number</label>
     <BaseTextField
-      id="houseNumber"
+      :id="getFieldName()"
       v-model="houseNumber"
-      name="houseNumber"
+      :name="getFieldName()"
       length="8"
       required
       inputmode="numeric"
@@ -15,8 +15,12 @@
 <script setup lang="ts">
 import BaseTextField from '@/components/Base/BaseTextField.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
+import {useFieldName} from '@/composables/useFieldName';
+
 defineOptions({
   inheritAttrs: false,
 });
+
 const houseNumber = defineModel<string>();
+const {getFieldName} = useFieldName('houseNumber');
 </script>

@@ -1,8 +1,9 @@
 <template>
   <BaseFieldWrapper>
-    <label for="addressSelect">Select the right address</label>
+    <label :for="getFieldName()">Select the right address</label>
     <BaseSelect
-      name="addressSelect"
+      :id="getFieldName()"
+      :name="getFieldName()"
       :options="addressOptions"
       @input="onSelect" />
   </BaseFieldWrapper>
@@ -13,6 +14,7 @@ import type {Address} from '@/api-client';
 import {defineEmits, computed} from 'vue';
 import BaseSelect from './Base/BaseSelect.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
+import {useFieldName} from '@/composables/useFieldName';
 defineOptions({
   inheritAttrs: false,
 });
@@ -23,6 +25,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'address-select', selectedAddress: Address): void;
 }>();
+
+const {getFieldName} = useFieldName('addressSelect');
 
 const addressOptions = computed(() => {
   return props.addresses.map((address, index) => ({
