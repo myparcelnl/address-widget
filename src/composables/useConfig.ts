@@ -8,11 +8,15 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 /**
  * Provides configuration for the API client, both through the environment and window object.
  */
+export const zClassNames = z.object({
+  fieldWrapper: z.array(z.string()).optional(),
+});
 export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
   country: zAlpha2CountryCode.optional(),
   appIdentifier: z.string().optional().nullable(),
+  classNames: zClassNames.optional(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
@@ -22,6 +26,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const country = ref<Alpha2CountryCode | undefined>();
   const appIdentifier = ref<string | undefined | null>();
   const configuration = reactive({apiKey, apiUrl, country, appIdentifier});
+  const classNames = ref<z.infer<typeof zClassNames> | undefined>();
 
   /**
    * Ensure incoming configuration is valid using zod.
@@ -75,6 +80,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     appIdentifier,
     country,
     configuration,
+    classNames,
     setConfig,
     setConfigFromWindow,
   };
