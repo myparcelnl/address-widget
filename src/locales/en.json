@@ -1,6 +1,6 @@
 {
   "validation": {
-    "houseNumber": "House number is invalid (2)",
-    "postalCode": "Postal code is invalid (2)"
+    "houseNumber": "House number is invalid.",
+    "postalCode": "Postal code is invalid."
   }
 }
