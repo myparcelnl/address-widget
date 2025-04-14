@@ -12,6 +12,7 @@ export const zClassNames = z.object({
 export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
+  locale: z.string().optional().nullable(),
   appIdentifier: z.string().optional().nullable(),
   classNames: zClassNames.optional(),
   address: zAddress.partial().optional(),
@@ -25,6 +26,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     appIdentifier: undefined,
     classNames: undefined,
     address: undefined,
+    locale: 'en',
   });
 
   /**
@@ -34,8 +36,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
    */
   function validateConfiguration(config: ConfigObject): ConfigObject {
     // Validate using generated zod types
-    const validated = zConfigObject.parse(config);
-    return validated;
+    return zConfigObject.parse(config);
   }
 
   /**
@@ -48,6 +49,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
       validatedConfig = validateConfiguration(config);
     } catch (error) {
       console.error('Invalid configuration:', error);
+      return;
     }
 
     Object.assign(configuration.value, validatedConfig);
