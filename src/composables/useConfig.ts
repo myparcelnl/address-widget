@@ -14,6 +14,7 @@ export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
   country: zAlpha2CountryCode.optional(),
+  locale: z.string().optional().nullable(),
   appIdentifier: z.string().optional().nullable(),
   classNames: zClassNames.optional(),
 });
@@ -27,6 +28,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const apiKey: InternalConfigObject['apiKey'] = ref();
   const apiUrl: InternalConfigObject['apiUrl'] = ref(API_URL_DIRECT);
   const country: InternalConfigObject['country'] = ref();
+  const locale = ref<string | undefined | null>('en'); // Default localeconst appIdentifier: InternalConfigObject['appIdentifier'] = ref();
   const appIdentifier: InternalConfigObject['appIdentifier'] = ref();
   const classNames: InternalConfigObject['classNames'] = ref();
 
@@ -34,6 +36,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     apiKey,
     apiUrl,
     country,
+    locale,
     appIdentifier,
     classNames,
   });
@@ -45,8 +48,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
    */
   function validateConfiguration(config: ConfigObject): ConfigObject {
     // Validate using generated zod types
-    const validated = zConfigObject.parse(config);
-    return validated;
+    return zConfigObject.parse(config);
   }
 
   /**
@@ -59,6 +61,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
       validatedConfig = validateConfiguration(config);
     } catch (error) {
       console.error('Invalid configuration:', error);
+      return;
     }
     Object.assign(configuration, validatedConfig);
   }
@@ -76,6 +79,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     country,
     configuration,
     classNames,
+    locale,
     setConfig,
     setConfigFromWindow,
   };

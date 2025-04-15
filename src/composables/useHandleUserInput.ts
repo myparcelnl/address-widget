@@ -2,6 +2,7 @@ import {ref, toValue} from 'vue';
 import {useDebounceFn} from '@vueuse/core';
 import {useAddressData} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
+import {useTranslation} from './useTranslation';
 import {useOrThrow} from '@/utils/useOrThrow';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
@@ -10,6 +11,7 @@ export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API req
  * Contains necessary logic for user input handling.
  */
 export function useHandleUserInput() {
+  const {t} = useTranslation();
   /* State */
 
   // Whether the user is manually entering an address.
@@ -42,9 +44,25 @@ export function useHandleUserInput() {
       houseNumberSuffix,
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
-      try {
-        validationErrors.value = [];
+      validationErrors.value = [];
 
+      if (isNaN(parseInt(toValue(data.houseNumber)))) {
+        validationErrors.value.push({
+          pointer: 'houseNumber',
+          detail: t('validation.houseNumber'),
+        });
+        return;
+      }
+
+      if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
+        validationErrors.value.push({
+          pointer: 'postalCode',
+          detail: t('validation.postalCode'),
+        });
+        return;
+      }
+
+      try {
         // Pass values and not refs to make sure we use the current values
         await fetchAddressByPostalCode(
           toValue(data.postalCode),
