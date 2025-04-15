@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useTranslation } from './useTranslation';
-import { useProvideConfig } from './useConfig';
-import { withSetup } from '../../tests/withSetup';
+import {describe, it, expect, vi, beforeEach} from 'vitest';
+import {useTranslation} from './useTranslation';
+import {useProvideConfig} from './useConfig';
+import {withSetup} from '../../tests/withSetup';
 
 vi.mock('../locales/en.json', () => ({
     default: {
@@ -30,7 +30,10 @@ describe('useTranslation', () => {
     });
 
     it('loads the default locale messages on initialization', async () => {
-        const { t, currentLocale } = useTranslation();
+        const [[{t, currentLocale}]] = withSetup(() => {
+            useProvideConfig(); // Ensure the config is provided
+            return useTranslation();
+        });
 
         // Wait for the locale to load
         await vi.dynamicImportSettled();
@@ -40,10 +43,13 @@ describe('useTranslation', () => {
     });
 
     it('loads a new locale when the locale changes', async () => {
-        const { t, currentLocale } = useTranslation();
+        const [[{t, currentLocale}]] = withSetup(() => {
+            useProvideConfig(); // Ensure the config is provided
+            return useTranslation();
+        });
 
         // Change the locale
-        config.setConfig({ locale: 'fr' });
+        config.setConfig({locale: 'fr'});
 
         // Wait for the locale to load
         await vi.dynamicImportSettled();
@@ -53,7 +59,10 @@ describe('useTranslation', () => {
     });
 
     it('returns the key if the translation is missing', async () => {
-        const { t } = useTranslation();
+        const [[{t}]] = withSetup(() => {
+            useProvideConfig(); // Ensure the config is provided
+            return useTranslation();
+        });
 
         // Wait for the locale to load
         await vi.dynamicImportSettled();
@@ -62,11 +71,15 @@ describe('useTranslation', () => {
     });
 
     it('logs an error if the locale file fails to load', async () => {
-        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-        const { t } = useTranslation();
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {
+        });
+        const [[{t}]] = withSetup(() => {
+            useProvideConfig(); // Ensure the config is provided
+            return useTranslation();
+        });
 
         // Set an invalid locale
-        config.setConfig({ locale: 'invalid' });
+        config.setConfig({locale: 'invalid'});
 
         // Wait for the locale to attempt loading
         await vi.dynamicImportSettled();
@@ -83,7 +96,10 @@ describe('useTranslation', () => {
     });
 
     it('handles nested keys in translations', async () => {
-        const { t } = useTranslation();
+        const [[{t}]] = withSetup(() => {
+            useProvideConfig(); // Ensure the config is provided
+            return useTranslation();
+        });
 
         // Wait for the locale to load
         await vi.dynamicImportSettled();
