@@ -1,5 +1,5 @@
-import { ref, watch, computed } from 'vue';
-import { useConfig } from './useConfig';
+import {ref, watch, computed} from 'vue';
+import {useConfig} from './useConfig';
 import {useOrThrow} from "@/utils/useOrThrow.ts";
 
 const messages = ref<Record<string, never>>({});
@@ -24,7 +24,7 @@ export function useTranslation() {
         if (newLocale) {
             loadLocale(newLocale);
         }
-    }, { immediate: true });
+    }, {immediate: true});
 
     // Translation function
     const t = (key: string): string => {
