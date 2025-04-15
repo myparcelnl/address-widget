@@ -29,6 +29,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const apiUrl: InternalConfigObject['apiUrl'] = ref(API_URL_DIRECT);
   const country: InternalConfigObject['country'] = ref();
   const locale = ref<string | undefined | null>('en'); // Default localeconst appIdentifier: InternalConfigObject['appIdentifier'] = ref();
+  const appIdentifier: InternalConfigObject['appIdentifier'] = ref();
   const classNames: InternalConfigObject['classNames'] = ref();
 
   const configuration = reactive<InternalConfigObject>({
