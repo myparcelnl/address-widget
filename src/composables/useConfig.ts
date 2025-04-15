@@ -1,7 +1,6 @@
-import type {Alpha2CountryCode} from '@/api-client';
 import {zAlpha2CountryCode} from '@/api-client/zod.gen';
 import {createInjectionState} from '@vueuse/core';
-import {reactive, ref} from 'vue';
+import {reactive, ref, type Ref} from 'vue';
 import {z} from 'zod';
 
 export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
@@ -20,13 +19,24 @@ export const zConfigObject = z.object({
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
+export type InternalConfigObject = {
+  [PropertyName in keyof ConfigObject]: Ref<ConfigObject[PropertyName]>;
+};
+
 export const [useProvideConfig, useConfig] = createInjectionState(() => {
-  const apiKey = ref<string | null>();
-  const apiUrl = ref<string>(API_URL_DIRECT);
-  const country = ref<Alpha2CountryCode | undefined>();
-  const appIdentifier = ref<string | undefined | null>();
-  const configuration = reactive({apiKey, apiUrl, country, appIdentifier});
-  const classNames = ref<z.infer<typeof zClassNames> | undefined>();
+  const apiKey: InternalConfigObject['apiKey'] = ref();
+  const apiUrl: InternalConfigObject['apiUrl'] = ref(API_URL_DIRECT);
+  const country: InternalConfigObject['country'] = ref();
+  const appIdentifier: InternalConfigObject['appIdentifier'] = ref();
+  const classNames: InternalConfigObject['classNames'] = ref();
+
+  const configuration = reactive<InternalConfigObject>({
+    apiKey,
+    apiUrl,
+    country,
+    appIdentifier,
+    classNames,
+  });
 
   /**
    * Ensure incoming configuration is valid using zod.
@@ -50,22 +60,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     } catch (error) {
       console.error('Invalid configuration:', error);
     }
-
-    /**
-     * If the config was never specified or invalid, don't set it.
-     */
-    if (validatedConfig?.apiKey !== undefined) {
-      apiKey.value = validatedConfig.apiKey;
-    }
-    if (validatedConfig?.apiUrl !== undefined) {
-      apiUrl.value = validatedConfig.apiUrl;
-    }
-    if (validatedConfig?.country !== undefined) {
-      country.value = validatedConfig.country;
-    }
-    if (validatedConfig?.appIdentifier !== undefined) {
-      appIdentifier.value = validatedConfig.appIdentifier;
-    }
+    Object.assign(configuration, validatedConfig);
   }
 
   function setConfigFromWindow() {

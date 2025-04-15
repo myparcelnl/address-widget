@@ -47,6 +47,11 @@ configuration.country = 'NL';
 const configAsJson = ref(JSON.stringify(configuration, null, 2));
 
 const configFromJson: ComputedRef<ConfigObject> = computed(() => {
-  return JSON.parse(configAsJson.value);
+  try {
+    return JSON.parse(configAsJson.value);
+  } catch (e) {
+    console.error('Invalid JSON:', e);
+    return configuration;
+  }
 });
 </script>
