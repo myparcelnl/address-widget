@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## <small>1.3.1 (2025-04-15)</small>
+
+- fix: could not set configuration correctly in some cases ([5e1be80](https://github.com/myparcelnl/address-widget/commit/5e1be80))
+
 ## 1.3.0 (2025-04-14)
 
 - feat: allow providing css class names through config ([092bdae](https://github.com/myparcelnl/address-widget/commit/092bdae))
