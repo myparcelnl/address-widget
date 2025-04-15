@@ -36,6 +36,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     apiKey,
     apiUrl,
     country,
+    locale,
     appIdentifier,
     classNames,
   });
