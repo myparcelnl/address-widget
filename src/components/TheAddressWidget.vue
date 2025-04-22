@@ -62,10 +62,13 @@ import {
   type AddressSelectedEvent,
 } from '@/composables/useOutgoingEvents';
 import {useIncomingEvents} from '@/composables/useIncomingEvents';
+import {useTranslation} from "@/composables/useTranslation.ts";
 
 const props = defineProps<{
   config?: ConfigObject;
 }>();
+
+const {t} = useTranslation();
 
 const {handlePostalCodeInput, handleOverrideInput, isOverrideActive} =
   useHandleUserInput();
@@ -109,6 +112,16 @@ watch(selectedAddress, (address) => {
   emitAddressChange(address, emit);
 });
 
+// Emit validation errors
+watch(validationErrors, (newErrors, oldErrors) => {
+  if (newErrors.length > (oldErrors?.length || 0)) {
+    console.warn(newErrors);
+    window.dispatchEvent(new CustomEvent('myparcel-validation-error', {
+      detail: newErrors[newErrors.length - 1],
+    }));
+  }
+}, { deep: true });
+
 /**
  * Handle UI updates when API results change.
  */
@@ -136,7 +149,7 @@ watch(addressResults, (results) => {
     // Append a validation error if no address was found
     validationErrors.value?.push({
       pointer: 'address',
-      detail: 'No address found, enter manually or try again',
+      detail: t('validation.noAddressFound'),
     });
     console.warn('No address found, enter manually or try again');
   }
