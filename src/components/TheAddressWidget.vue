@@ -115,7 +115,6 @@ watch(selectedAddress, (address) => {
 // Emit validation errors
 watch(validationErrors, (newErrors, oldErrors) => {
   if (newErrors.length > (oldErrors?.length || 0)) {
-    console.warn(newErrors);
     window.dispatchEvent(new CustomEvent('myparcel-validation-error', {
       detail: newErrors[newErrors.length - 1],
     }));
