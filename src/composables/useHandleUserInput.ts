@@ -53,7 +53,7 @@ export function useHandleUserInput() {
         return;
       }
 
-      if (!/^[0-9]{4}\s*[A-Z]{2}$/.test(toValue(data.postalCode))) {
+      if (!/^[0-9]{4}\s*[a-zA-Z]{2}$/.test(toValue(data.postalCode))) {
         validationErrors.value.push({
           pointer: 'postalCode',
           detail: t('validation.postalCode'),
