@@ -2,6 +2,6 @@
   "validation": {
     "houseNumber": "House number is invalid.",
     "postalCode": "Postal code is invalid.",
-    "noAddressfound": "No address found, enter manually or try again."
+    "noAddressFound": "No address found, enter manually or try again."
   }
 }
