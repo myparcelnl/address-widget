@@ -28,7 +28,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const apiKey: InternalConfigObject['apiKey'] = ref();
   const apiUrl: InternalConfigObject['apiUrl'] = ref(API_URL_DIRECT);
   const country: InternalConfigObject['country'] = ref();
-  const locale = ref<string | undefined | null>('en'); // Default localeconst appIdentifier: InternalConfigObject['appIdentifier'] = ref();
+  const locale = ref<string | undefined | null>('en');
   const appIdentifier: InternalConfigObject['appIdentifier'] = ref();
   const classNames: InternalConfigObject['classNames'] = ref();
 

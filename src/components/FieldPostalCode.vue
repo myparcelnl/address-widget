@@ -8,6 +8,7 @@
       length="4"
       required
       inputmode="numeric"
+      pattern="[0-9]{4}\s?[a-zA-Z]{2}"
       v-bind="$attrs" />
   </BaseFieldWrapper>
 </template>
