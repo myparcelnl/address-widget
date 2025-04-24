@@ -4,6 +4,7 @@ import {useAddressData} from './useAddressData';
 import {useAddressApi} from './useAddressApi';
 import {useTranslation} from './useTranslation';
 import {useOrThrow} from '@/utils/useOrThrow';
+import {postalCodeLookupSchema} from '@/schemas/postalCodeLookupSchema.ts';
 
 export const REQUEST_DEBOUNCE_TIME = 150; // arbitrary debounce time for API requests
 
@@ -45,19 +46,18 @@ export function useHandleUserInput() {
       houseNumberSuffix,
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
-      if (isNaN(parseInt(toValue(data.houseNumber)))) {
-        validationErrors.value.push({
-          pointer: 'houseNumber',
-          detail: t('validation.houseNumber'),
-        });
-        return;
-      }
+      const schema = postalCodeLookupSchema();
+      const result = schema.safeParse({
+        postalCode: toValue(data.postalCode),
+        houseNumber: toValue(data.houseNumber),
+      });
 
-      if (!/^[0-9]{4}\s*[a-zA-Z]{2}$/.test(toValue(data.postalCode))) {
-        validationErrors.value.push({
-          pointer: 'postalCode',
-          detail: t('validation.postalCode'),
-        });
+      if (!result.success) {
+        validationErrors.value = result.error.errors.map((err) => ({
+          pointer: err.path[0].toString(),
+          detail: t(err.message),
+        }));
+
         return;
       }
 
