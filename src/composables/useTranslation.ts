@@ -15,7 +15,7 @@ export function useTranslation() {
       messages.value = localeMessages.default;
       currentLocale.value = locale;
     } catch (error) {
-      console.error(`Failed to load locale file for ${locale}:`, error);
+      console.warn(`Failed to load locale file for ${locale}:`, error);
     }
   }
 
