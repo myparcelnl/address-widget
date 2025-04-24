@@ -36,7 +36,9 @@ yarn add @myparcel/address-widget
 
 #### Using events
 
-Even though you can initialize the config using the methods below, you will probably need to update some information in the widget after it has been initialized.
+Even though you can initialize the config using the methods below, you will probably need to update some information in the widget after it has been initialized, or react to information from it.
+
+##### Configuration update event
 
 You can dispatch the `CONFIGURATION_UPDATE_EVENT` from your code whenever something in your application changes. This will update the widget with the new configuration.
 
@@ -60,6 +62,21 @@ changeCountry = (countryCode) => {
   document.dispatchEvent(event);
 };
 ```
+
+##### Validation error event
+
+You can listen for validation errors triggered by the address widget using the `MYPARCEL_VALIDATION_ERROR_EVENT`. This event is dispatched when the user input fails validation (e.g., incomplete or incorrect address fields).
+
+```js
+import {MYPARCEL_VALIDATION_ERROR_EVENT} from '@myparcel/address-widget';
+
+window.addEventListener(MYPARCEL_VALIDATION_ERROR_EVENT, (event) => {
+  console.warn('Address validation error:', event.detail);
+  // You can use event.detail to access validation error information
+});
+```
+
+This is useful if you want to give custom feedback to users or log validation issues.
 
 ##### App identifier
 
