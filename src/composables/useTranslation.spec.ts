@@ -19,7 +19,7 @@ vi.mock('../locales/fr.json', () => ({
 
 describe('useTranslation', () => {
     it('translates keys for the default locale', async () => {
-        const [[,{t}]] = withSetup({composable: useProvideConfig},{composable: useTranslation});
+        const [[, {t}]] = withSetup({composable: useProvideConfig}, {composable: useTranslation});
 
         await vi.dynamicImportSettled();
 
@@ -43,10 +43,35 @@ describe('useTranslation', () => {
     });
 
     it('returns the key if translation is missing', async () => {
-        const [[,{t}]] = withSetup({composable: useProvideConfig},{composable: useTranslation});
+        const [[, {t}]] = withSetup({composable: useProvideConfig}, {composable: useTranslation});
 
         await vi.dynamicImportSettled();
 
         expect(t('nonexistent.key')).toBe('nonexistent.key');
+    });
+
+    it('falls back to default locale and warns if locale file fails to load', async () => {
+        vi.spyOn(console, 'warn');
+        console.warn = vi.fn();
+
+        const [[{t}]] = withSetup({
+            composable: () => {
+                const config = useProvideConfig();
+                config.setConfig({locale: 'gr'});
+                return useTranslation();
+            }
+        });
+
+        await vi.dynamicImportSettled();
+
+        expect(console.warn).toHaveBeenCalledWith(
+            'Failed to load locale file for gr:',
+            expect.any(Error)
+        );
+
+        expect(t('greeting')).toBe('Hello');
+        expect(t('farewell')).toBe('Goodbye');
+
+        vi.restoreAllMocks();
     });
 });
