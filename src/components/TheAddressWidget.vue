@@ -59,7 +59,7 @@ import ButtonOverride from '@/components/ButtonOverride.vue';
 import ValidationMessages from '@/components/ValidationMessages.vue';
 import {
   useOutgoingEvents,
-  type AddressSelectedEvent,
+  type AddressSelectedEvent, MYPARCEL_VALIDATION_ERROR_EVENT,
 } from '@/composables/useOutgoingEvents';
 import {useIncomingEvents} from '@/composables/useIncomingEvents';
 import {useTranslation} from "@/composables/useTranslation.ts";
@@ -115,7 +115,7 @@ watch(selectedAddress, (address) => {
 // Emit validation errors
 watch(validationErrors, (newErrors, oldErrors) => {
   if (newErrors.length > (oldErrors?.length || 0)) {
-    window.dispatchEvent(new CustomEvent('myparcel-validation-error', {
+    document.dispatchEvent(new CustomEvent(MYPARCEL_VALIDATION_ERROR_EVENT, {
       detail: newErrors[newErrors.length - 1],
     }));
   }

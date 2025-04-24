@@ -3,6 +3,7 @@ import type {Address} from '@/api-client';
 import {useConfig} from './useConfig';
 import {useOrThrow} from '@/utils/useOrThrow';
 
+export const MYPARCEL_VALIDATION_ERROR_EVENT = 'myparcel-validation-error';
 export const ADDRESS_SELECTED_EVENT = 'address-selected';
 export type AddressSelectedEvent = {
   (event: typeof ADDRESS_SELECTED_EVENT, address: Address | null): void;
