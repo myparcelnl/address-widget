@@ -61,7 +61,6 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
       validatedConfig = validateConfiguration(config);
     } catch (error) {
       console.error('Invalid configuration:', error);
-      return;
     }
     Object.assign(configuration, validatedConfig);
   }
