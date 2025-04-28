@@ -1,0 +1,7 @@
+{
+  "validation": {
+    "houseNumber": "Hausnummer ist ungültig.",
+    "postalCode": "Postleitzahl ist ungültig.",
+    "noAddressFound": "Keine Adresse gefunden, bitte manuell eingeben oder erneut versuchen."
+  }
+}
