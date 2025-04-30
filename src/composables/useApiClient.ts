@@ -8,28 +8,31 @@ import {toValue, watch} from 'vue';
  * Provides the API client instance with the correct configuration.
  */
 export function useApiClient() {
-  const {apiKey, apiUrl} = useOrThrow(useConfig, 'useConfig');
+  const {configuration} = useOrThrow(useConfig, 'useConfig');
 
   const configureClient = (): Client => {
-    if (!apiUrl.value?.length) {
+    if (!configuration.value.apiUrl?.length) {
       console.error('Cannot init API: API URL is not set');
       return client;
     }
 
-    if (!apiKey.value && apiUrl.value === API_URL_DIRECT) {
+    if (
+      !configuration.value.apiKey &&
+      configuration.value.apiUrl === API_URL_DIRECT
+    ) {
       console.error('An API key must be set when using the default API URL');
     }
 
     client.setConfig({
-      baseUrl: apiUrl.value,
+      baseUrl: configuration.value.apiUrl,
     });
 
-    if (toValue(apiKey)?.length) {
+    if (toValue(configuration.value.apiKey)?.length) {
       client.interceptors.request.use((request) => {
         // Send the API key as a base64 encoded bearer token as per https://developer.myparcel.nl/api-reference/05.authentication.html
         request.headers.set(
           'Authorization',
-          `bearer ${btoa(<string>toValue(apiKey))}`,
+          `bearer ${btoa(<string>configuration.value.apiKey)}`,
         );
         return request;
       });
@@ -40,11 +43,11 @@ export function useApiClient() {
 
   // Automatically update the client when the API key or URL changes
   watch(
-    [apiKey, apiUrl],
+    [() => configuration.value.apiKey, () => configuration.value.apiUrl],
     () => {
       configureClient();
     },
-    {immediate: false},
+    {immediate: true, deep: true},
   );
 
   return {

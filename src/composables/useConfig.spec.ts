@@ -11,82 +11,86 @@ describe('useConfig', () => {
   });
 
   it('retains values when given empty config objects', () => {
-    const {setConfig} = config;
+    const {setConfig, configuration} = config;
     // Spy on the console...
     console.error = vi.fn();
 
-    setConfig({country: 'DK'});
-    expect(toValue(config.country)).toBe('DK');
+    setConfig({address: {countryCode: 'DK'}});
+    expect(toValue(configuration).address.countryCode).toBe('DK');
 
     expect(() => setConfig({})).not.toThrowError();
-    expect(toValue(config.country)).toBe('DK');
+    expect(toValue(configuration).address.countryCode).toBe('DK');
   });
 
   it('retains values when given empty partial config objects', () => {
-    const {setConfig} = config;
+    const {setConfig, configuration} = config;
     // Spy on the console...
     console.error = vi.fn();
 
-    setConfig({country: 'DK'});
-    expect(toValue(config.country)).toBe('DK');
-    expect(toValue(config.apiKey)).toBeUndefined();
+    setConfig({address: {countryCode: 'DK'}});
+    expect(toValue(configuration).address.countryCode).toBe('DK');
+    expect(toValue(configuration).apiKey).toBeUndefined();
 
     expect(() => setConfig({apiKey: 'FUBAR'})).not.toThrowError();
-    expect(toValue(config.country)).toBe('DK');
-    expect(toValue(config.apiKey)).toBe('FUBAR');
+    expect(toValue(configuration).address.countryCode).toBe('DK');
+    expect(toValue(configuration).apiKey).toBe('FUBAR');
   });
 
   it('allows emptying optional config', () => {
-    const {setConfig} = config;
+    const {setConfig, configuration} = config;
     // Spy on the console...
     console.error = vi.fn();
 
     setConfig({apiKey: 'ABCD'});
-    expect(toValue(config.apiKey)).toBe('ABCD');
+    expect(toValue(configuration).apiKey).toBe('ABCD');
 
     expect(() => setConfig({apiKey: null})).not.toThrowError();
-    expect(toValue(config.apiKey)).toBeNull();
+    expect(toValue(configuration).apiKey).toBeNull();
   });
 
   it('only sets a valid country code', () => {
-    const {setConfig, country} = config;
+    const {setConfig, configuration} = config;
     const input = {
       apiUrl: 'https://foo-bar',
-      country: 'NOTACOUNTRY',
+      address: {countryCode: 'NOTACOUNTRY'},
     };
     expect(() => setConfig(input)).not.toThrowError();
-    expect(toValue(country)).toBe(undefined);
+    expect(toValue(configuration).address?.countryCode).toBe(undefined);
 
-    input.country = 'NL';
+    input.address.countryCode = 'NL';
     setConfig(input);
-    expect(toValue(country)).toBe('NL');
+    expect(toValue(configuration).address?.countryCode).toBe('NL');
   });
 
   it('sets valid data from the config object', () => {
-    const {setConfig, apiKey, apiUrl, country} = config;
+    const {setConfig, configuration} = config;
     const input = {
       apiKey: 'FUBAR',
       apiUrl: 'https://foo-bar',
-      country: 'DK',
+      address: {countryCode: 'DK'},
     };
     setConfig(input);
-    expect(toValue(apiKey)).toBe(input.apiKey);
-    expect(toValue(apiUrl)).toBe(input.apiUrl);
-    expect(toValue(country)).toBe(input.country);
+    expect(toValue(configuration).apiKey).toBe(input.apiKey);
+    expect(toValue(configuration).apiUrl).toBe(input.apiUrl);
+    expect(toValue(configuration).address.countryCode).toBe(
+      input.address.countryCode,
+    );
   });
 
   it('sets valid data from the window object', () => {
-    const {setConfigFromWindow, apiKey, apiUrl, country} = config;
+    const {setConfigFromWindow, configuration} = config;
     const input = {
       apiKey: 'FUBAR',
       apiUrl: 'https://foo-bar',
-      country: 'DK',
+      address: {countryCode: 'DK'},
     };
 
     window.MyParcelAddressConfig = input;
     setConfigFromWindow();
-    expect(toValue(apiKey)).toBe(input.apiKey);
-    expect(toValue(apiUrl)).toBe(input.apiUrl);
-    expect(toValue(country)).toBe(input.country);
+    expect(toValue(configuration).apiKey).toBe(input.apiKey);
+    expect(toValue(configuration).apiUrl).toBe(input.apiUrl);
+    expect(toValue(configuration).address.countryCode).toBe(
+      input.address.countryCode,
+    );
   });
 });

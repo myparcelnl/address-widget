@@ -26,8 +26,7 @@ export default mergeConfig(
         },
         exclude: [
           ...coverageConfigDefaults.exclude,
-          '**/*.config.ts',
-          '**/*.config.js',
+          '**/*.config.*',
           'src/DemoApp.vue',
           'src/demo.ts',
           '**/*.gen.ts',

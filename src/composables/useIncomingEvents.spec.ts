@@ -15,6 +15,7 @@ describe('useIncomingEvents', () => {
       {composable: useIncomingEvents},
     );
 
+    const configuration = config.configuration;
     const event = new CustomEvent('configuration-update', {
       detail: {
         config: {
@@ -30,8 +31,8 @@ describe('useIncomingEvents', () => {
     await nextTick();
 
     // Check the config was changed
-    expect(toValue(config.apiUrl)).toBe('https://api.example.com');
-    expect(toValue(config.appIdentifier)).toBe('test-app');
+    expect(toValue(configuration).apiUrl).toBe('https://api.example.com');
+    expect(toValue(configuration).appIdentifier).toBe('test-app');
   });
 
   it('should ignore configuration update events for different appIdentifier', async () => {
@@ -43,7 +44,9 @@ describe('useIncomingEvents', () => {
       {composable: useProvideConfig},
       {composable: useIncomingEvents},
     );
-    config.appIdentifier.value = 'test-app';
+    const configuration = config.configuration;
+
+    configuration.value.appIdentifier = 'test-app';
 
     const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
       detail: {
@@ -74,8 +77,8 @@ describe('useIncomingEvents', () => {
     await nextTick();
 
     // Check the config was not changed
-    expect(toValue(config.apiUrl)).toBe('https://api.example.com');
-    expect(toValue(config.appIdentifier)).toBe('test-app');
+    expect(toValue(configuration).apiUrl).toBe('https://api.example.com');
+    expect(toValue(configuration).appIdentifier).toBe('test-app');
   });
 
   it('should always set config when no appIdentifier is configured', async () => {
@@ -83,8 +86,8 @@ describe('useIncomingEvents', () => {
       {composable: useProvideConfig},
       {composable: useIncomingEvents},
     );
-
-    expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
+    const configuration = config.configuration;
+    expect(toValue(configuration).apiUrl).toBe(API_URL_DIRECT);
 
     document.dispatchEvent(
       new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
@@ -96,7 +99,7 @@ describe('useIncomingEvents', () => {
       }),
     );
 
-    expect(toValue(config.apiUrl)).toBe('https://api.example.com');
+    expect(toValue(configuration).apiUrl).toBe('https://api.example.com');
   });
 
   it('should update the appIdentifier when set', async () => {
@@ -104,8 +107,9 @@ describe('useIncomingEvents', () => {
       {composable: useProvideConfig},
       {composable: useIncomingEvents},
     );
-    config.appIdentifier.value = 'old-app';
-    expect(toValue(config.appIdentifier)).toBe('old-app');
+    const configuration = config.configuration;
+    configuration.value.appIdentifier = 'old-app';
+    expect(toValue(configuration).appIdentifier).toBe('old-app');
 
     document.dispatchEvent(
       new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
@@ -118,7 +122,7 @@ describe('useIncomingEvents', () => {
       }),
     );
 
-    expect(toValue(config.appIdentifier)).toBe('test-app');
+    expect(toValue(configuration).appIdentifier).toBe('test-app');
   });
 
   it('should reject updates without an appIdentifier, if one was configured', () => {
@@ -126,7 +130,8 @@ describe('useIncomingEvents', () => {
       {composable: useProvideConfig},
       {composable: useIncomingEvents},
     );
-    config.appIdentifier.value = 'test-app';
+    const configuration = config.configuration;
+    configuration.value.appIdentifier = 'test-app';
 
     const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
       detail: {
@@ -138,7 +143,7 @@ describe('useIncomingEvents', () => {
 
     document.dispatchEvent(event);
 
-    expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
+    expect(toValue(configuration).apiUrl).toBe(API_URL_DIRECT);
   });
 
   it('does not update when an appIdentifier is provided in the event but not in the config', () => {
@@ -148,8 +153,9 @@ describe('useIncomingEvents', () => {
       {composable: useProvideConfig},
       {composable: useIncomingEvents},
     );
-    expect(toValue(config.appIdentifier)).toBeUndefined();
-    expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
+    const configuration = config.configuration;
+    expect(toValue(configuration).appIdentifier).toBeUndefined();
+    expect(toValue(configuration).apiUrl).toBe(API_URL_DIRECT);
 
     const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
       detail: {
@@ -164,8 +170,8 @@ describe('useIncomingEvents', () => {
     expect(consoleSpy).toHaveBeenCalledWith(
       'Ignoring configuration update for appIdentifier my-app, current appIdentifier is undefined',
     );
-    expect(toValue(config.apiUrl)).toBe(API_URL_DIRECT);
-    expect(toValue(config.appIdentifier)).toBeUndefined();
+    expect(toValue(configuration).apiUrl).toBe(API_URL_DIRECT);
+    expect(toValue(configuration).appIdentifier).toBeUndefined();
     consoleSpy.mockRestore();
   });
 
@@ -205,5 +211,40 @@ describe('useIncomingEvents', () => {
       }),
     );
     consoleErrorSpy.mockRestore();
+  });
+
+  it('should set an address provided through configuration update', () => {
+    const [[config]] = withSetup(
+      {composable: useProvideConfig},
+      {composable: useIncomingEvents},
+    );
+    const configuration = config.configuration;
+
+    const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
+      detail: {
+        config: {
+          apiUrl: 'https://api.example.com',
+          address: {
+            postalCode: '1234AB',
+            houseNumber: '1',
+            houseNumberSuffix: 'A',
+            street: 'Main St',
+            city: 'Amsterdam',
+            countryCode: 'NL',
+          },
+        },
+      },
+    });
+
+    document.dispatchEvent(event);
+
+    expect(toValue(configuration).address).toEqual({
+      postalCode: '1234AB',
+      houseNumber: '1',
+      houseNumberSuffix: 'A',
+      street: 'Main St',
+      city: 'Amsterdam',
+      countryCode: 'NL',
+    });
   });
 });

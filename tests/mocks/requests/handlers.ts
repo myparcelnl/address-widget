@@ -12,7 +12,7 @@ import {
 } from './../../../src/api-client/types.gen';
 
 const [[config]] = withSetup({composable: useProvideConfig});
-const baseUrl = toValue(config.apiUrl);
+const baseUrl = toValue(config.configuration.value.apiUrl);
 
 export const handlers = [
   http.all('*', async () => {

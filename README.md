@@ -47,15 +47,14 @@ import {CONFIGURATION_UPDATE_EVENT} from '@myparcel/address-widget';
 
 const myConfig = {
   apiUrl: 'https://my-webshop.nl/proxy-api',
-}
+};
 
-changeCountry = (country) => {
+changeCountry = (countryCode) => {
   const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
     detail: {
       config: {
-      ...myConfig
-      country,
-      }
+        address: {countryCode},
+      },
     },
   });
   document.dispatchEvent(event);
@@ -74,12 +73,12 @@ const myConfig = {
   appIdentifier: 'my-app-identifier',
 };
 
-changeCountry = (country) => {
+changeCountry = (countryCode) => {
   const event = new CustomEvent(CONFIGURATION_UPDATE_EVENT, {
     detail: {
       appIdentifier: myConfig.appIdentifier,
       config: {
-        country,
+        address: {countryCode},
       },
     },
   });
@@ -99,7 +98,7 @@ Example:
 <script>
   window.MyParcelAddressConfig = {
     apiKey: 'MY_API_KEY',
-    country: 'NL',
+    address: {countryCode: 'NL'},
   };
 </script>
 ```
@@ -112,7 +111,7 @@ Example using a proxy server:
 <script>
   window.MyParcelAddressConfig = {
     apiUrl: 'https://your-api-proxy.com',
-    country: 'NL',
+    address: {countryCode: 'NL'},
   };
 </script>
 ```
@@ -126,7 +125,8 @@ If you include the widget in your project using a package manager, you can confi
 import {TheAddressWidget} from '@myparcel/address-widget';
 </script>
 <template>
-  <TheAddressWidget :config="{apiKey: 'MY_API_KEY', country: 'NL'}" />
+  <TheAddressWidget
+    :config="{apiKey: 'MY_API_KEY', address: {countryCode: 'NL'}}" />
 </template>
 ```
 
@@ -140,7 +140,10 @@ import {TheAddressWidget} from '@myparcel/address-widget';
 </script>
 <template>
   <TheAddressWidget
-    :config="{apiUrl: 'https://my-webshop.com/proxy-api', country: 'NL'}" />
+    :config="{
+      apiUrl: 'https://my-webshop.com/proxy-api',
+      address: {countryCode: 'NL'},
+    }" />
 </template>
 ```
 

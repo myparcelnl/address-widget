@@ -24,42 +24,31 @@ export function useHandleUserInput() {
     city,
     selectAddress,
     hasRequiredPostalcodeLookupAttributes,
-    validationErrors,
   } = useOrThrow(useAddressData, 'useAddressData');
 
-  const {isProblemDetailsBadRequest, fetchAddressByPostalCode, resetState} =
-    useOrThrow(useAddressApi, 'useAddressApi');
+  const {fetchAddressByPostalCode, resetState} = useOrThrow(
+    useAddressApi,
+    'useAddressApi',
+  );
 
   /**
    * Respond to input on postal code and house number fields with an API response when appropiate.
    * Currently, autocomplete on housenumber+postalCode is only available for NL.
    */
   const handlePostalCodeInput = useDebounceFn(async () => {
-    const data = {
-      countryCode,
-      postalCode,
-      houseNumber,
-      houseNumberSuffix,
-    };
-    if (hasRequiredPostalcodeLookupAttributes(data)) {
-      try {
-        validationErrors.value = [];
-
-        // Pass values and not refs to make sure we use the current values
-        await fetchAddressByPostalCode(
-          toValue(data.postalCode),
-          toValue(data.houseNumber),
-          toValue(data.countryCode),
-          toValue(data.houseNumberSuffix),
-        );
-      } catch (error) {
-        if (isProblemDetailsBadRequest(error)) {
-          validationErrors.value = error.errors ?? [];
-        } else {
-          // Re-throw any other error
-          throw error;
-        }
-      }
+    if (
+      hasRequiredPostalcodeLookupAttributes({
+        countryCode,
+        postalCode,
+        houseNumber,
+      })
+    ) {
+      return fetchAddressByPostalCode(
+        toValue(postalCode),
+        toValue(houseNumber),
+        toValue(countryCode),
+        toValue(houseNumberSuffix),
+      );
     } else {
       // Clear the results
       resetState();
@@ -80,8 +69,8 @@ export function useHandleUserInput() {
       selectAddress({
         street: street.value,
         city: city.value,
-        postalCode: toValue(postalData.postalCode.value),
-        houseNumber: toValue(postalData.houseNumber.value),
+        postalCode: toValue(postalData.postalCode),
+        houseNumber: toValue(postalData.houseNumber),
         houseNumberSuffix: toValue(houseNumberSuffix),
         countryCode: toValue(postalData.countryCode),
         postOfficeBox: false, // cannot be user-defined, so assume false.
@@ -92,7 +81,6 @@ export function useHandleUserInput() {
   return {
     handlePostalCodeInput,
     handleOverrideInput,
-    validationErrors,
     isOverrideActive,
   };
 }

@@ -1,5 +1,5 @@
 <template>
-  <div :class="classNames?.fieldWrapper?.join(' ')">
+  <div :class="configuration.classNames?.fieldWrapper?.join(' ')">
     <slot></slot>
   </div>
 </template>
@@ -8,5 +8,5 @@
 import {useConfig} from '@/composables/useConfig';
 import {useOrThrow} from '@/utils/useOrThrow';
 
-const {classNames} = useOrThrow(useConfig, 'useConfig');
+const {configuration} = useOrThrow(useConfig, 'useConfig');
 </script>

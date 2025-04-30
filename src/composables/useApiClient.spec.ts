@@ -20,7 +20,7 @@ describe('useApiClient', () => {
 
     // Set empty config
     const {configuration} = config;
-    configuration.apiUrl = '';
+    configuration.value.apiUrl = '';
 
     // Wait for the next tick, so the client is configured
     await nextTick();
@@ -34,8 +34,8 @@ describe('useApiClient', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const {configuration} = config;
-    configuration.apiKey = '';
-    configuration.apiUrl = 'https://address.api.myparcel.nl';
+    configuration.value.apiKey = '';
+    configuration.value.apiUrl = 'https://address.api.myparcel.nl';
 
     // Wait for the next tick, so the client is configured
     await nextTick();
@@ -49,16 +49,16 @@ describe('useApiClient', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
 
     const {configuration} = config;
-    configuration.apiKey = 'anApiKey';
-    configuration.apiUrl = 'https://address.api.myparcel.nl';
+    configuration.value.apiKey = 'anApiKey';
+    configuration.value.apiUrl = 'https://address.api.myparcel.nl';
 
     expect(console.error).toBeCalledTimes(0);
   });
 
   it('sets the base url on the client', async () => {
     const {configuration} = config;
-    configuration.apiKey = '';
-    configuration.apiUrl = 'https://foo-bar';
+    configuration.value.apiKey = '';
+    configuration.value.apiUrl = 'https://foo-bar';
 
     const {client} = apiClient;
 

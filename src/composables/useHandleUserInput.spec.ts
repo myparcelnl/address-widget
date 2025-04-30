@@ -1,37 +1,18 @@
 import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
-import {toValue} from 'vue';
+import {nextTick, toValue} from 'vue';
 import {withSetup} from '../../tests/withSetup';
 import {useProvideAddressApi} from './useAddressApi';
 import {useProvideConfig} from './useConfig';
 import {useHandleUserInput} from './useHandleUserInput';
 import {useProvideAddressData} from './useAddressData';
-
-// Mock the `useProvideAddressApi` composable, ensure the returned functions for both provide and inject point to the same mock
-const mockFetchAddressByPostalCode = vi.hoisted(() => vi.fn());
-
-vi.mock('@/composables/useAddressApi', async (importOriginal) => {
-  const original = await importOriginal();
-  const {useProvideConfig} = await import('./useConfig');
-  const {useProvideAddressData} = await import('./useAddressData');
-  const [[, , originalProvideAddressApi]] = withSetup(
-    {composable: useProvideConfig},
-    {composable: useProvideAddressData},
-    {composable: original.useProvideAddressApi},
-  );
-
-  return {
-    useProvideAddressApi: vi.fn().mockReturnValue({
-      ...originalProvideAddressApi,
-      resetState: vi.spyOn(originalProvideAddressApi, 'resetState'),
-      fetchAddressByPostalCode: mockFetchAddressByPostalCode,
-    }),
-    useAddressApi: vi.fn().mockReturnValue({
-      ...originalProvideAddressApi,
-      resetState: vi.spyOn(originalProvideAddressApi, 'resetState'),
-      fetchAddressByPostalCode: mockFetchAddressByPostalCode,
-    }),
-  };
-});
+import {server} from '../../tests/mocks/requests/node';
+import {http, HttpResponse} from 'msw';
+import {
+  GetAddressesData,
+  ProblemDetails,
+  ProblemDetailsBadRequest,
+} from '../api-client/types.gen';
+import {createInjectionState} from '@vueuse/core';
 
 describe('useHandleUserInput', () => {
   let config: ReturnType<typeof useProvideConfig>;
@@ -39,19 +20,38 @@ describe('useHandleUserInput', () => {
   let addressApi: ReturnType<typeof useProvideAddressApi>;
   let userInput: ReturnType<typeof useHandleUserInput>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
+    const [mockUseProvideAddressApi] = createInjectionState(
+      () => {
+        const original = useProvideAddressApi();
+        return {
+          ...original,
+          resetState: vi.spyOn(original, 'resetState') as unknown as () => void,
+          fetchAddressByPostalCode: vi.spyOn(
+            original,
+            'fetchAddressByPostalCode',
+          ) as unknown as ReturnType<
+            typeof useProvideAddressApi
+          >['fetchAddressByPostalCode'],
+        };
+      },
+      {injectionKey: 'useAddressApi'},
+    );
+
     [[config, addressData, addressApi, userInput]] = withSetup(
       {composable: useProvideConfig},
       {composable: useProvideAddressData},
-      {composable: useProvideAddressApi},
+      {composable: mockUseProvideAddressApi}, // we need to spy on methods returned by this composable, before it is injected with provide/inject
       {composable: useHandleUserInput},
     );
 
-    config.country.value = 'NL';
+    config.configuration.value.address = {countryCode: 'NL'};
   });
 
   afterEach(() => {
     vi.clearAllMocks();
+    vi.resetModules();
+    server.resetHandlers();
   });
 
   it('handles postal code input', async () => {
@@ -65,7 +65,6 @@ describe('useHandleUserInput', () => {
 
     await handlePostalCodeInput();
 
-    // expect(fetchAddressByPostalCode).toHaveBeenCalledOnce();
     expect(fetchAddressByPostalCode).toHaveBeenCalledWith(
       toValue(postalCode),
       toValue(houseNumber),
@@ -75,37 +74,75 @@ describe('useHandleUserInput', () => {
   });
 
   it('sets API errors as validation errors', async () => {
-    vi.mocked(addressApi.fetchAddressByPostalCode).mockRejectedValue({
-      type: 'urn:problem:validation-error',
-      status: 400,
-      errors: ['foo'],
-    });
+    const baseUrl = toValue(config.configuration.value.apiUrl);
+    const errors = [
+      {
+        detail: 'foo',
+        pointer: '/bar',
+      },
+    ];
+    server.use(
+      http.get<never, GetAddressesData['body'], ProblemDetailsBadRequest>(
+        `${baseUrl}/addresses`,
+        () => {
+          return HttpResponse.json(
+            {
+              title: 'Validation error',
+              detail: 'foo',
+              instance: '/baz',
+              type: 'urn:problem:validation-error',
+              status: 400,
+              errors,
+            },
+            {status: 400},
+          );
+        },
+      ),
+    );
 
-    const {handlePostalCodeInput, validationErrors} = userInput;
+    const {handlePostalCodeInput} = userInput;
 
     // Set the data
-    const {postalCode, houseNumber, countryCode} = addressData;
+    const {postalCode, houseNumber, countryCode, validationErrors} =
+      addressData;
     postalCode.value = '1234AB';
     houseNumber.value = '1';
     countryCode.value = 'NL';
 
     await handlePostalCodeInput();
-    expect(validationErrors.value).toEqual(['foo']);
+    await nextTick();
+
+    expect(validationErrors.value).toEqual(errors);
   });
 
   it('re-throws non-validation errors', async () => {
-    vi.mocked(addressApi.fetchAddressByPostalCode).mockRejectedValue({
-      status: 500,
-      errors: ['foo'],
-    });
-
-    const {handlePostalCodeInput, validationErrors} = userInput;
+    const {handlePostalCodeInput} = userInput;
 
     // Set the data
-    const {postalCode, houseNumber, countryCode} = addressData;
+    const {postalCode, houseNumber, countryCode, validationErrors} =
+      addressData;
     postalCode.value = '1234AB';
     houseNumber.value = '1';
     countryCode.value = 'NL';
+
+    const baseUrl = toValue(config.configuration.value.apiUrl);
+    server.use(
+      http.get<never, GetAddressesData['body'], ProblemDetails>(
+        `${baseUrl}/addresses`,
+        () => {
+          return HttpResponse.json(
+            {
+              title: 'Internal server error',
+              detail: 'foo',
+              instance: '/baz',
+              type: 'urn:problem:server',
+              status: 500,
+            },
+            {status: 500},
+          );
+        },
+      ),
+    );
 
     await expect(handlePostalCodeInput).rejects.toThrow();
     expect(validationErrors.value).toEqual([]);
@@ -115,7 +152,7 @@ describe('useHandleUserInput', () => {
     const {resetState} = addressApi;
     const {handlePostalCodeInput} = userInput;
     const {postalCode, houseNumber} = addressData;
-    const {validationErrors} = userInput;
+    const {validationErrors} = addressData;
 
     postalCode.value = '';
     houseNumber.value = '';
@@ -136,6 +173,7 @@ describe('useHandleUserInput', () => {
       houseNumberSuffix: 'A',
       street: 'Main St',
       city: 'Amsterdam',
+      countryCode: 'NL',
     };
     selectAddress(address);
 
