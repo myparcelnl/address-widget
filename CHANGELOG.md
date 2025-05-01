@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.0](https://github.com/myparcelnl/address-widget/compare/v1.4.1...v1.5.0) (2025-05-01)
+
+### :sparkles: New Features
+
+- add wrapper element with class to allow styling ([cbd5dca](https://github.com/myparcelnl/address-widget/commit/cbd5dcacdaf3387e38b4e695997096ec27975853))
+
 ## [1.4.1](https://github.com/myparcelnl/address-widget/compare/v1.4.0...v1.4.1) (2025-05-01)
 
 ## [1.4.0](https://github.com/myparcelnl/address-widget/compare/v1.3.2...v1.4.0) (2025-04-30)
