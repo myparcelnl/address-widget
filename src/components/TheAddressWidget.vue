@@ -1,5 +1,7 @@
 <template>
-  <template v-if="countryCode === 'NL'">
+  <div
+    v-if="countryCode === 'NL'"
+    class="myparcel-address-widget">
     <ValidationMessages />
 
     <FieldPostalCode
@@ -37,7 +39,7 @@
         v-if="!loading && !isOverrideActive"
         @override-requested="isOverrideActive = true"></ButtonOverride>
     </template>
-  </template>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -59,10 +61,11 @@ import ButtonOverride from '@/components/ButtonOverride.vue';
 import ValidationMessages from '@/components/ValidationMessages.vue';
 import {
   useOutgoingEvents,
-  type AddressSelectedEvent, MYPARCEL_VALIDATION_ERROR_EVENT,
+  type AddressSelectedEvent,
+  MYPARCEL_VALIDATION_ERROR_EVENT,
 } from '@/composables/useOutgoingEvents';
 import {useIncomingEvents} from '@/composables/useIncomingEvents';
-import {useTranslation} from "@/composables/useTranslation.ts";
+import {useTranslation} from '@/composables/useTranslation.ts';
 
 const props = defineProps<{
   config?: ConfigObject;
@@ -113,13 +116,19 @@ watch(selectedAddress, (address) => {
 });
 
 // Emit validation errors
-watch(validationErrors, (newErrors, oldErrors) => {
-  if (newErrors.length > (oldErrors?.length || 0)) {
-    document.dispatchEvent(new CustomEvent(MYPARCEL_VALIDATION_ERROR_EVENT, {
-      detail: newErrors[newErrors.length - 1],
-    }));
-  }
-}, { deep: true });
+watch(
+  validationErrors,
+  (newErrors, oldErrors) => {
+    if (newErrors.length > (oldErrors?.length || 0)) {
+      document.dispatchEvent(
+        new CustomEvent(MYPARCEL_VALIDATION_ERROR_EVENT, {
+          detail: newErrors[newErrors.length - 1],
+        }),
+      );
+    }
+  },
+  {deep: true},
+);
 
 /**
  * Handle UI updates when API results change.
