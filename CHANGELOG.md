@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.2](https://github.com/myparcelnl/address-widget/compare/v1.7.1...v1.7.2) (2025-05-06)
+
+### :bug: Bug Fixes
+
+- address data could be reset on first providing a full address with cc ([230fdc0](https://github.com/myparcelnl/address-widget/commit/230fdc010b2547e28846dff6c9338f1c0e85ba6f))
+
 ## [1.7.1](https://github.com/myparcelnl/address-widget/compare/v1.7.0...v1.7.1) (2025-05-06)
 
 ### :bug: Bug Fixes
