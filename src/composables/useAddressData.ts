@@ -105,7 +105,11 @@ export const [useProvideAddressData, useAddressData] = createInjectionState(
     /**
      * Reset most of the state when the country changes.
      */
-    watch(countryCode, () => {
+    watch(countryCode, (newVal, oldVal) => {
+      // Do not reset if the country was undefined before.
+      if (oldVal === undefined) {
+        return;
+      }
       doReset();
     });
 
