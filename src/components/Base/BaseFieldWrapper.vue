@@ -1,12 +1,18 @@
 <template>
-  <div :class="classNames?.fieldWrapper?.join(' ')">
+  <component
+    :is="element"
+    :class="configuration.classNames?.fieldWrapper?.join(' ')">
     <slot></slot>
-  </div>
+  </component>
 </template>
 
 <script lang="ts" setup>
+import {computed} from 'vue';
 import {useConfig} from '@/composables/useConfig';
 import {useOrThrow} from '@/utils/useOrThrow';
 
-const {classNames} = useOrThrow(useConfig, 'useConfig');
+const {configuration} = useOrThrow(useConfig, 'useConfig');
+const element = computed(
+  () => configuration.value.elements?.fieldWrapper ?? 'div',
+);
 </script>

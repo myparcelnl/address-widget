@@ -9,14 +9,13 @@ export type ConfigEventPayload = {
 };
 
 export const useIncomingEvents = () => {
-  const {setConfig, appIdentifier: configuredAppIdentifier} = useOrThrow(
-    useConfig,
-    'useConfig',
-  );
+  const {setConfig, configuration} = useOrThrow(useConfig, 'useConfig');
 
   const handleConfigurationUpdate = (
     event: CustomEvent<ConfigEventPayload>,
   ) => {
+    const configuredAppIdentifier = configuration.value.appIdentifier;
+
     // Check if the provided identifier is the same as the configured one.
     // If both are undefined, that's also fine, we assume it's not relevant.
     if (toValue(configuredAppIdentifier) !== event.detail.appIdentifier) {

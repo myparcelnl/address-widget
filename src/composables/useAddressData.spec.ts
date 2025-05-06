@@ -3,12 +3,14 @@ import {useProvideAddressData} from './useAddressData';
 import type {Address} from '@/api-client/types.gen';
 import {withSetup} from '../../tests/withSetup';
 import {useProvideConfig} from './useConfig';
+import {nextTick} from 'vue';
 
 describe('useAddressData', () => {
   let addressData: ReturnType<typeof useProvideAddressData>;
+  let config: ReturnType<typeof useProvideConfig>;
 
   beforeEach(() => {
-    [[, addressData]] = withSetup(
+    [[config, addressData]] = withSetup(
       {composable: useProvideConfig},
       {composable: useProvideAddressData},
     );
@@ -22,6 +24,24 @@ describe('useAddressData', () => {
     expect(addressData.houseNumberSuffix.value).toBeUndefined();
     expect(addressData.street.value).toBeUndefined();
     expect(addressData.city.value).toBeUndefined();
+  });
+
+  it('should initialize with config if set', async () => {
+    config.setConfig({
+      address: {
+        postalCode: '1234AB',
+        houseNumber: '1',
+        houseNumberSuffix: 'A',
+        street: 'Main St',
+        city: 'Amsterdam',
+      },
+    });
+    await nextTick();
+    expect(addressData.postalCode.value).toBe('1234AB');
+    expect(addressData.houseNumber.value).toBe('1');
+    expect(addressData.houseNumberSuffix.value).toBe('A');
+    expect(addressData.street.value).toBe('Main St');
+    expect(addressData.city.value).toBe('Amsterdam');
   });
 
   it('should reset all data', () => {

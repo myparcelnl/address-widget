@@ -11,6 +11,8 @@ import {createInjectionState} from '@vueuse/core';
 import {useApiClient} from './useApiClient';
 import {useAddressData} from './useAddressData';
 import {useOrThrow} from '@/utils/useOrThrow';
+import {useConfig} from './useConfig';
+import {isEqual} from 'lodash-es';
 
 const ABORT_REASON = new Error('Request cancelled because of new input');
 
@@ -22,7 +24,12 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
     const addressResults: Ref<Address[] | undefined> = ref();
     const loading = ref(false);
     const abortController: Ref<AbortController | undefined> = ref();
-    const {countryCode} = useOrThrow(useAddressData, 'useAddressData');
+    const {
+      countryCode,
+      validationErrors,
+      hasRequiredPostalcodeLookupAttributes,
+    } = useOrThrow(useAddressData, 'useAddressData');
+    const {configuration} = useOrThrow(useConfig, 'useConfig');
     const {client} = useApiClient();
 
     // Methods
@@ -98,6 +105,8 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
 
       try {
         loading.value = true;
+        validationErrors.value = [];
+
         const {error, response, data} = await getAddresses({
           client,
           ...params,
@@ -127,6 +136,12 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
           );
           return;
         }
+
+        if (isProblemDetailsBadRequest(error)) {
+          validationErrors.value = error.errors ?? [];
+          return;
+        }
+
         throw error;
       }
     };
@@ -138,6 +153,32 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
       resetState();
     });
 
+    /**
+     * When the address provided to config changes, override whatever was stored.
+     */
+    watch(
+      () => configuration.value.address,
+      (newAddress, oldAddress) => {
+        // Deeply compare the address object to see if it changed, as this will trigger for any config change.
+        if (isEqual(newAddress, oldAddress)) {
+          return;
+        }
+
+        if (newAddress) {
+          // Look up the address if we have a postal code and house number
+          if (hasRequiredPostalcodeLookupAttributes(newAddress)) {
+            fetchAddressByPostalCode(
+              newAddress.postalCode,
+              newAddress.houseNumber,
+              newAddress.countryCode,
+              newAddress.houseNumberSuffix,
+            );
+          }
+        }
+      },
+      {deep: true},
+    );
+
     return {
       addressResults,
       loading,
@@ -147,4 +188,5 @@ export const [useProvideAddressApi, useAddressApi] = createInjectionState(
       getAddressesWithErrorHandling,
     };
   },
+  {injectionKey: 'useAddressApi'},
 );

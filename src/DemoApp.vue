@@ -36,15 +36,15 @@ import TheAddressWidget from './components/TheAddressWidget.vue';
 import {useProvideAddressData} from './composables/useAddressData';
 import {useProvideConfig, type ConfigObject} from './composables/useConfig';
 import BaseTextArea from './components/Base/BaseTextArea.vue';
-import {useProvideAddressApi} from '@/composables/useAddressApi';
+import {useProvideAddressApi} from './composables/useAddressApi';
 
 // Provide global injection states, sharing data between components
 const {configuration} = useProvideConfig();
 const {selectedAddress} = useProvideAddressData();
 useProvideAddressApi();
 
-configuration.country = 'NL';
-const configAsJson = ref(JSON.stringify(configuration, null, 2));
+configuration.value.address = {countryCode: 'NL'};
+const configAsJson = ref(JSON.stringify(configuration.value, null, 2));
 
 const configFromJson: ComputedRef<ConfigObject> = computed(() => {
   try {

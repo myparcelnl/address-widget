@@ -20,7 +20,7 @@ describe('useAddressApi', () => {
     config.setConfig({
       apiUrl: 'https://address.api.myparcel.nl',
       apiKey: 'fakeApiKey',
-      country: 'NL',
+      address: {countryCode: 'NL'},
     });
   });
 

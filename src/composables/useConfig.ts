@@ -1,8 +1,7 @@
-import {zAlpha2CountryCode} from '@/api-client/zod.gen';
+import {zAddress} from '@/api-client/zod.gen';
 import {createInjectionState} from '@vueuse/core';
-import {reactive, ref, type Ref} from 'vue';
+import {ref} from 'vue';
 import {z} from 'zod';
-
 export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 /**
  * Provides configuration for the API client, both through the environment and window object.
@@ -10,35 +9,29 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 export const zClassNames = z.object({
   fieldWrapper: z.array(z.string()).optional(),
 });
+export const zElements = z.object({
+  fieldWrapper: z.string().optional(),
+});
 export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
-  country: zAlpha2CountryCode.optional(),
   locale: z.string().optional().nullable(),
   appIdentifier: z.string().optional().nullable(),
   classNames: zClassNames.optional(),
+  elements: zElements.optional(),
+  address: zAddress.partial().optional(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
 
-export type InternalConfigObject = {
-  [PropertyName in keyof ConfigObject]: Ref<ConfigObject[PropertyName]>;
-};
-
 export const [useProvideConfig, useConfig] = createInjectionState(() => {
-  const apiKey: InternalConfigObject['apiKey'] = ref();
-  const apiUrl: InternalConfigObject['apiUrl'] = ref(API_URL_DIRECT);
-  const country: InternalConfigObject['country'] = ref();
-  const locale = ref<string | undefined | null>('en');
-  const appIdentifier: InternalConfigObject['appIdentifier'] = ref();
-  const classNames: InternalConfigObject['classNames'] = ref();
-
-  const configuration = reactive<InternalConfigObject>({
-    apiKey,
-    apiUrl,
-    country,
-    locale,
-    appIdentifier,
-    classNames,
+  const configuration = ref<ConfigObject>({
+    apiKey: undefined,
+    apiUrl: API_URL_DIRECT,
+    appIdentifier: undefined,
+    classNames: undefined,
+    elements: undefined,
+    address: undefined,
+    locale: 'en',
   });
 
   /**
@@ -62,9 +55,13 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     } catch (error) {
       console.error('Invalid configuration:', error);
     }
-    Object.assign(configuration, validatedConfig);
+
+    Object.assign(configuration.value, validatedConfig);
   }
 
+  /**
+   * Set the configuration from the window object.
+   */
   function setConfigFromWindow() {
     if (typeof window !== 'undefined' && window.MyParcelAddressConfig) {
       setConfig(window.MyParcelAddressConfig);
@@ -72,13 +69,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   }
 
   return {
-    apiKey,
-    apiUrl,
-    appIdentifier,
-    country,
     configuration,
-    classNames,
-    locale,
     setConfig,
     setConfigFromWindow,
   };

@@ -30,7 +30,7 @@ export function useHandleUserInput() {
     validationErrors,
   } = useOrThrow(useAddressData, 'useAddressData');
 
-  const {isProblemDetailsBadRequest, fetchAddressByPostalCode, resetState} =
+  const {fetchAddressByPostalCode, resetState, isProblemDetailsBadRequest} =
     useOrThrow(useAddressApi, 'useAddressApi');
 
   /**
@@ -45,8 +45,6 @@ export function useHandleUserInput() {
       houseNumberSuffix,
     };
     if (hasRequiredPostalcodeLookupAttributes(data)) {
-      validationErrors.value = [];
-
       const schema = postalCodeLookupSchema();
       const result = schema.safeParse({
         postalCode: toValue(data.postalCode),
@@ -63,6 +61,8 @@ export function useHandleUserInput() {
       }
 
       try {
+        validationErrors.value = [];
+
         // Pass values and not refs to make sure we use the current values
         await fetchAddressByPostalCode(
           toValue(data.postalCode),
@@ -98,8 +98,8 @@ export function useHandleUserInput() {
       selectAddress({
         street: street.value,
         city: city.value,
-        postalCode: toValue(postalData.postalCode.value),
-        houseNumber: toValue(postalData.houseNumber.value),
+        postalCode: toValue(postalData.postalCode),
+        houseNumber: toValue(postalData.houseNumber),
         houseNumberSuffix: toValue(houseNumberSuffix),
         countryCode: toValue(postalData.countryCode),
         postOfficeBox: false, // cannot be user-defined, so assume false.
@@ -110,7 +110,6 @@ export function useHandleUserInput() {
   return {
     handlePostalCodeInput,
     handleOverrideInput,
-    validationErrors,
     isOverrideActive,
   };
 }
