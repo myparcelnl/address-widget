@@ -1,12 +1,17 @@
 <template>
-  <TheAddressWidget />
+  <TheAddressWidget :config="config" />
 </template>
 
 <script setup lang="ts">
 import TheAddressWidget from '@/components/TheAddressWidget.vue';
 import {useProvideAddressApi} from '@/composables/useAddressApi';
 import {useProvideAddressData} from '@/composables/useAddressData';
-import {useProvideConfig} from '@/composables/useConfig';
+import {useProvideConfig, type ConfigObject} from '@/composables/useConfig';
+
+defineProps<{
+  config?: ConfigObject;
+}>();
+
 // Provide global injection states, sharing data between components
 useProvideConfig();
 useProvideAddressData();
