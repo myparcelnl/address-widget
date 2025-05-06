@@ -9,12 +9,16 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 export const zClassNames = z.object({
   fieldWrapper: z.array(z.string()).optional(),
 });
+export const zElements = z.object({
+  fieldWrapper: z.string().optional(),
+});
 export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
   locale: z.string().optional().nullable(),
   appIdentifier: z.string().optional().nullable(),
   classNames: zClassNames.optional(),
+  elements: zElements.optional(),
   address: zAddress.partial().optional(),
 });
 export type ConfigObject = z.infer<typeof zConfigObject>;
@@ -25,6 +29,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
     apiUrl: API_URL_DIRECT,
     appIdentifier: undefined,
     classNames: undefined,
+    elements: undefined,
     address: undefined,
     locale: 'en',
   });
