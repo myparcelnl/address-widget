@@ -27,12 +27,11 @@ export function useHandleUserInput() {
     city,
     selectAddress,
     hasRequiredPostalcodeLookupAttributes,
+    validationErrors,
   } = useOrThrow(useAddressData, 'useAddressData');
 
-  const {fetchAddressByPostalCode, resetState} = useOrThrow(
-    useAddressApi,
-    'useAddressApi',
-  );
+  const {fetchAddressByPostalCode, resetState, isProblemDetailsBadRequest} =
+    useOrThrow(useAddressApi, 'useAddressApi');
 
   /**
    * Respond to input on postal code and house number fields with an API response when appropiate.
