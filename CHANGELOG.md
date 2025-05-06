@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.0](https://github.com/myparcelnl/address-widget/compare/v1.3.2...v1.4.0) (2025-05-06)
+
+### :sparkles: New Features
+
+- add i18n ([624d9dc](https://github.com/myparcelnl/address-widget/commit/624d9dc75b951c0723403b4baf5a8b2d7d6c84ab))
+- add the validation inline ([7709d99](https://github.com/myparcelnl/address-widget/commit/7709d996f8a4e432dcb053ea69d8a977b43c567e))
+- add wrapper element with class to allow styling ([c481170](https://github.com/myparcelnl/address-widget/commit/c481170d2accaf27f30c568c068cfc9835efff6b))
+- allow customization of field wrapper element ([9b24f1a](https://github.com/myparcelnl/address-widget/commit/9b24f1a0e22761cb442842bfce76dd341cbf7864))
+- allow providing an input address through configuration ([3a19863](https://github.com/myparcelnl/address-widget/commit/3a19863bf9ea5c882abf0f7e5beba512c71c8d47))
+- emit event for validation error ([e130fdb](https://github.com/myparcelnl/address-widget/commit/e130fdb5e752717e7ef8211b31cfc4c5cf46b263))
+- make translations great again ([2cc4e92](https://github.com/myparcelnl/address-widget/commit/2cc4e9287b87c8d0306f72a4ccdeb96d16dc278f))
+
+### :bug: Bug Fixes
+
+- add nl and de translations ([5a087e7](https://github.com/myparcelnl/address-widget/commit/5a087e74c59284c3411084477d868a6faf255f4a))
+- have a working solution for t ([2bf02fe](https://github.com/myparcelnl/address-widget/commit/2bf02fea3081a3771bf6063c8707e017323e2890))
+- implement feedback ([8cd00a2](https://github.com/myparcelnl/address-widget/commit/8cd00a25826456c02a82317b1c40d4734a56aee2))
+- implement feedback ([e03e594](https://github.com/myparcelnl/address-widget/commit/e03e594309d8c3ebc981120025b2e0d0f9af9c79))
+- implement feedback ([baa2289](https://github.com/myparcelnl/address-widget/commit/baa22893fca640e9413b045d84a680b49ca12ffe))
+- implement feedback ([6d2b732](https://github.com/myparcelnl/address-widget/commit/6d2b732aaf9a5566d5f8df093c68a6ee8d52b826))
+- missing imports in useHandleUserInput ([8bc67b8](https://github.com/myparcelnl/address-widget/commit/8bc67b80539daa800b62696034ab45fdbad6caa0))
+- remove i18n because it does not work ([ac7892f](https://github.com/myparcelnl/address-widget/commit/ac7892fe6fb1c8b113ab233a9459c419b719ced7))
+- update packages ([808221a](https://github.com/myparcelnl/address-widget/commit/808221a0ce8f79b0a436ce5cfc54db4429dffccc))
+- update packages ([01144fb](https://github.com/myparcelnl/address-widget/commit/01144fb65db734ed7a5f810de4aaebaef2c126dc))
+- use zod schema, implement feedback ([8dc9413](https://github.com/myparcelnl/address-widget/commit/8dc9413721a4483a541b02d1c5a9e3b60ec5a82f))
+
 ## [1.5.0](https://github.com/myparcelnl/address-widget/compare/v1.4.1...v1.5.0) (2025-05-01)
 
 ### :sparkles: New Features
