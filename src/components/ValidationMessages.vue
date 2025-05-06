@@ -1,8 +1,11 @@
 <template>
-  <ul v-if="validationErrors?.length">
+  <ul
+    v-if="validationErrors?.length"
+    class="validation-messages">
     <ValidationMessagesItem
       v-for="error in validationErrors"
       :key="error.pointer"
+      class="validation-message"
       :error="error" />
   </ul>
 </template>
