@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/myparcelnl/address-widget/compare/v1.6.0...v1.7.0) (2025-05-06)
+
+### :sparkles: New Features
+
+- add css classes to validation items ([11056a0](https://github.com/myparcelnl/address-widget/commit/11056a0ad6ad5d883a1256af55999cf2a74445dc))
+
 ## [1.6.0](https://github.com/myparcelnl/address-widget/compare/v1.5.0...v1.6.0) (2025-05-06)
 
 ### :sparkles: New Features
