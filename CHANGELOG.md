@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.1](https://github.com/myparcelnl/address-widget/compare/v1.7.0...v1.7.1) (2025-05-06)
+
+### :bug: Bug Fixes
+
+- add config as an explicit prop to the root element ([1656c3d](https://github.com/myparcelnl/address-widget/commit/1656c3daa102419f1c11f0a11e1c112e3ccad37b))
+
 ## [1.7.0](https://github.com/myparcelnl/address-widget/compare/v1.6.0...v1.7.0) (2025-05-06)
 
 ### :sparkles: New Features
