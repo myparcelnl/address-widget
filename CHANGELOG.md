@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.0](https://github.com/myparcelnl/address-widget/compare/v1.7.2...v1.8.0) (2025-05-07)
+
+### :sparkles: New Features
+
+- allow overriding path/url and query parameters ([#48](https://github.com/myparcelnl/address-widget/issues/48)) ([b763f43](https://github.com/myparcelnl/address-widget/commit/b763f43713dcedeade2815b612de823e797ba7be))
+
 ## [1.7.2](https://github.com/myparcelnl/address-widget/compare/v1.7.1...v1.7.2) (2025-05-06)
 
 ### :bug: Bug Fixes
