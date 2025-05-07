@@ -12,9 +12,24 @@ export const zClassNames = z.object({
 export const zElements = z.object({
   fieldWrapper: z.string().optional(),
 });
+export const zRequestOptions = z.object({
+  query: z
+    .record(
+      z.string(), // key of the query parameter, ex. "action"
+      z.unknown(), // value of the query parameter, ex. "listAddresses"
+    )
+    .optional(),
+  path: z.string().optional(),
+});
 export const zConfigObject = z.object({
   apiKey: z.string().optional().nullable(),
   apiUrl: z.string().optional(),
+  apiRequestOptions: z
+    .record(
+      z.string(), // path to which the request options apply
+      zRequestOptions,
+    )
+    .optional(),
   locale: z.string().optional().nullable(),
   appIdentifier: z.string().optional().nullable(),
   classNames: zClassNames.optional(),
@@ -27,6 +42,7 @@ export const [useProvideConfig, useConfig] = createInjectionState(() => {
   const configuration = ref<ConfigObject>({
     apiKey: undefined,
     apiUrl: API_URL_DIRECT,
+    apiRequestOptions: undefined,
     appIdentifier: undefined,
     classNames: undefined,
     elements: undefined,

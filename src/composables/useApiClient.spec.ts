@@ -67,4 +67,36 @@ describe('useApiClient', () => {
 
     expect(client.getConfig().baseUrl).toBe('https://foo-bar');
   });
+
+  it('allows overriding the path and query params', async () => {
+    const {configuration} = config;
+    const originalOptions = {
+      query: {
+        bar: 'baz',
+      },
+      baseUrl: 'https://addres.api.myparcel.nl',
+      url: '/adresses',
+    };
+    const originalRequest = new Request(
+      'https://addres.api.myparcel.nl/adresses',
+    );
+    configuration.value.apiRequestOptions = {
+      '/adresses': {
+        query: {
+          foo: 'bar',
+        },
+        path: '/',
+      },
+    };
+
+    const {overrideRequestOptions} = apiClient;
+    const modifiedRequest = overrideRequestOptions(
+      originalRequest,
+      originalOptions,
+    );
+
+    expect(modifiedRequest.url).toBe(
+      'https://addres.api.myparcel.nl/?bar=baz&foo=bar',
+    );
+  });
 });

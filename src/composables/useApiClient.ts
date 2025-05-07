@@ -1,7 +1,7 @@
 import {client} from '@/api-client/sdk.gen';
 import {useConfig, API_URL_DIRECT} from '@/composables/useConfig.ts';
 import {useOrThrow} from '@/utils/useOrThrow';
-import type {Client} from '@hey-api/client-fetch';
+import type {Client, RequestOptions} from '@hey-api/client-fetch';
 import {toValue, watch} from 'vue';
 
 /**
@@ -9,6 +9,36 @@ import {toValue, watch} from 'vue';
  */
 export function useApiClient() {
   const {configuration} = useOrThrow(useConfig, 'useConfig');
+
+  const overrideRequestOptions = (
+    request: Request,
+    options: RequestOptions,
+  ) => {
+    // Allow overriding the paths and appending query params
+    const pathOptions = configuration.value.apiRequestOptions?.[options.url];
+    if (pathOptions?.query) {
+      options.query = {
+        ...options.query,
+        ...pathOptions.query,
+      };
+    }
+
+    if (pathOptions?.path) {
+      options.url = pathOptions.path;
+    }
+
+    // Clone the request so we can change the URL.
+    const modifiedRequest = new Request(client.buildUrl(options), request);
+
+    // Send the API key as a base64 encoded bearer token as per https://developer.myparcel.nl/api-reference/05.authentication.html
+    if (toValue(configuration.value.apiKey)?.length) {
+      modifiedRequest.headers.set(
+        'Authorization',
+        `bearer ${btoa(<string>configuration.value.apiKey)}`,
+      );
+    }
+    return modifiedRequest;
+  };
 
   const configureClient = (): Client => {
     if (!configuration.value.apiUrl?.length) {
@@ -27,16 +57,7 @@ export function useApiClient() {
       baseUrl: configuration.value.apiUrl,
     });
 
-    if (toValue(configuration.value.apiKey)?.length) {
-      client.interceptors.request.use((request) => {
-        // Send the API key as a base64 encoded bearer token as per https://developer.myparcel.nl/api-reference/05.authentication.html
-        request.headers.set(
-          'Authorization',
-          `bearer ${btoa(<string>configuration.value.apiKey)}`,
-        );
-        return request;
-      });
-    }
+    client.interceptors.request.use(overrideRequestOptions);
 
     return client;
   };
@@ -52,6 +73,7 @@ export function useApiClient() {
 
   return {
     configureClient,
+    overrideRequestOptions,
     client,
   };
 }
