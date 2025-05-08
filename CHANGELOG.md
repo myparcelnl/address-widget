@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/myparcelnl/address-widget/compare/v1.8.0...v1.8.1) (2025-05-08)
+
+### :bug: Bug Fixes
+
+- resolve appIdentifier and add missing translations ([#49](https://github.com/myparcelnl/address-widget/issues/49)) ([23fecac](https://github.com/myparcelnl/address-widget/commit/23fecacff1a1de60799d89f4a81188cd094329f8))
+
 ## [1.8.0](https://github.com/myparcelnl/address-widget/compare/v1.7.2...v1.8.0) (2025-05-07)
 
 ### :sparkles: New Features
