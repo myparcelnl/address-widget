@@ -1,6 +1,6 @@
 <template>
   <BaseFieldWrapper>
-    <label :for="getFieldName()">City</label>
+    <label :for="getFieldName()">{{ t('label.city') }}</label>
     <BaseTextField
       :id="getFieldName()"
       v-model="city"
@@ -14,6 +14,7 @@
 import BaseTextField from '@/components/Base/BaseTextField.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
 import {useFieldName} from '@/composables/useFieldName';
+import {useTranslation} from '@/composables/useTranslation';
 
 defineOptions({
   inheritAttrs: false,
@@ -21,4 +22,5 @@ defineOptions({
 
 const city = defineModel<string>();
 const {getFieldName} = useFieldName('city');
+const {t} = useTranslation();
 </script>

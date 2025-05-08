@@ -3,5 +3,17 @@
     "houseNumber": "Hausnummer ist ungültig.",
     "postalCode": "Postleitzahl ist ungültig.",
     "noAddressFound": "Keine Adresse gefunden, bitte manuell eingeben oder erneut versuchen."
+  },
+  "button": {
+    "override": "Adresse überschreiben"
+  },
+  "label": {
+    "selectAddress": "Adresse auswählen",
+    "postalCode": "Postleitzahl",
+    "houseNumber": "Hausnummer",
+    "houseNumberSuffix": "Hausnummerzusatz",
+    "city": "Stadt",
+    "street": "Straße",
+    "optional": "Optional"
   }
 }

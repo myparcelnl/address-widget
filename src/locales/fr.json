@@ -3,5 +3,17 @@
     "houseNumber": "Le numéro de maison est incorrect.",
     "postalCode": "Le code postal est incorrect.",
     "noAddressFound": "Aucune adresse trouvée, entrez manuellement ou essayez à nouveau."
+  },
+  "button": {
+    "override": "Remplacer l'adresse"
+  },
+  "label": {
+    "selectAddress": "Choisissez une adresse",
+    "postalCode": "Code postal",
+    "houseNumber": "Numéro de maison",
+    "houseNumberSuffix": "Suffixe du numéro de maison",
+    "city": "Ville",
+    "street": "Rue",
+    "optional": "Optionnel"
   }
 }

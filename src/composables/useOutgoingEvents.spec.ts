@@ -3,6 +3,7 @@ import {Address} from '../api-client/types.gen';
 import {describe, expect, it, vi} from 'vitest';
 import {withSetup} from '../../tests/withSetup';
 import {useProvideConfig} from './useConfig';
+import {toValue} from 'vue';
 
 describe('useOutgoingEvents', () => {
   it('should emit and dispatch the ADDRESS_SELECTED_EVENT', () => {
@@ -28,7 +29,10 @@ describe('useOutgoingEvents', () => {
     emitAddressChange(address, emit);
 
     const event = new CustomEvent('address-selected', {
-      detail: {...address, appIdentifier: config.appIdentifier},
+      detail: {
+        ...address,
+        appIdentifier: toValue(config.configuration).appIdentifier,
+      },
     });
     expect(document.dispatchEvent).toHaveBeenCalledWith(event);
 
