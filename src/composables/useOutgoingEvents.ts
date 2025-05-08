@@ -24,7 +24,7 @@ export const useOutgoingEvents = () => {
       new CustomEvent(ADDRESS_SELECTED_EVENT, {
         detail: {
           ...address,
-          appIdentifier: toValue(config.appIdentifier),
+          appIdentifier: toValue(config.configuration).appIdentifier,
         },
       } as AddressEventPayload),
     );
