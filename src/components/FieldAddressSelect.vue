@@ -1,6 +1,6 @@
 <template>
   <BaseFieldWrapper>
-    <label :for="getFieldName()">Select the right address</label>
+    <label :for="getFieldName()">{{ t('label.selectAddress') }}</label>
     <BaseSelect
       :id="getFieldName()"
       :name="getFieldName()"
@@ -15,6 +15,8 @@ import {defineEmits, computed} from 'vue';
 import BaseSelect from './Base/BaseSelect.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
 import {useFieldName} from '@/composables/useFieldName';
+import {useTranslation} from '@/composables/useTranslation';
+
 defineOptions({
   inheritAttrs: false,
 });
@@ -25,6 +27,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'address-select', selectedAddress: Address): void;
 }>();
+
+const {t} = useTranslation();
 
 const {getFieldName} = useFieldName('addressSelect');
 

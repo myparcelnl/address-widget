@@ -3,5 +3,17 @@
     "houseNumber": "House number is invalid.",
     "postalCode": "Postal code is invalid.",
     "noAddressFound": "No address found, enter manually or try again."
+  },
+  "button": {
+    "override": "Override Address"
+  },
+  "label": {
+    "selectAddress": "Select an address",
+    "postalCode": "Postal Code",
+    "houseNumber": "House Number",
+    "houseNumberSuffix": "House Number Suffix",
+    "city": "City",
+    "street": "Street",
+    "optional": "Optional"
   }
 }

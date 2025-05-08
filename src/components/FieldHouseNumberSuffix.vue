@@ -1,6 +1,9 @@
 <template>
   <BaseFieldWrapper>
-    <label :for="getFieldName()">House number suffix <em>(optional)</em></label>
+    <label :for="getFieldName()"
+      >{{ t('label.houseNumberSuffix') }}
+      <em>({{ t('label.optional') }})</em></label
+    >
     <BaseTextField
       :id="getFieldName()"
       v-model="houseNumberSuffix"
@@ -14,6 +17,7 @@
 import BaseTextField from '@/components/Base/BaseTextField.vue';
 import BaseFieldWrapper from '@/components/Base/BaseFieldWrapper.vue';
 import {useFieldName} from '@/composables/useFieldName';
+import {useTranslation} from '@/composables/useTranslation';
 
 defineOptions({
   inheritAttrs: false,
@@ -21,4 +25,5 @@ defineOptions({
 
 const houseNumberSuffix = defineModel<string>();
 const {getFieldName} = useFieldName('houseNumberSuffix');
+const {t} = useTranslation();
 </script>

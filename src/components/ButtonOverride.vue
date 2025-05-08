@@ -1,12 +1,16 @@
 <template>
   <BaseFieldWrapper>
-    <button @click.prevent="emitOverrideRequested">Override address</button>
+    <button @click.prevent="emitOverrideRequested">
+      {{ t('button.override') }}
+    </button>
   </BaseFieldWrapper>
 </template>
 
 <script setup lang="ts">
 import {defineEmits} from 'vue';
 import BaseFieldWrapper from './Base/BaseFieldWrapper.vue';
+import {useTranslation} from '@/composables/useTranslation';
+const {t} = useTranslation();
 
 const emit = defineEmits(['override-requested']);
 

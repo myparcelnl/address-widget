@@ -3,5 +3,17 @@
     "houseNumber": "Huisnummer is ongeldig.",
     "postalCode": "Postcode is ongeldig.",
     "noAddressFound": "Geen adres gevonden, voer handmatig in of probeer opnieuw."
+  },
+  "button": {
+    "override": "Adres overschrijven"
+  },
+  "label": {
+    "selectAddress": "Kies een adres",
+    "postalCode": "Postcode",
+    "houseNumber": "Huisnummer",
+    "houseNumberSuffix": "Toevoeging Huisnummer",
+    "city": "Stad",
+    "street": "Straat",
+    "optional": "Optioneel"
   }
 }
