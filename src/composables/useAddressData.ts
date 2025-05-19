@@ -48,13 +48,16 @@ export const [useProvideAddressData, useAddressData] = createInjectionState(
     /**
      * Reset the form and stored address data.
      */
-    const doReset = () => {
+    const doReset = (excludePostalCodeAndHouseNumber: boolean = false) => {
       selectedAddress.value = undefined;
-      postalCode.value = undefined;
-      houseNumber.value = undefined;
       houseNumberSuffix.value = undefined;
       street.value = undefined;
       city.value = undefined;
+
+      if (excludePostalCodeAndHouseNumber !== true) {
+        postalCode.value = undefined;
+        houseNumber.value = undefined;
+      }
     };
 
     /**
