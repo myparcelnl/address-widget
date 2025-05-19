@@ -28,6 +28,7 @@ export function useHandleUserInput() {
     selectAddress,
     hasRequiredPostalcodeLookupAttributes,
     validationErrors,
+    doReset,
   } = useOrThrow(useAddressData, 'useAddressData');
 
   const {fetchAddressByPostalCode, resetState, isProblemDetailsBadRequest} =
@@ -38,12 +39,16 @@ export function useHandleUserInput() {
    * Currently, autocomplete on housenumber+postalCode is only available for NL.
    */
   const handlePostalCodeInput = useDebounceFn(async () => {
+    // Always clear the selected address when the user starts typing
+    doReset(true);
+
     const data = {
       countryCode,
       postalCode,
       houseNumber,
       houseNumberSuffix,
     };
+
     if (hasRequiredPostalcodeLookupAttributes(data)) {
       const schema = postalCodeLookupSchema();
       const result = schema.safeParse({
