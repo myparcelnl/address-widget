@@ -73,6 +73,44 @@ describe('useHandleUserInput', () => {
     );
   });
 
+  it('clears selected address when postal code', async () => {
+    const {postalCode, selectedAddress, selectAddress} = addressData;
+    const {handlePostalCodeInput} = userInput;
+    const address = {
+      postalCode: '1234AB',
+      houseNumber: '1',
+      houseNumberSuffix: 'A',
+      street: 'Main St',
+      city: 'Amsterdam',
+      countryCode: 'NL',
+    };
+    selectAddress(address);
+    expect(selectedAddress.value).toEqual(address);
+
+    postalCode.value = '1234A';
+    await handlePostalCodeInput();
+    expect(selectedAddress.value).toEqual(undefined);
+  });
+
+  it('clears selected address when house number changes', async () => {
+    const {houseNumber, selectedAddress, selectAddress} = addressData;
+    const {handlePostalCodeInput} = userInput;
+    const address = {
+      postalCode: '1234AB',
+      houseNumber: '1',
+      houseNumberSuffix: 'A',
+      street: 'Main St',
+      city: 'Amsterdam',
+      countryCode: 'NL',
+    };
+    selectAddress(address);
+    expect(selectedAddress.value).toEqual(address);
+
+    houseNumber.value = '';
+    await handlePostalCodeInput();
+    expect(selectedAddress.value).toEqual(undefined);
+  });
+
   it('sets API errors as validation errors', async () => {
     const baseUrl = toValue(config.configuration.value.apiUrl);
     const errors = [
