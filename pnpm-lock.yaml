@@ -123,6 +123,9 @@ importers:
       msw:
         specifier: ^2.7.4
         version: 2.7.5(@types/node@22.15.3)(typescript@5.8.3)
+      mypa-google-docs-importer:
+        specifier: ^1.0.1
+        version: 1.0.1
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -1961,6 +1964,9 @@ packages:
   csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
+  csv-parse@5.6.0:
+    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
+
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
     engines: {node: '>=18'}
@@ -3125,6 +3131,11 @@ packages:
   mute-stream@2.0.0:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
+
+  mypa-google-docs-importer@1.0.1:
+    resolution: {integrity: sha512-jQWdU+cdAiVHIe0Tl9F/OI+D8PzwzZ8R8Z92u6/rc/swIKkSPjTmZfoxbXLWCj7XHSYkRgqudpW0BUx0D+9OSQ==}
+    engines: {node: '>= 18'}
+    hasBin: true
 
   mz@2.7.0:
     resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
@@ -6813,6 +6824,8 @@ snapshots:
 
   csstype@3.1.3: {}
 
+  csv-parse@5.6.0: {}
+
   data-urls@5.0.0:
     dependencies:
       whatwg-mimetype: 4.0.0
@@ -7972,6 +7985,15 @@ snapshots:
   muggle-string@0.4.1: {}
 
   mute-stream@2.0.0: {}
+
+  mypa-google-docs-importer@1.0.1:
+    dependencies:
+      csv-parse: 5.6.0
+      debug: 4.4.0
+      dotenv: 16.5.0
+      yargs: 17.7.2
+    transitivePeerDependencies:
+      - supports-color
 
   mz@2.7.0:
     dependencies:

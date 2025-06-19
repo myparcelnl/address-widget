@@ -4,10 +4,9 @@ description: 'Build the project'
 runs:
   using: 'composite'
   steps:
-    # - name: 'Import translations'
-    #   shell: bash
-    #   run: |
-    #     pnpm run translations:import
+    - name: 'Import translations'
+      run: pnpm run translations:import
+      shell: bash
 
     - name: 'Build'
       run: pnpm run build
