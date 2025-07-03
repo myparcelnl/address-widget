@@ -39,6 +39,7 @@
     "test:coverage": "vitest run --coverage",
     "test:run": "vitest run",
     "test:update": "vitest run -u",
+    "translations:import": "mypa-google-docs-importer -vv -d 1EhFss5PvXCf_hbTlubWPRFB8xFjEzh6ozHpl4dWAZAg -s 0 -o src/locales",
     "typecheck": "vue-tsc --project tsconfig.base.json --noEmit",
     "api-sdk:generate": "openapi-ts",
     "prepare": "husky"
@@ -83,6 +84,7 @@
     "jsdom": "^26.1.0",
     "lint-staged": "^15.5.1",
     "msw": "^2.7.4",
+    "mypa-google-docs-importer": "^1.0.1",
     "postcss": "^8.5.3",
     "prettier": "^3.5.3",
     "rollup": "^4.40.0",
