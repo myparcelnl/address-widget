@@ -8,7 +8,7 @@
       maxlength="8"
       required
       inputmode="numeric"
-      pattern="d+"
+      pattern="\\d+"
       v-bind="$attrs" />
   </BaseFieldWrapper>
 </template>
