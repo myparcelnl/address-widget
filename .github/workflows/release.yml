@@ -7,13 +7,8 @@ on:
         description: 'Skip checking for new commits and run all jobs'
         type: 'boolean'
 
-  push:
-    branches:
-      - main
-
-    paths-ignore:
-      - ./**/*.md
-      - ./.idea/**
+  schedule:
+    - cron: '0 * * * *'
 
 concurrency:
   group: '${{ github.workflow }}-${{ github.ref }}'
