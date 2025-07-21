@@ -5,7 +5,7 @@
       :id="getFieldName()"
       v-model="houseNumber"
       :name="getFieldName()"
-      length="8"
+      maxlength="8"
       required
       inputmode="numeric"
       pattern="d+"

@@ -5,9 +5,10 @@
       :id="getFieldName()"
       v-model="postalCode"
       :name="getFieldName()"
-      length="4"
+      minlength="6"
+      maxlength="7"
       required
-      inputmode="numeric"
+      inputmode="text"
       pattern="[0-9]{4}\s?[a-zA-Z]{2}"
       v-bind="$attrs" />
   </BaseFieldWrapper>
