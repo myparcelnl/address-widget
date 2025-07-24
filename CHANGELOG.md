@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.5](https://github.com/myparcelnl/address-widget/compare/v1.8.4...v1.8.5) (2025-07-24)
+
+### :bug: Bug Fixes
+
+- change inputmode to 'text' for the postal code field ([#68](https://github.com/myparcelnl/address-widget/issues/68)) ([fdc70a8](https://github.com/myparcelnl/address-widget/commit/fdc70a838f8057235d14b5a4c1abd4ba8ac434a0))
+
 ## [1.8.4](https://github.com/myparcelnl/address-widget/compare/v1.8.3...v1.8.4) (2025-07-03)
 
 ## [1.8.3](https://github.com/myparcelnl/address-widget/compare/v1.8.2...v1.8.3) (2025-06-16)
