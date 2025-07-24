@@ -8,7 +8,7 @@
       :id="getFieldName()"
       v-model="houseNumberSuffix"
       :name="getFieldName()"
-      length="5"
+      maxlength="5"
       v-bind="$attrs" />
   </BaseFieldWrapper>
 </template>
