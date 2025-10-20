@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: myparcelnl/actions/pnpm-install@v4
+      - uses: myparcelnl/actions/pnpm-install@v5
         with:
           node-version: '22.x'
 
