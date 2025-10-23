@@ -15,7 +15,7 @@ jobs:
       steps:
         - uses: actions/checkout@v5
 
-        - uses: myparcelnl/actions/pnpm-install@v4
+        - uses: myparcelnl/actions/pnpm-install@v5
           with:
             node-version: '22.x'
 
@@ -39,5 +39,5 @@ jobs:
         - build
         - test
         if: always() && contains(needs.*.result, 'failure')
-        uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v4
+        uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v5
         secrets: inherit
