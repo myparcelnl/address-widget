@@ -712,21 +712,27 @@ packages:
 
   '@myparcel/constants@2.5.0':
     resolution: {integrity: sha512-cMChjvS5YqLtWVqsbopE9FDKUT/3DFtCTAB69XUuFaG2KfHkhExazCa/rQjSf1xkP9OzJPadvCpdY1EBA7T3Rg==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/constants'
 
   '@myparcel/prettier-config@1.1.0':
     resolution: {integrity: sha512-qvVz0iE4mj6rQplYkpOCmcaYftDzKC3I7w/lbqnHJfMXTjetK69aHe+SwELBJq55CBJ+3H1l7uR2TDgn+a7INQ==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/prettier-config'
 
   '@myparcel/sdk@4.4.2':
     resolution: {integrity: sha512-fNLKtYb98oDgRWm2MFWxXCEFyrE3OP57SKdRVcQm6ICyxg0cM3A2g+Dvs9kjMCNtA0/SnMPigf1VTRSc6qUyYg==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/sdk'
 
   '@myparcel/semantic-release-config@5.1.0':
     resolution: {integrity: sha512-Vk1ppLbyz8MX03zJ12cty68iqn+NrMDzzjhwvC19HBrAuUwbiYn+S4U9KMCqY8YnEw/2iRspbcl/LbGKiddalA==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/semantic-release-config'
 
   '@myparcel/ts-utils@1.14.0':
     resolution: {integrity: sha512-02KQSFQ5RWOy91r6+obPbU9QuAfsoOQC7YllODLI9gaz6bpHdRR/p7VVQrKOaX40gorTBiXX60bZs8rKRSIIMA==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/ts-utils'
 
   '@myparcel/vue-form-builder@1.0.0-beta.52':
     resolution: {integrity: sha512-H0uUwbKobBp3oUNEaDHg/zrrPjasM1u6lke/rC/THytiG/gUKSwY0Z/SCFj5Ur2HCjcUMX3vf2xsmfGPUoKfRQ==}
+    deprecated: 'DEPRECATED: Will be moved to @myparcel-dev/vue-form-builder'
     peerDependencies:
       vue: ^3
 
