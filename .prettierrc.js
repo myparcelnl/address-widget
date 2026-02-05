@@ -1,2 +1,2 @@
-import MyParcelPrettierConfig from '@myparcel/prettier-config';
+import MyParcelPrettierConfig from '@myparcel-dev/prettier-config';
 export default MyParcelPrettierConfig;

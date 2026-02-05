@@ -6,8 +6,8 @@ const {
   addGitHubPlugin,
   addReleaseNotesGeneratorPlugin,
   addNpmPlugin,
-} = require('@myparcel/semantic-release-config/src/plugins');
-const mainConfig = require('@myparcel/semantic-release-config');
+} = require('@myparcel-dev/semantic-release-config/src/plugins');
+const mainConfig = require('@myparcel-dev/semantic-release-config');
 
 /**
  * @type {import('semantic-release').Options}

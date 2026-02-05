@@ -4,22 +4,20 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
-    reviewers: ['myparcelnl/integration']
 
   - package-ecosystem: 'npm'
     directory: '/'
     schedule:
       interval: 'daily'
-    reviewers: ['myparcelnl/integration']
     versioning-strategy: increase-if-necessary
     groups:
       minor-js-updates:
         applies-to: version-updates
         exclude-patterns:
-          - '@myparcel-pdk/*'
+          - '@myparcel-dev/*'
         update-types:
           - 'minor'
           - 'patch'
-      js-pdk:
+      myparcel:
         patterns:
-          - '@myparcel-pdk/*'
+          - '@myparcel-dev/*'
