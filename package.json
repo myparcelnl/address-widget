@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
-    "@hey-api/openapi-ts": "^0.91.1",
+    "@hey-api/openapi-ts": "^0.92.2",
     "@myparcel-dev/prettier-config": "^2.0.0",
     "@myparcel-dev/semantic-release-config": "^6.0.10",
     "@semantic-release/changelog": "^6.0.3",
