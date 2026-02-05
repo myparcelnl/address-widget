@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.6](https://github.com/myparcelnl/address-widget/compare/v1.8.5...v1.8.6) (2026-02-05)
+
 ## [1.8.5](https://github.com/myparcelnl/address-widget/compare/v1.8.4...v1.8.5) (2025-07-24)
 
 ### :bug: Bug Fixes
