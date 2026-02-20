@@ -47,7 +47,7 @@
   "dependencies": {
     "@hey-api/client-fetch": "^0.13.1",
     "@myparcel-dev/constants": "^2.9.0",
-    "@myparcel-dev/sdk": "^4.1.1",
+    "@myparcel-dev/sdk": "^5.0.1",
     "@myparcel-dev/ts-utils": "^1.15.0",
     "@tailwindcss/vite": "^4.1.18",
     "@vueuse/core": "^14.2.0",
