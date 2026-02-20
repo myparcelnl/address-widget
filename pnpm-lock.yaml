@@ -16,13 +16,13 @@ importers:
         version: 0.13.1(@hey-api/openapi-ts@0.92.4(magicast@0.3.5)(typescript@5.9.3))
       '@myparcel-dev/constants':
         specifier: ^2.9.0
-        version: 2.9.0
+        version: 2.9.1
       '@myparcel-dev/sdk':
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^5.0.1
+        version: 5.0.1
       '@myparcel-dev/ts-utils':
         specifier: ^1.15.0
-        version: 1.15.0
+        version: 1.15.1
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.2.0(vite@6.4.1(@types/node@22.19.8)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.2))
@@ -47,10 +47,10 @@ importers:
         version: 0.92.4(magicast@0.3.5)(typescript@5.9.3)
       '@myparcel-dev/prettier-config':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.0.1
       '@myparcel-dev/semantic-release-config':
         specifier: ^6.0.10
-        version: 6.0.10(typescript@5.9.3)
+        version: 6.0.11(typescript@5.9.3)
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@24.2.9(typescript@5.9.3))
@@ -682,20 +682,20 @@ packages:
     resolution: {integrity: sha512-cXu86tF4VQVfwz8W1SPbhoRyHJkti6mjH/XJIxp40jhO4j2k1m4KYrEykxqWPkFF3vrK4rgQppBh//AwyGSXPA==}
     engines: {node: '>=18'}
 
-  '@myparcel-dev/constants@2.9.0':
-    resolution: {integrity: sha512-LKzec0/8TvKgqYvTUFjiIROz+wjLy58tq9PxXn2x7f/K5Lblfuyjjg0c/A7MquEXzdsyaWzCZJFDCSeoS/B+Mg==}
+  '@myparcel-dev/constants@2.9.1':
+    resolution: {integrity: sha512-LsK9Kdc/9IGaw+R2JN2gEkwQWCbk8j+hmuQBuvbp9YNzcImiqO0LWVPoFs9ZLajvnj5TKcMyJgFjDcJumI0oVQ==}
 
-  '@myparcel-dev/prettier-config@2.0.0':
-    resolution: {integrity: sha512-6+XQ+tjvqA+XdhRvsEn2QInqIeFjtVAvymd0iLV5Vp+xR3eKeHXcVpD+ugEH+PxomJapHZ07FmrFIgzu82NBFA==}
+  '@myparcel-dev/prettier-config@2.0.1':
+    resolution: {integrity: sha512-DdjtbGOdWnDDomnc+4mnhHi7ZPVZ+vJw6o5JibMn79MpNtER9gDVeiXOnO/sV7EzmIW6u5CDTdrrj62K5vBFug==}
 
-  '@myparcel-dev/sdk@4.1.1':
-    resolution: {integrity: sha512-1+KsOhh0ZTC4ST5ZtcNhQXpb0kHXjclzIZBEZwM8F91tP1k2A34M5tv3Xm0zZ+wQDqRdQ0EVNsOITwa4jlmYFw==}
+  '@myparcel-dev/sdk@5.0.1':
+    resolution: {integrity: sha512-T6Ko+2Q+05vnCsKNMENSv8KulpuCVGMZ7gVJ+Ju0nkW7oqKBgJCCvtDbalPrL09zLXtTtCjynw22E39s/+w3Cw==}
 
-  '@myparcel-dev/semantic-release-config@6.0.10':
-    resolution: {integrity: sha512-t+7C4z39fBv9PudssKFgw2GASSDQNYvFmDZrVim2YuHE1nlEahErXpYgSlPSdTnxBSHM+//w4U+U9jeXzb90kA==}
+  '@myparcel-dev/semantic-release-config@6.0.11':
+    resolution: {integrity: sha512-pcRe9DUuxbZog37XZKNkmER2Vf4bajMMzYHUXXSDOaygKZMYUlztrDXcrTAFh9uWzzemRw9Ocws3aj1iGhKHtw==}
 
-  '@myparcel-dev/ts-utils@1.15.0':
-    resolution: {integrity: sha512-N3sNez/6a1EEE5/JONQWnpq4DwjHU9bcZitgNs7qUpIR/LjDJ1kLyGqWN5AbQfj3LPe1dDXE9ZkcRQ+oWDhOzA==}
+  '@myparcel-dev/ts-utils@1.15.1':
+    resolution: {integrity: sha512-N5ZjnIU64v8QG84FQ3NaECwJyxFk3g1HseLSPMGZ2GXbyxw8lNOj0huaAldnlNXtxv8dYY2A04pyPrQ+2A33BQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5391,18 +5391,18 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@myparcel-dev/constants@2.9.0':
+  '@myparcel-dev/constants@2.9.1':
     dependencies:
-      '@myparcel-dev/ts-utils': 1.15.0
+      '@myparcel-dev/ts-utils': 1.15.1
 
-  '@myparcel-dev/prettier-config@2.0.0': {}
+  '@myparcel-dev/prettier-config@2.0.1': {}
 
-  '@myparcel-dev/sdk@4.1.1':
+  '@myparcel-dev/sdk@5.0.1':
     dependencies:
-      '@myparcel-dev/constants': 2.9.0
-      '@myparcel-dev/ts-utils': 1.15.0
+      '@myparcel-dev/constants': 2.9.1
+      '@myparcel-dev/ts-utils': 1.15.1
 
-  '@myparcel-dev/semantic-release-config@6.0.10(typescript@5.9.3)':
+  '@myparcel-dev/semantic-release-config@6.0.11(typescript@5.9.3)':
     dependencies:
       '@iwavesmedia/semantic-release-composer': 1.1.0
       '@semantic-release/changelog': 6.0.3(semantic-release@21.1.2(typescript@5.9.3))
@@ -5419,7 +5419,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@myparcel-dev/ts-utils@1.15.0': {}
+  '@myparcel-dev/ts-utils@1.15.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
