@@ -164,6 +164,17 @@ import {TheAddressWidget} from '@myparcel/address-widget';
 </template>
 ```
 
+You can also pass optional CSS classes for the generated markup:
+
+```js
+const myConfig = {
+  classNames: {
+    fieldWrapper: ['form-row-wide'],
+    input: ['input-text'],
+  },
+};
+```
+
 ### Implementation
 
 The widget is a Vue component and can be used in both Vue and non-Vue projects. It is intended to be injected in an existing form, where you would need to add a collection point for the data emitted by this widget.
