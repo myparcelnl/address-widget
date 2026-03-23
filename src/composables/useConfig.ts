@@ -6,6 +6,9 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
 /**
  * Provides configuration for the API client, both through the environment and window object.
  */
+/**
+ * Schema for optional CSS class names that can be applied to widget elements.
+ */
 export const zClassNames = z.object({
   fieldWrapper: z.array(z.string()).optional(),
   input: z.array(z.string()).optional(),
