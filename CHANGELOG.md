@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.0](https://github.com/myparcelnl/address-widget/compare/v1.8.6...v1.9.0) (2026-03-23)
+
+### :sparkles: New Features
+
+- add input classes ([#125](https://github.com/myparcelnl/address-widget/issues/125)) ([6f06f8a](https://github.com/myparcelnl/address-widget/commit/6f06f8af4a7756d16dcaec398bd4588799262162))
+- add input classes ([#127](https://github.com/myparcelnl/address-widget/issues/127)) ([90c9163](https://github.com/myparcelnl/address-widget/commit/90c9163606e41cf569e6cb5f0c5fe1b14c9d7dcf))
+
 ## [1.8.6](https://github.com/myparcelnl/address-widget/compare/v1.8.5...v1.8.6) (2026-02-05)
 
 ## [1.8.5](https://github.com/myparcelnl/address-widget/compare/v1.8.4...v1.8.5) (2025-07-24)
