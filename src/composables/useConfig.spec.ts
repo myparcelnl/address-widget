@@ -67,11 +67,17 @@ describe('useConfig', () => {
     const input = {
       apiKey: 'FUBAR',
       apiUrl: 'https://foo-bar',
+      classNames: {
+        input: ['input-text'],
+      },
       address: {countryCode: 'DK'},
     };
     setConfig(input);
     expect(toValue(configuration).apiKey).toBe(input.apiKey);
     expect(toValue(configuration).apiUrl).toBe(input.apiUrl);
+    expect(toValue(configuration).classNames?.input).toEqual(
+      input.classNames.input,
+    );
     expect(toValue(configuration).address.countryCode).toBe(
       input.address.countryCode,
     );

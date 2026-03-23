@@ -8,6 +8,7 @@ export const API_URL_DIRECT = 'https://address.api.myparcel.nl';
  */
 export const zClassNames = z.object({
   fieldWrapper: z.array(z.string()).optional(),
+  input: z.array(z.string()).optional(),
 });
 export const zElements = z.object({
   fieldWrapper: z.string().optional(),
