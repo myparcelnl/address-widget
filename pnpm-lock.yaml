@@ -16,13 +16,13 @@ importers:
         version: 0.13.1(@hey-api/openapi-ts@0.92.4(magicast@0.3.5)(typescript@5.9.3))
       '@myparcel-dev/constants':
         specifier: ^2.9.0
-        version: 2.9.0
+        version: 2.9.1
       '@myparcel-dev/sdk':
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^5.0.1
+        version: 5.0.1
       '@myparcel-dev/ts-utils':
         specifier: ^1.15.0
-        version: 1.15.0
+        version: 1.15.1
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.2.0(vite@6.4.1(@types/node@22.19.8)(jiti@2.6.1)(lightningcss@1.31.1)(yaml@2.8.2))
@@ -47,10 +47,10 @@ importers:
         version: 0.92.4(magicast@0.3.5)(typescript@5.9.3)
       '@myparcel-dev/prettier-config':
         specifier: ^2.0.0
-        version: 2.0.0
+        version: 2.0.1
       '@myparcel-dev/semantic-release-config':
         specifier: ^6.0.10
-        version: 6.0.10(typescript@5.9.3)
+        version: 6.0.12(typescript@5.9.3)
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@24.2.9(typescript@5.9.3))
@@ -643,8 +643,8 @@ packages:
     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
     engines: {node: '>=8'}
 
-  '@iwavesmedia/semantic-release-composer@1.1.0':
-    resolution: {integrity: sha512-qhvrNEHgvMEz6nF3C1jkaJkGlztU1wiQdI/BDYiDIq5N++ypy1tAPUT+a6iezqtNErWOoDU1Oi4lK3DklxfGGA==}
+  '@iwavesmedia/semantic-release-composer@1.1.1':
+    resolution: {integrity: sha512-gSyoUGQv3iB327krxjiMWBmiN5WZ2poj5d/EmdwfzHJipzPJgy/sPYW26IMhXyF4gtFi8TPvnJVH3TjFeMTR0A==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -682,20 +682,20 @@ packages:
     resolution: {integrity: sha512-cXu86tF4VQVfwz8W1SPbhoRyHJkti6mjH/XJIxp40jhO4j2k1m4KYrEykxqWPkFF3vrK4rgQppBh//AwyGSXPA==}
     engines: {node: '>=18'}
 
-  '@myparcel-dev/constants@2.9.0':
-    resolution: {integrity: sha512-LKzec0/8TvKgqYvTUFjiIROz+wjLy58tq9PxXn2x7f/K5Lblfuyjjg0c/A7MquEXzdsyaWzCZJFDCSeoS/B+Mg==}
+  '@myparcel-dev/constants@2.9.1':
+    resolution: {integrity: sha512-LsK9Kdc/9IGaw+R2JN2gEkwQWCbk8j+hmuQBuvbp9YNzcImiqO0LWVPoFs9ZLajvnj5TKcMyJgFjDcJumI0oVQ==}
 
-  '@myparcel-dev/prettier-config@2.0.0':
-    resolution: {integrity: sha512-6+XQ+tjvqA+XdhRvsEn2QInqIeFjtVAvymd0iLV5Vp+xR3eKeHXcVpD+ugEH+PxomJapHZ07FmrFIgzu82NBFA==}
+  '@myparcel-dev/prettier-config@2.0.1':
+    resolution: {integrity: sha512-DdjtbGOdWnDDomnc+4mnhHi7ZPVZ+vJw6o5JibMn79MpNtER9gDVeiXOnO/sV7EzmIW6u5CDTdrrj62K5vBFug==}
 
-  '@myparcel-dev/sdk@4.1.1':
-    resolution: {integrity: sha512-1+KsOhh0ZTC4ST5ZtcNhQXpb0kHXjclzIZBEZwM8F91tP1k2A34M5tv3Xm0zZ+wQDqRdQ0EVNsOITwa4jlmYFw==}
+  '@myparcel-dev/sdk@5.0.1':
+    resolution: {integrity: sha512-T6Ko+2Q+05vnCsKNMENSv8KulpuCVGMZ7gVJ+Ju0nkW7oqKBgJCCvtDbalPrL09zLXtTtCjynw22E39s/+w3Cw==}
 
-  '@myparcel-dev/semantic-release-config@6.0.10':
-    resolution: {integrity: sha512-t+7C4z39fBv9PudssKFgw2GASSDQNYvFmDZrVim2YuHE1nlEahErXpYgSlPSdTnxBSHM+//w4U+U9jeXzb90kA==}
+  '@myparcel-dev/semantic-release-config@6.0.12':
+    resolution: {integrity: sha512-NXMFmv9njjPQ2cNHvZp/xfsXtFN3J7pp6NHPu29lu1ZjSBKNMCojf+/MUnZHSOLpI2W4vhJHamblgUlmB1SrOA==}
 
-  '@myparcel-dev/ts-utils@1.15.0':
-    resolution: {integrity: sha512-N3sNez/6a1EEE5/JONQWnpq4DwjHU9bcZitgNs7qUpIR/LjDJ1kLyGqWN5AbQfj3LPe1dDXE9ZkcRQ+oWDhOzA==}
+  '@myparcel-dev/ts-utils@1.15.1':
+    resolution: {integrity: sha512-N5ZjnIU64v8QG84FQ3NaECwJyxFk3g1HseLSPMGZ2GXbyxw8lNOj0huaAldnlNXtxv8dYY2A04pyPrQ+2A33BQ==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -2439,6 +2439,10 @@ packages:
     resolution: {integrity: sha512-VWSRii4t0AFm6ixFFmLLx1t7wS1gh+ckoa84aOeapGum0h+EZd1EhEumSB+ZdDLnEPuucsVB9oB7cxJHap6Afg==}
     engines: {node: '>=14.14'}
 
+  fs-extra@11.3.4:
+    resolution: {integrity: sha512-CTXd6rk/M3/ULNQj8FBqBWHYBVYybQ3VPBw0xGKFe3tuH7ytT6ACnvzpIQ3UZtB8yvUKC2cXn1a+x+5EVQLovA==}
+    engines: {node: '>=14.14'}
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -4173,8 +4177,8 @@ packages:
   spdx-expression-parse@3.0.1:
     resolution: {integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==}
 
-  spdx-license-ids@3.0.22:
-    resolution: {integrity: sha512-4PRT4nh1EImPbt2jASOKHX7PB7I+e4IWNLvkKFDxNhJlfjbYlleYQh285Z/3mPTHSAK/AvdMmw5BNNuYH8ShgQ==}
+  spdx-license-ids@3.0.23:
+    resolution: {integrity: sha512-CWLcCCH7VLu13TgOH+r8p1O/Znwhqv/dbb6lqWy67G+pT1kHmeD/+V36AVb/vq8QMIQwVShJ6Ssl5FPh0fuSdw==}
 
   speakingurl@14.0.1:
     resolution: {integrity: sha512-1POYv7uv2gXoyGFpBCmpDVSNV74IfsWlDW216UPjbWufNf+bSU6GdbDsxdcxtfwb4xlI3yxzOTKClUosxARYrQ==}
@@ -5321,7 +5325,7 @@ snapshots:
 
   '@istanbuljs/schema@0.1.3': {}
 
-  '@iwavesmedia/semantic-release-composer@1.1.0':
+  '@iwavesmedia/semantic-release-composer@1.1.1':
     dependencies:
       '@semantic-release/error': 2.2.0
 
@@ -5391,20 +5395,20 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@myparcel-dev/constants@2.9.0':
+  '@myparcel-dev/constants@2.9.1':
     dependencies:
-      '@myparcel-dev/ts-utils': 1.15.0
+      '@myparcel-dev/ts-utils': 1.15.1
 
-  '@myparcel-dev/prettier-config@2.0.0': {}
+  '@myparcel-dev/prettier-config@2.0.1': {}
 
-  '@myparcel-dev/sdk@4.1.1':
+  '@myparcel-dev/sdk@5.0.1':
     dependencies:
-      '@myparcel-dev/constants': 2.9.0
-      '@myparcel-dev/ts-utils': 1.15.0
+      '@myparcel-dev/constants': 2.9.1
+      '@myparcel-dev/ts-utils': 1.15.1
 
-  '@myparcel-dev/semantic-release-config@6.0.10(typescript@5.9.3)':
+  '@myparcel-dev/semantic-release-config@6.0.12(typescript@5.9.3)':
     dependencies:
-      '@iwavesmedia/semantic-release-composer': 1.1.0
+      '@iwavesmedia/semantic-release-composer': 1.1.1
       '@semantic-release/changelog': 6.0.3(semantic-release@21.1.2(typescript@5.9.3))
       '@semantic-release/commit-analyzer': 9.0.2(semantic-release@21.1.2(typescript@5.9.3))
       '@semantic-release/exec': 6.0.3(semantic-release@21.1.2(typescript@5.9.3))
@@ -5419,7 +5423,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@myparcel-dev/ts-utils@1.15.0': {}
+  '@myparcel-dev/ts-utils@1.15.1': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -5753,7 +5757,7 @@ snapshots:
       ajv: 8.13.0
       ajv-draft-04: 1.0.0(ajv@8.13.0)
       ajv-formats: 3.0.1(ajv@8.13.0)
-      fs-extra: 11.3.3
+      fs-extra: 11.3.4
       import-lazy: 4.0.0
       jju: 1.4.0
       resolve: 1.22.11
@@ -5935,7 +5939,7 @@ snapshots:
       aggregate-error: 3.1.0
       debug: 4.4.3
       dir-glob: 3.0.1
-      fs-extra: 11.3.3
+      fs-extra: 11.3.4
       globby: 11.1.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.6
@@ -5976,7 +5980,7 @@ snapshots:
       '@semantic-release/error': 4.0.0
       aggregate-error: 5.0.0
       execa: 8.0.1
-      fs-extra: 11.3.3
+      fs-extra: 11.3.4
       lodash-es: 4.17.23
       nerf-dart: 1.0.0
       normalize-url: 8.1.1
@@ -7468,6 +7472,12 @@ snapshots:
       readable-stream: 2.3.8
 
   fs-extra@11.3.3:
+    dependencies:
+      graceful-fs: 4.2.11
+      jsonfile: 6.2.0
+      universalify: 2.0.1
+
+  fs-extra@11.3.4:
     dependencies:
       graceful-fs: 4.2.11
       jsonfile: 6.2.0
@@ -9013,16 +9023,16 @@ snapshots:
   spdx-correct@3.2.0:
     dependencies:
       spdx-expression-parse: 3.0.1
-      spdx-license-ids: 3.0.22
+      spdx-license-ids: 3.0.23
 
   spdx-exceptions@2.5.0: {}
 
   spdx-expression-parse@3.0.1:
     dependencies:
       spdx-exceptions: 2.5.0
-      spdx-license-ids: 3.0.22
+      spdx-license-ids: 3.0.23
 
-  spdx-license-ids@3.0.22: {}
+  spdx-license-ids@3.0.23: {}
 
   speakingurl@14.0.1: {}
 
