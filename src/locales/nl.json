@@ -8,13 +8,14 @@
     "override": "Adres overschrijven"
   },
   "label": {
-    "selectAddress": "Kies een adres",
-    "selectOption": "Kies een optie",
     "postalCode": "Postcode",
+    "selectAddress": "Kies een adres",
     "houseNumber": "Huisnummer",
     "houseNumberSuffix": "Toevoeging Huisnummer",
     "city": "Stad",
     "street": "Straat",
-    "optional": "Optioneel"
-  }
+    "optional": "Optioneel",
+    "selectOption": "Kies een optie"
+  },
+  "lang": "nl"
 }
