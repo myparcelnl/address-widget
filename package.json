@@ -39,7 +39,7 @@
     "test:coverage": "vitest run --coverage",
     "test:run": "vitest run",
     "test:update": "vitest run -u",
-    "translations:import": "mypa-google-docs-importer -vv -d 1EhFss5PvXCf_hbTlubWPRFB8xFjEzh6ozHpl4dWAZAg -s 0 -o src/locales",
+    "translations:import": "mypa-google-docs-importer -vv -d 1EhFss5PvXCf_hbTlubWPRFB8xFjEzh6ozHpl4dWAZAg -s 0 -o src/locales -c \"\"",
     "typecheck": "vue-tsc --project tsconfig.base.json --noEmit",
     "api-sdk:generate": "openapi-ts",
     "prepare": "husky"
