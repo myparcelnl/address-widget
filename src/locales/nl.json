@@ -9,6 +9,7 @@
   },
   "label": {
     "selectAddress": "Kies een adres",
+    "selectOption": "Kies een optie",
     "postalCode": "Postcode",
     "houseNumber": "Huisnummer",
     "houseNumberSuffix": "Toevoeging Huisnummer",

@@ -9,6 +9,7 @@
   },
   "label": {
     "selectAddress": "Select an address",
+    "selectOption": "Select an option",
     "postalCode": "Postal Code",
     "houseNumber": "House Number",
     "houseNumberSuffix": "House Number Suffix",

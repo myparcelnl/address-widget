@@ -9,6 +9,7 @@
   },
   "label": {
     "selectAddress": "Adresse auswählen",
+    "selectOption": "Option auswählen",
     "postalCode": "Postleitzahl",
     "houseNumber": "Hausnummer",
     "houseNumberSuffix": "Hausnummerzusatz",
