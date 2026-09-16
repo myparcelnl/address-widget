@@ -8,12 +8,13 @@
     "override": "Override Address"
   },
   "label": {
-    "selectAddress": "Select an address",
     "postalCode": "Postal Code",
+    "selectAddress": "Select an address",
     "houseNumber": "House Number",
     "houseNumberSuffix": "House Number Suffix",
     "city": "City",
     "street": "Street",
-    "optional": "Optional"
+    "optional": "Optional",
+    "selectOption": "Select an option"
   }
 }

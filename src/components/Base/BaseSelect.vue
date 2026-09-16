@@ -11,6 +11,7 @@
 
 <script lang="ts" setup>
 import {computed} from 'vue';
+import {useTranslation} from '@/composables/useTranslation';
 
 type SelectOptions = {
   options: {value: string; label: string}[];
@@ -22,9 +23,11 @@ const props = withDefaults(defineProps<SelectOptions>(), {
 });
 const model = defineModel<string | null | undefined>({default: ''});
 
+const {t} = useTranslation();
+
 const computedOptions = computed(() => {
   if (props.addEmptyOption) {
-    return [{value: '', label: 'Select an option'}, ...props.options];
+    return [{value: '', label: t('label.selectOption')}, ...props.options];
   }
   return props.options;
 });
