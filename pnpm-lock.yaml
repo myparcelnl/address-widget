@@ -18,8 +18,8 @@ importers:
         specifier: ^2.9.0
         version: 2.10.3
       '@myparcel-dev/sdk':
-        specifier: ^4.1.1
-        version: 4.1.1
+        specifier: ^5.1.2
+        version: 5.1.2
       '@myparcel-dev/ts-utils':
         specifier: ^1.15.0
         version: 1.15.2
@@ -716,8 +716,8 @@ packages:
   '@myparcel-dev/prettier-config@2.0.0':
     resolution: {integrity: sha512-6+XQ+tjvqA+XdhRvsEn2QInqIeFjtVAvymd0iLV5Vp+xR3eKeHXcVpD+ugEH+PxomJapHZ07FmrFIgzu82NBFA==}
 
-  '@myparcel-dev/sdk@4.1.1':
-    resolution: {integrity: sha512-1+KsOhh0ZTC4ST5ZtcNhQXpb0kHXjclzIZBEZwM8F91tP1k2A34M5tv3Xm0zZ+wQDqRdQ0EVNsOITwa4jlmYFw==}
+  '@myparcel-dev/sdk@5.1.2':
+    resolution: {integrity: sha512-NexRphOq3XAgA6O43H6yNpdiA0Md4Z4DGPiYjiLrj2cw9c0QaD7Q85uBoCCpaOhehIC0L5KFqV6a7x/jzQ2W4g==}
 
   '@myparcel-dev/semantic-release-config@6.0.10':
     resolution: {integrity: sha512-t+7C4z39fBv9PudssKFgw2GASSDQNYvFmDZrVim2YuHE1nlEahErXpYgSlPSdTnxBSHM+//w4U+U9jeXzb90kA==}
@@ -5491,7 +5491,7 @@ snapshots:
 
   '@myparcel-dev/prettier-config@2.0.0': {}
 
-  '@myparcel-dev/sdk@4.1.1':
+  '@myparcel-dev/sdk@5.1.2':
     dependencies:
       '@myparcel-dev/constants': 2.10.3
       '@myparcel-dev/ts-utils': 1.15.2
