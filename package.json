@@ -80,7 +80,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^9.33.0",
     "husky": "^9.1.7",
-    "jsdom": "^26.1.0",
+    "jsdom": "^30.1.1",
     "lint-staged": "^15.5.2",
     "msw": "^2.12.8",
     "mypa-google-docs-importer": "^1.0.1",
