@@ -1,4 +1,4 @@
-import {vi, it, expect, describe, beforeEach} from 'vitest';
+import {vi, it, expect, describe, beforeEach, afterEach} from 'vitest';
 import {useApiClient} from './useApiClient';
 import {withSetup} from '../../tests/withSetup';
 import {useProvideConfig} from './useConfig';
@@ -13,6 +13,10 @@ describe('useApiClient', () => {
       {composable: useProvideConfig},
       {composable: useApiClient},
     );
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('logs an error when the api url is not set', async () => {

@@ -1,5 +1,4 @@
-import {describe} from 'node:test';
-import {it, expect, vi, beforeEach} from 'vitest';
+import {describe, it, expect, vi, beforeEach} from 'vitest';
 import {toValue} from 'vue';
 import {useProvideConfig} from './useConfig';
 import {withSetup} from '../../tests/withSetup';

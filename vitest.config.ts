@@ -18,11 +18,15 @@ export default mergeConfig(
       coverage: {
         reporter: ['text', 'json-summary', 'json'],
         reportOnFailure: true,
+        include: ['src/**/*.{js,ts,vue}'],
+        // @TODO: Raise all thresholds back to 80 once the components have tests.
         thresholds: {
-          lines: 80,
-          branches: 80,
-          functions: 80,
-          statements: 80,
+          // Raise thresholds on local runs only, rounded down to whole numbers.
+          autoUpdate: process.env.CI ? false : Math.floor,
+          lines: 66,
+          branches: 53,
+          functions: 56,
+          statements: 65,
         },
         exclude: [
           ...coverageConfigDefaults.exclude,
@@ -30,6 +34,8 @@ export default mergeConfig(
           'src/DemoApp.vue',
           'src/demo.ts',
           '**/*.gen.ts',
+          '**/*.d.ts',
+          'tests/**',
         ],
       },
     },
