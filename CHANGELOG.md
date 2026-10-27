@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/myparcelnl/address-widget/compare/v1.9.0...v1.9.1) (2026-10-27)
+
+### :bug: Bug Fixes
+
+- translate the empty option in BaseSelect ([#135](https://github.com/myparcelnl/address-widget/issues/135)) ([0ee1a61](https://github.com/myparcelnl/address-widget/commit/0ee1a616b00124db90f4e14302416d31aa727757))
+
 ## [1.9.0](https://github.com/myparcelnl/address-widget/compare/v1.8.6...v1.9.0) (2026-03-23)
 
 ### :sparkles: New Features
