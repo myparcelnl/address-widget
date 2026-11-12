@@ -207,7 +207,7 @@ describe('useIncomingEvents', () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       'Invalid configuration:',
       expect.objectContaining({
-        message: expect.stringContaining('Expected string'),
+        message: expect.stringContaining('expected string'),
       }),
     );
     consoleErrorSpy.mockRestore();
