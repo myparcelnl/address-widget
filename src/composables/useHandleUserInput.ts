@@ -57,7 +57,7 @@ export function useHandleUserInput() {
       });
 
       if (!result.success) {
-        validationErrors.value = result.error.errors.map((err) => ({
+        validationErrors.value = result.error.issues.map((err) => ({
           pointer: err.path[0].toString(),
           detail: t(err.message),
         }));

@@ -153,6 +153,23 @@ describe('useHandleUserInput', () => {
     expect(validationErrors.value).toEqual(errors);
   });
 
+  it('sets schema errors as validation errors without calling the API', async () => {
+    const {fetchAddressByPostalCode} = addressApi;
+    const {handlePostalCodeInput} = userInput;
+    const {postalCode, houseNumber, countryCode, validationErrors} =
+      addressData;
+    postalCode.value = 'ABCDEF';
+    houseNumber.value = '1';
+    countryCode.value = 'NL';
+
+    await handlePostalCodeInput();
+
+    expect(validationErrors.value).toEqual([
+      expect.objectContaining({pointer: 'postalCode'}),
+    ]);
+    expect(fetchAddressByPostalCode).not.toHaveBeenCalled();
+  });
+
   it('re-throws non-validation errors', async () => {
     const {handlePostalCodeInput} = userInput;
 
