@@ -16,13 +16,13 @@ importers:
         version: 0.13.1(@hey-api/openapi-ts@0.99.0(magicast@0.5.5)(typescript@5.9.3))
       '@myparcel-dev/constants':
         specifier: ^2.9.0
-        version: 2.10.7
+        version: 2.10.8
       '@myparcel-dev/sdk':
         specifier: ^5.1.2
-        version: 5.1.8
+        version: 5.1.9
       '@myparcel-dev/ts-utils':
         specifier: ^1.15.0
-        version: 1.15.5
+        version: 1.15.7
       '@tailwindcss/vite':
         specifier: ^4.1.18
         version: 4.3.5(vite@6.4.5(@types/node@22.19.8)(jiti@2.7.0)(lightningcss@1.33.0)(yaml@2.9.1))
@@ -733,8 +733,8 @@ packages:
     resolution: {integrity: sha512-VVPPgHyQ6ShqnrmDWuxjmUIsO9gWyOZFmuOfLd9LfBGQJwZfy0gvv9pbHSJuoFNIYC7ZDX9aoFwowjcdSC4E8w==}
     engines: {node: '>=18'}
 
-  '@myparcel-dev/constants@2.10.7':
-    resolution: {integrity: sha512-Xp5BUfnz5poAdp69/cF42aGmQUayWj7CzT3xcNVN0lh2eKUai8g3hv1quJgzzoY9jB4jxUjiF+OYd9auNTF+rw==}
+  '@myparcel-dev/constants@2.10.8':
+    resolution: {integrity: sha512-J6khHDKHfav9jaI6X/mLCbTD4oRfiwlAs7CpVj/9nYWCeUp/lTVOc54v5UgsGHduSU+jCK3nuJSsktBipkb+ag==}
 
   '@myparcel-dev/google-docs-importer@1.0.2':
     resolution: {integrity: sha512-CoefZWWlj/P7agTqBhFP5Q+kDbiN6Z4bE4gXVXNwR/IZLyRjp3AldaCo2xozLY5i+EOlUY+2GsqecrPFf9/b0w==}
@@ -744,14 +744,14 @@ packages:
   '@myparcel-dev/prettier-config@2.0.4':
     resolution: {integrity: sha512-TCfVLsgfsgXPsy3MZ4zqIO71Th+gfvLPoAZ71vUOg8S0DOUgrn2ijME5HpBM2bbRezJCpXETVEBB40PYubE9Cw==}
 
-  '@myparcel-dev/sdk@5.1.8':
-    resolution: {integrity: sha512-LkbY0lg7+86Tyizwd/ETn8m68PtFII1JGzm+CdY+gbeV/xV7c8EVySoimNKlKdQTHFwq3w538s5mv7q4//m23Q==}
+  '@myparcel-dev/sdk@5.1.9':
+    resolution: {integrity: sha512-r/x6P1huewuBQufyUJo1OavNXTR+lxKUBfNODc0NGCkxvHm37lKMjvpcJ17iAhyDGUIXNzcbSQoEqRgjBXjT8A==}
 
   '@myparcel-dev/semantic-release-config@6.0.10':
     resolution: {integrity: sha512-t+7C4z39fBv9PudssKFgw2GASSDQNYvFmDZrVim2YuHE1nlEahErXpYgSlPSdTnxBSHM+//w4U+U9jeXzb90kA==}
 
-  '@myparcel-dev/ts-utils@1.15.5':
-    resolution: {integrity: sha512-cWfiYhiBpOJP8GokugFtnPtgS97K6jBTdm2HzGt7YIBWYHjjPVvaF0MxiwQBCeP74OkknfhhIrbRVLca+lqWRg==}
+  '@myparcel-dev/ts-utils@1.15.7':
+    resolution: {integrity: sha512-rdBuy4JWXDsnMoEvf22srzmOiBeSfZfpURLzzGmjbM6eDpChTxGQhMKfFIg2w3n5fmzdcV716fNen/In+0hgjA==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5188,9 +5188,9 @@ snapshots:
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
 
-  '@myparcel-dev/constants@2.10.7':
+  '@myparcel-dev/constants@2.10.8':
     dependencies:
-      '@myparcel-dev/ts-utils': 1.15.5
+      '@myparcel-dev/ts-utils': 1.15.7
 
   '@myparcel-dev/google-docs-importer@1.0.2':
     dependencies:
@@ -5203,10 +5203,10 @@ snapshots:
 
   '@myparcel-dev/prettier-config@2.0.4': {}
 
-  '@myparcel-dev/sdk@5.1.8':
+  '@myparcel-dev/sdk@5.1.9':
     dependencies:
-      '@myparcel-dev/constants': 2.10.7
-      '@myparcel-dev/ts-utils': 1.15.5
+      '@myparcel-dev/constants': 2.10.8
+      '@myparcel-dev/ts-utils': 1.15.7
 
   '@myparcel-dev/semantic-release-config@6.0.10(typescript@5.9.3)':
     dependencies:
@@ -5225,7 +5225,7 @@ snapshots:
       - supports-color
       - typescript
 
-  '@myparcel-dev/ts-utils@1.15.5': {}
+  '@myparcel-dev/ts-utils@1.15.7': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
