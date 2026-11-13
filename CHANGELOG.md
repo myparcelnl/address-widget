@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.5](https://github.com/myparcelnl/address-widget/compare/v1.9.4...v1.9.5) (2026-11-13)
+
 ## [1.9.4](https://github.com/myparcelnl/address-widget/compare/v1.9.3...v1.9.4) (2026-11-12)
 
 ## [1.9.3](https://github.com/myparcelnl/address-widget/compare/v1.9.2...v1.9.3) (2026-11-12)
