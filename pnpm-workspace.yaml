@@ -15,8 +15,5 @@ minimumReleaseAgeExclude:
   - '@myparcel-eslint/*'
   - '@myparcel-pdk/*'
 
-overrides:
-  conventional-changelog-conventionalcommits: "^8.0.0"
-
 packages:
   - .
