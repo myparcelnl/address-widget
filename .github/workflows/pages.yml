@@ -31,16 +31,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Install PNPM
-        uses: pnpm/action-setup@v6
-
-      - name: Set up Node
-        uses: actions/setup-node@v7
+      - uses: pnpm/setup@v3
         with:
-          node-version: '22.x'
-          cache: 'pnpm'
-      - name: Install dependencies
-        run: pnpm install
+          cache: true
+          require-lockfile: true
       - name: Build
         run: GENERATE_PREVIEW_HTML=true pnpm run build
       - name: Setup Pages

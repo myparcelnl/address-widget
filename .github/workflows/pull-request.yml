@@ -10,34 +10,35 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-    lint:
-      runs-on: ubuntu-22.04
-      steps:
-        - uses: actions/checkout@v7
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v7
 
-        - uses: myparcelnl/actions/pnpm-install@v5
-          with:
-            node-version: '22.x'
+      - uses: pnpm/setup@v3
+        with:
+          cache: true
+          require-lockfile: true
 
-        - run: pnpm run lint
+      - run: pnpm run lint
 
-    build:
-        needs: lint
-        uses: ./.github/workflows/build.yml
-        secrets: inherit
+  build:
+    needs: lint
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
 
-    test:
-        needs:
-        - lint
-        - build
-        uses: ./.github/workflows/test.yml
-        secrets: inherit
+  test:
+    needs:
+      - lint
+      - build
+    uses: ./.github/workflows/test.yml
+    secrets: inherit
 
-    notify-on-failure:
-        needs:
-        - lint
-        - build
-        - test
-        if: always() && contains(needs.*.result, 'failure')
-        uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v5
-        secrets: inherit
+  notify-on-failure:
+    needs:
+      - lint
+      - build
+      - test
+    if: always() && contains(needs.*.result, 'failure')
+    uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v6
+    secrets: inherit
