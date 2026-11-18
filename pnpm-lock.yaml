@@ -212,7 +212,7 @@ importers:
         version: 2.0.4
       '@myparcel-dev/semantic-release-config':
         specifier: ^8.1.0
-        version: 8.1.0(@visulima/yaml@1.0.0)(json5@2.2.3)(supports-color@8.1.1)(typescript@5.9.3)
+        version: 8.1.1(@visulima/yaml@1.0.0)(json5@2.2.3)(supports-color@8.1.1)(typescript@5.9.3)
       '@semantic-release/changelog':
         specifier: ^6.0.3
         version: 6.0.3(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))
@@ -905,9 +905,9 @@ packages:
   '@myparcel-dev/sdk@5.1.8':
     resolution: {integrity: sha512-LkbY0lg7+86Tyizwd/ETn8m68PtFII1JGzm+CdY+gbeV/xV7c8EVySoimNKlKdQTHFwq3w538s5mv7q4//m23Q==}
 
-  '@myparcel-dev/semantic-release-config@8.1.0':
-    resolution: {integrity: sha512-ZS7dtyH27NjfGiQF5Q7ZLgrRy/n00n9PUXAdwuAF6NNRyecdCBCJDVj4PBN/iuYauJvYzl4sVE7rkGZng+F3qA==}
-    engines: {node: ^24.21}
+  '@myparcel-dev/semantic-release-config@8.1.1':
+    resolution: {integrity: sha512-T0HXlvlwpOaDaGNY7A7EyUVUe2eL0HZu8ALBxsbjAV2e8HuHmCIEyR17zUh5St+saOWJ20nHoyC5fnOvBrdDTQ==}
+    engines: {node: '>=24.21'}
 
   '@myparcel-dev/ts-utils@1.15.5':
     resolution: {integrity: sha512-cWfiYhiBpOJP8GokugFtnPtgS97K6jBTdm2HzGt7YIBWYHjjPVvaF0MxiwQBCeP74OkknfhhIrbRVLca+lqWRg==}
@@ -4996,7 +4996,7 @@ snapshots:
       '@myparcel-dev/constants': 2.10.7
       '@myparcel-dev/ts-utils': 1.15.5
 
-  '@myparcel-dev/semantic-release-config@8.1.0(@visulima/yaml@1.0.0)(json5@2.2.3)(supports-color@8.1.1)(typescript@5.9.3)':
+  '@myparcel-dev/semantic-release-config@8.1.1(@visulima/yaml@1.0.0)(json5@2.2.3)(supports-color@8.1.1)(typescript@5.9.3)':
     dependencies:
       '@anolilab/semantic-release-pnpm': 8.1.37(@visulima/yaml@1.0.0)(json5@2.2.3)(supports-color@8.1.1)
       '@iwavesmedia/semantic-release-composer': 1.1.0
