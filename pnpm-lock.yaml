@@ -223,8 +223,8 @@ importers:
         specifier: ^10.0.1
         version: 10.0.1(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
       '@semantic-release/github':
-        specifier: ^11.0.6
-        version: 11.0.6(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
+        specifier: ^12.0.11
+        version: 12.0.11(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)
       '@tsconfig/node20':
         specifier: ^20.1.9
         version: 20.1.11
@@ -928,20 +928,11 @@ packages:
     resolution: {integrity: sha512-grAEuupr/C1rALFnXTv6ZQhFuL1D8G5y8CN04RgrO4FIPMrtm+mcZzFG7dcBm+nq+1ppNixu+Jd78aeJOYxlGA==}
     engines: {node: '>= 20'}
 
-  '@octokit/openapi-types@26.0.0':
-    resolution: {integrity: sha512-7AtcfKtpo77j7Ts73b4OWhOZHTKo/gGY8bB3bNBQz4H+GRSWqx2yvj8TXRsbdTE0eRmYmXOEY66jM7mJ7LzfsA==}
-
   '@octokit/openapi-types@27.0.0':
     resolution: {integrity: sha512-whrdktVs1h6gtR+09+QsNk2+FO+49j6ga1c55YZudfEG+oKJVvJLQi3zkOm5JjiUXAagWK2tI2kTGKJ2Ys7MGA==}
 
   '@octokit/openapi-types@28.0.0':
     resolution: {integrity: sha512-0rFyLuyHvIj6uuZWuDslxkowFYdPXoNIkeAv4b27dzm2Tf4vGWXnPsMcxs7d65kLdMERgP3wc1AEPlqMz8e1cQ==}
-
-  '@octokit/plugin-paginate-rest@13.2.1':
-    resolution: {integrity: sha512-Tj4PkZyIL6eBMYcG/76QGsedF0+dWVeLhYprTmuFVVxzDW7PQh23tM0TP0z+1MvSkxB29YFZwnUX+cXfTiSdyw==}
-    engines: {node: '>= 20'}
-    peerDependencies:
-      '@octokit/core': '>=6'
 
   '@octokit/plugin-paginate-rest@15.0.0':
     resolution: {integrity: sha512-lw9A9YL5s4VPj+VEx8uMxaxQm2YTgrPDkrLEuZuu18R8TK3oPcXF4K6t52nx6xn1RcogZC9i188sAr/4XYJaQQ==}
@@ -968,9 +959,6 @@ packages:
   '@octokit/request@10.0.7':
     resolution: {integrity: sha512-v93h0i1yu4idj8qFPZwjehoJx4j3Ntn+JhXsdJrG9pYaX6j/XRz2RmasMUHtNgQD39nrv/VwTWSqK0RNXR8upA==}
     engines: {node: '>= 20'}
-
-  '@octokit/types@15.0.2':
-    resolution: {integrity: sha512-rR+5VRjhYSer7sC51krfCctQhVTmjyUMAaShfPB8mscVa8tSoLyon3coxQmXu0ahJoLVWl8dSGD/3OGZlFV44Q==}
 
   '@octokit/types@16.0.0':
     resolution: {integrity: sha512-sKq+9r1Mm4efXW1FCk7hFSeJo4QKreL/tTbR0rz/qx/r1Oa2VV83LTA/H/MuCOX7uCIJmQVRKBcbmWoySjAnSg==}
@@ -1239,12 +1227,6 @@ packages:
     engines: {node: '>=14.17'}
     peerDependencies:
       semantic-release: '>=18.0.0'
-
-  '@semantic-release/github@11.0.6':
-    resolution: {integrity: sha512-ctDzdSMrT3H+pwKBPdyCPty6Y47X8dSrjd3aPZ5KKIKKWTwZBE9De8GtsH3TyAlw3Uyo2stegMx6rJMXKpJwJA==}
-    engines: {node: '>=20.8.1'}
-    peerDependencies:
-      semantic-release: '>=24.1.0'
 
   '@semantic-release/github@12.0.11':
     resolution: {integrity: sha512-/8JPlFOV8he+gs+kS8Gx0tNWBboCRBd1q3y7pQhYwtrBL0CzDe9yzguZZAfnjGM2duWYB3rEYn9BdYLu9x00cg==}
@@ -1740,10 +1722,6 @@ packages:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
-
-  agent-base@7.1.4:
-    resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
-    engines: {node: '>= 14'}
 
   agent-base@9.0.0:
     resolution: {integrity: sha512-TQf59BsZnytt8GdJKLPfUZ54g/iaUL2OWDSFCCvMOhsHduDQxO8xC4PNeyIkVcA5KwL2phPSv0douC0fgWzmnA==}
@@ -2592,17 +2570,9 @@ packages:
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
 
-  http-proxy-agent@7.0.2:
-    resolution: {integrity: sha512-T1gkAiYYDWYx3V5Bmyu7HcfcvL7mUrTWiM6yOfa3PIphViJ/gFPbvidQ+veqSOHci/PxBcDabeUNCzpOODJZig==}
-    engines: {node: '>= 14'}
-
   http-proxy-agent@9.1.0:
     resolution: {integrity: sha512-2NxoveTT58mjYT4n3RPTEfCZGLMbidoO8XEieXfpSYxu+PQJ1qpx4ypwH6N+uF9twBPIvRRgvkvW5HUTYWENig==}
     engines: {node: '>= 20'}
-
-  https-proxy-agent@7.0.6:
-    resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
-    engines: {node: '>= 14'}
 
   https-proxy-agent@9.1.0:
     resolution: {integrity: sha512-ag87y7cJJ9/3+GxFr8Oy4O5faDsGRGnBGsJj/YjOSsSx/5eadKLYTMPlzuR6obgoCDDm0abAAZitXXQkMOPSpA==}
@@ -5042,16 +5012,9 @@ snapshots:
       '@octokit/types': 16.0.0
       universal-user-agent: 7.0.3
 
-  '@octokit/openapi-types@26.0.0': {}
-
   '@octokit/openapi-types@27.0.0': {}
 
   '@octokit/openapi-types@28.0.0': {}
-
-  '@octokit/plugin-paginate-rest@13.2.1(@octokit/core@7.0.6)':
-    dependencies:
-      '@octokit/core': 7.0.6
-      '@octokit/types': 15.0.2
 
   '@octokit/plugin-paginate-rest@15.0.0(@octokit/core@7.0.6)':
     dependencies:
@@ -5082,10 +5045,6 @@ snapshots:
       '@octokit/types': 16.0.0
       fast-content-type-parse: 3.0.0
       universal-user-agent: 7.0.3
-
-  '@octokit/types@15.0.2':
-    dependencies:
-      '@octokit/openapi-types': 26.0.0
 
   '@octokit/types@16.0.0':
     dependencies:
@@ -5316,28 +5275,6 @@ snapshots:
       micromatch: 4.0.8
       p-reduce: 2.1.0
       semantic-release: 25.0.9(supports-color@8.1.1)(typescript@5.9.3)
-    transitivePeerDependencies:
-      - supports-color
-
-  '@semantic-release/github@11.0.6(semantic-release@25.0.9(supports-color@8.1.1)(typescript@5.9.3))(supports-color@8.1.1)':
-    dependencies:
-      '@octokit/core': 7.0.6
-      '@octokit/plugin-paginate-rest': 13.2.1(@octokit/core@7.0.6)
-      '@octokit/plugin-retry': 8.0.3(@octokit/core@7.0.6)
-      '@octokit/plugin-throttling': 11.0.3(@octokit/core@7.0.6)
-      '@semantic-release/error': 4.0.0
-      aggregate-error: 5.0.0
-      debug: 4.4.3(supports-color@8.1.1)
-      dir-glob: 3.0.1
-      http-proxy-agent: 7.0.2(supports-color@8.1.1)
-      https-proxy-agent: 7.0.6(supports-color@8.1.1)
-      issue-parser: 7.0.1
-      lodash-es: 4.18.1
-      mime: 4.1.0
-      p-filter: 4.1.0
-      semantic-release: 25.0.9(supports-color@8.1.1)(typescript@5.9.3)
-      tinyglobby: 0.2.17
-      url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
 
@@ -5909,8 +5846,6 @@ snapshots:
       acorn: 8.15.0
 
   acorn@8.15.0: {}
-
-  agent-base@7.1.4: {}
 
   agent-base@9.0.0: {}
 
@@ -6775,13 +6710,6 @@ snapshots:
 
   html-escaper@2.0.2: {}
 
-  http-proxy-agent@7.0.2(supports-color@8.1.1):
-    dependencies:
-      agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
-    transitivePeerDependencies:
-      - supports-color
-
   http-proxy-agent@9.1.0(supports-color@8.1.1):
     dependencies:
       agent-base: 9.0.0
@@ -6789,13 +6717,6 @@ snapshots:
       proxy-agent-negotiate: 1.1.0
     transitivePeerDependencies:
       - kerberos
-      - supports-color
-
-  https-proxy-agent@7.0.6(supports-color@8.1.1):
-    dependencies:
-      agent-base: 7.1.4
-      debug: 4.4.3(supports-color@8.1.1)
-    transitivePeerDependencies:
       - supports-color
 
   https-proxy-agent@9.1.0(supports-color@8.1.1):
