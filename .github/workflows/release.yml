@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: myparcelnl/actions/has-refs-between@v5
+      - uses: myparcelnl/actions/has-refs-between@v6
         id: has-refs
 
   test:
@@ -38,7 +38,7 @@ jobs:
       - prepare
       - test
     steps:
-      - uses: myparcelnl/actions/setup-git-credentials@v5
+      - uses: myparcelnl/actions/setup-git-credentials@v6
         id: credentials
         with:
           app-id: ${{ secrets.MYPARCEL_APP_ID }}
@@ -49,14 +49,15 @@ jobs:
           token: ${{ steps.credentials.outputs.token }}
           fetch-depth: 0
 
-      - uses: myparcelnl/actions/pnpm-install@v5
+      - uses: pnpm/setup@v3
         with:
-          node-version: '22.x'
+          cache: true
+          require-lockfile: true
 
       - uses: ./.github/actions/build
 
       - name: 'Release'
-        uses: myparcelnl/actions/semantic-release@v5
+        uses: myparcelnl/actions/semantic-release@v6
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
@@ -73,5 +74,5 @@ jobs:
       - release
       - rebase-prs
     if: always() && contains(needs.*.result, 'failure')
-    uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v5
+    uses: myparcelnl/actions/.github/workflows/notify-on-failure.yml@v6
     secrets: inherit

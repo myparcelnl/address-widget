@@ -341,20 +341,11 @@ document.addEventListener(ADDRESS_SELECTED_EVENT, (event) => {
 
 ## Contributing
 
-To get started, we recommend using [nvm](https://github.com/nvm-sh/nvm) for Node
-management.
+Requirements:
 
-Before running node commands, you should run `nvm use` to switch to the correct
-node version.
-
-This repository uses [pnpm](https://pnpm.io/) as a package manager. The easiest way
-to use / install it, is by enabling corepack: `corepack enable`, after running `nvm use`.
-
-## First time setup
-
-1. `nvm use`
-2. `corepack enable`
-3. `pnpm i`
+- Node.js 24, version 24.21 or later
+- pnpm 12, version 12.11 or later
+- No Volta on your machine. Its `yarn` does not go through corepack, so the `packageManager` field in `package.json` does not stop it.
 
 ### Setup
 

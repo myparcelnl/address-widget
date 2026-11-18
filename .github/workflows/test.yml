@@ -15,9 +15,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: myparcelnl/actions/pnpm-install@v5
+      - uses: pnpm/setup@v3
         with:
-          node-version: '22.x'
+          cache: true
+          require-lockfile: true
 
       - run: pnpm run test:coverage
         env:
