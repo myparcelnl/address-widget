@@ -2,7 +2,10 @@
   "name": "mypa-address-widget",
   "license": "MIT",
   "author": "Freek van Rijt <freek.vanrijt@myparcel.nl>",
-  "repository": "github:myparcelnl/address-widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myparcelnl/address-widget.git"
+  },
   "type": "module",
   "main": "./dist/main.umd.cjs",
   "module": "./dist/main.js",

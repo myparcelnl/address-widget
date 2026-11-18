@@ -37,6 +37,9 @@ jobs:
     needs:
       - prepare
       - test
+    permissions:
+      id-token: write # npm trusted publishing (OIDC) exchanges this token for a short-lived npm token
+      contents: read
     steps:
       - uses: myparcelnl/actions/setup-git-credentials@v6
         id: credentials
@@ -58,8 +61,6 @@ jobs:
 
       - name: 'Release'
         uses: myparcelnl/actions/semantic-release@v6
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         with:
           token: ${{ steps.credentials.outputs.token }}
 
